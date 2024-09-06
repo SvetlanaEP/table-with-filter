@@ -310,78 +310,9 @@
 
                     </thead>
 
-                    <tbody>
-                        <tr class="data-item">
-                            <td class="data-item__title-card data-item__only-mobile">Название № 1</td>
-                            <td class="data-item__item data-item__item--number">
-                                <span class="data-item__title-mobile data-item__only-mobile">№</span>
-                                <span class="data-item__content"> 1</span>
-                            </td>
-                            <td class="data-item__item data-item__item--id">
-                                <span class="data-item__title-mobile data-item__only-mobile">ID</span>
-                                <span class="data-item__content"> ID</span>
-                            </td>
-                            <td class="data-item__item data-item__item--full-name">
-                                <span class="data-item__title-mobile data-item__only-mobile">Полное наименование</span>
-                                <span class="data-item__content">
-                                    Государственное бюджетное профессиональное образовательное учреждение
-                                </span>
-                            </td>
-                            <td class="data-item__item data-item__item--abb-name">
-                                <span class="data-item__title-mobile data-item__only-mobile">Сокращенное наименование</span>
-                                <span class="data-item__content">ГБПОУ</span>
-                            </td>
-                            <td class="data-list__button-edit">
-                                <button class=" data-item__button">
-                                    <svg width="32" height="32" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M6.25 36.3747V42.7081C6.25 43.2914 6.70833 43.7497 7.29167 43.7497H13.625C13.8958 43.7497 14.1667 43.6456 14.3542 43.4372L37.1042 20.7081L29.2917 12.8956L6.5625 35.6247C6.35417 35.8331 6.25 36.0831 6.25 36.3747ZM43.1458 14.6664C43.3389 14.4737 43.4922 14.2448 43.5967 13.9927C43.7013 13.7407 43.7552 13.4705 43.7552 13.1977C43.7552 12.9248 43.7013 12.6546 43.5967 12.4026C43.4922 12.1506 43.3389 11.9217 43.1458 11.7289L38.2708 6.85392C38.0781 6.66078 37.8492 6.50756 37.5972 6.40302C37.3452 6.29847 37.075 6.24466 36.802 6.24466C36.5292 6.24466 36.2591 6.29847 36.007 6.40302C35.755 6.50756 35.5261 6.66078 35.3333 6.85392L31.5208 10.6664L39.3333 18.4789L43.1458 14.6664Z" fill="#00B0D9"/>
-                                    </svg>
-                                </button>
-                            </td>
-                            <td class="data-list__button-del">
-                                <button  class=" data-item__button">
-                                    <svg width="32" height="32" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M14.5843 43.75C13.4385 43.75 12.4573 43.3417 11.6406 42.525C10.8239 41.7083 10.4163 40.7278 10.4177 39.5833V12.5H8.33435V8.33333H18.7511V6.25H31.2511V8.33333H41.6677V12.5H39.5844V39.5833C39.5844 40.7292 39.1761 41.7105 38.3594 42.527C37.5427 43.3438 36.5622 43.7514 35.4177 43.75H14.5843ZM18.7511 35.4167H22.9177V16.6667H18.7511V35.4167ZM27.0844 35.4167H31.2511V16.6667H27.0844V35.4167Z" fill="#00B0D9"/>
-                                    </svg>
-                                </button>
-                            </td>
+                    <tbody id="date-table-container">
 
-                        </tr>
-                        <tr class="data-item">
-                            <td class="data-item__title-card data-item__only-mobile">Название № 1</td>
-                            <td class="data-item__item data-item__item--number">
-                                <strong class="data-item__only-mobile">№</strong>
-                                1
-                            </td>
-                            <td class="data-item__item data-item__item--id">
-                                <strong class="data-item__only-mobile">ID</strong>
-                                ID
-                            </td>
-                            <td class="data-item__item data-item__item--full-name">
-                                <strong class="data-item__only-mobile">Полное наименование:</strong>
-                                Государственное бюджетное профессиональное образовательное учреждение
-                            </td>
-                            <td class="data-item__item data-item__item--abb-name">
-                                <strong class="data-item__only-mobile">Сокращенное наименование:</strong>
-                                ГБПОУ
-                            </td>
-                            <td class="data-list__button-edit">
-                                <button class=" data-item__button">
-                                    <svg width="32" height="32" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M6.25 36.3747V42.7081C6.25 43.2914 6.70833 43.7497 7.29167 43.7497H13.625C13.8958 43.7497 14.1667 43.6456 14.3542 43.4372L37.1042 20.7081L29.2917 12.8956L6.5625 35.6247C6.35417 35.8331 6.25 36.0831 6.25 36.3747ZM43.1458 14.6664C43.3389 14.4737 43.4922 14.2448 43.5967 13.9927C43.7013 13.7407 43.7552 13.4705 43.7552 13.1977C43.7552 12.9248 43.7013 12.6546 43.5967 12.4026C43.4922 12.1506 43.3389 11.9217 43.1458 11.7289L38.2708 6.85392C38.0781 6.66078 37.8492 6.50756 37.5972 6.40302C37.3452 6.29847 37.075 6.24466 36.802 6.24466C36.5292 6.24466 36.2591 6.29847 36.007 6.40302C35.755 6.50756 35.5261 6.66078 35.3333 6.85392L31.5208 10.6664L39.3333 18.4789L43.1458 14.6664Z" fill="#00B0D9"/>
-                                    </svg>
-                                </button>
-                            </td>
-                            <td class="data-list__button-del">
-                                <button  class=" data-item__button">
-                                    <svg width="32" height="32" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M14.5843 43.75C13.4385 43.75 12.4573 43.3417 11.6406 42.525C10.8239 41.7083 10.4163 40.7278 10.4177 39.5833V12.5H8.33435V8.33333H18.7511V6.25H31.2511V8.33333H41.6677V12.5H39.5844V39.5833C39.5844 40.7292 39.1761 41.7105 38.3594 42.527C37.5427 43.3438 36.5622 43.7514 35.4177 43.75H14.5843ZM18.7511 35.4167H22.9177V16.6667H18.7511V35.4167ZM27.0844 35.4167H31.2511V16.6667H27.0844V35.4167Z" fill="#00B0D9"/>
-                                    </svg>
-                                </button>
-                            </td>
-
-                        </tr>
-                        <!-- Другие элементы -->
+                        <!-- Элементы таблицы -->
                     </tbody>
 
                 </table>
@@ -394,7 +325,53 @@
 </main>
 
 <template id="date-table">
+    <tr class="data-item">
+        <td class="data-item__title-card data-item__only-mobile">
+            <span> Название № </span>
+            <span class="data-item__row-number">
 
+            </span>
+        </td>
+        <td class="data-item__item data-item__item--number">
+            <span class="data-item__title-mobile data-item__only-mobile">№</span>
+            <span class="data-item__content data-item__row-number">
+
+            </span>
+        </td>
+        <td class="data-item__item data-item__item--id">
+            <span class="data-item__title-mobile data-item__only-mobile">ID</span>
+            <span class="data-item__content" id="date-id">
+
+            </span>
+        </td>
+        <td class="data-item__item data-item__item--full-name">
+            <span class="data-item__title-mobile data-item__only-mobile">Полное наименование</span>
+            <span class="data-item__content" id="date-full-name">
+
+            </span>
+        </td>
+        <td class="data-item__item data-item__item--abb-name">
+            <span class="data-item__title-mobile data-item__only-mobile">Сокращенное наименование</span>
+            <span class="data-item__content" id="date-abb-name">
+
+            </span>
+        </td>
+        <td class="data-list__button-edit">
+            <button class=" data-item__button">
+                <svg width="32" height="32" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M6.25 36.3747V42.7081C6.25 43.2914 6.70833 43.7497 7.29167 43.7497H13.625C13.8958 43.7497 14.1667 43.6456 14.3542 43.4372L37.1042 20.7081L29.2917 12.8956L6.5625 35.6247C6.35417 35.8331 6.25 36.0831 6.25 36.3747ZM43.1458 14.6664C43.3389 14.4737 43.4922 14.2448 43.5967 13.9927C43.7013 13.7407 43.7552 13.4705 43.7552 13.1977C43.7552 12.9248 43.7013 12.6546 43.5967 12.4026C43.4922 12.1506 43.3389 11.9217 43.1458 11.7289L38.2708 6.85392C38.0781 6.66078 37.8492 6.50756 37.5972 6.40302C37.3452 6.29847 37.075 6.24466 36.802 6.24466C36.5292 6.24466 36.2591 6.29847 36.007 6.40302C35.755 6.50756 35.5261 6.66078 35.3333 6.85392L31.5208 10.6664L39.3333 18.4789L43.1458 14.6664Z" fill="#00B0D9"/>
+                </svg>
+            </button>
+        </td>
+        <td class="data-list__button-del">
+            <button  class=" data-item__button">
+                <svg width="32" height="32" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M14.5843 43.75C13.4385 43.75 12.4573 43.3417 11.6406 42.525C10.8239 41.7083 10.4163 40.7278 10.4177 39.5833V12.5H8.33435V8.33333H18.7511V6.25H31.2511V8.33333H41.6677V12.5H39.5844V39.5833C39.5844 40.7292 39.1761 41.7105 38.3594 42.527C37.5427 43.3438 36.5622 43.7514 35.4177 43.75H14.5843ZM18.7511 35.4167H22.9177V16.6667H18.7511V35.4167ZM27.0844 35.4167H31.2511V16.6667H27.0844V35.4167Z" fill="#00B0D9"/>
+                </svg>
+            </button>
+        </td>
+
+    </tr>
 </template>
 
 
