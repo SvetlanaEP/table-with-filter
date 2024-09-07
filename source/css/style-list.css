@@ -52,12 +52,36 @@ input[type="checkbox"]:checked ~ .custom-checkbox::after {
     transform: rotate(45deg);
 }
 
+/* Для затемнения под попапом */
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Полупрозрачное затемнение */
+    display: none; /* Скрыто по умолчанию */
+    z-index: 5; /* Поверх страницы */
+}
+
+body.modal-open {
+    overflow: hidden;
+}
+
 /* container */
 
 .container-page {
-    padding: 0 calc(var(--index)* 1.5);
+    padding: 0 20px;
     margin: 0 auto;
 }
+
+@media (min-width: 640px) {
+    .container-page {
+        padding: 0 25px;
+    }
+}
+
 
 @media (min-width: 1920px) {
    .container-page {
@@ -69,6 +93,7 @@ input[type="checkbox"]:checked ~ .custom-checkbox::after {
 /* page-main */
 
 .page-main {
+    position: relative;
     margin-top: 20px;
 }
 
@@ -133,7 +158,7 @@ input[type="checkbox"]:checked ~ .custom-checkbox::after {
 @media (min-width: 640px) {
 
     .page-main__title {
-        font-size: 22px;
+        font-size: 20px;
     }
 
     .page-main__content {
@@ -192,6 +217,7 @@ input[type="checkbox"]:checked ~ .custom-checkbox::after {
 
 .soft-bar__text {
     display: none;
+    vertical-align: top;
 }
 
 @media (min-width: 1360px) {
@@ -201,19 +227,15 @@ input[type="checkbox"]:checked ~ .custom-checkbox::after {
 }
 
 .soft-bar__button {
-    position: relative;
     background-color: transparent;
     border: 1px solid #CBCBCB;
     font-size: 18px;
+    line-height: 24px;
     text-align: center;
     color: #9C9C9C;
     text-transform: uppercase;
-
-    display: flex;
-    gap: 5px;
-    justify-content: center;
-    align-items: center;
-    height: 38px;
+    padding: 15px 18px;
+    height: 54px;
     width: 100%;
 }
 
@@ -259,17 +281,13 @@ input[type="checkbox"]:checked ~ .custom-checkbox::after {
 }
 
 .soft-bar__container {
-    position: relative;
-    display: inline-block;
     cursor: pointer;
-
 }
 
 /* всплывающая подсказка */
 
 .tooltip {
     position: relative;
-    display: inline-block;
 }
 
 .tooltip__text {
@@ -310,7 +328,7 @@ input[type="checkbox"]:checked ~ .custom-checkbox::after {
     position: absolute;
     content: '';
 
-    bottom: 100%;
+    bottom: 95%;
     left: 50%;
     transform: translateX(-50%);
 
@@ -441,7 +459,7 @@ input[type="checkbox"]:checked ~ .custom-checkbox::after {
 }
 
 
-.select-icons__del:hover path {
+.clear-icon__del:hover path {
     position: relative;
     fill: #414141;
     cursor: pointer;
@@ -565,7 +583,7 @@ input[type="checkbox"]:checked ~ .custom-checkbox::after {
 }
 
 .pagination__item {
-    width: 60px;
+    width: 45px;
     height: 45px;
 
     text-align: center;
@@ -608,6 +626,7 @@ input[type="checkbox"]:checked ~ .custom-checkbox::after {
 
     .button-wrapper {
         margin-top: 0;
+
     }
 
     .button-wrapper--mobile {
@@ -832,4 +851,220 @@ input[type="checkbox"]:checked ~ .custom-checkbox::after {
         right: auto;
     }
 
+}
+
+/* инпуты для поиска по таблице */
+
+.search-input {
+    border: 0;
+    width: 100%;
+    height: auto;
+}
+
+.data-item--inputs {
+    display: none;
+}
+
+@media (min-width: 640px) {
+    .data-item--inputs {
+        display: table-row;
+    }
+}
+
+/* Форма для добавления данных*/
+
+.add-data {
+    position: fixed;
+    z-index: 20;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    background-color: white;
+    height: 90%;
+    width: 80%;
+}
+
+.add-data__form {
+    height: 75%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+@media (min-width: 640px) {
+    .add-data__form {
+        height: 85%;
+    }
+}
+
+.add-data--closed {
+    display: none;
+}
+
+.add-data__close {
+    background-color: transparent;
+    border: none;
+}
+
+.add-data__close-wrapper {
+    text-align: right;
+    align-content: center;
+    background-color: #414F51;
+    padding: 13px 15px;
+}
+
+.add-data__close-wrapper svg {
+    width: 21px;
+    height: 21px;
+}
+
+.add-data__title-wrapper {
+    text-align: center;
+    justify-content: center;
+
+    background-color: #F4F4F4;
+    padding: 20px;
+}
+
+.add-data__title {
+    font-size: 14px;
+    color: #414141;
+}
+
+
+.data-form {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    padding: 15px 15px 37px;
+}
+
+@media (min-width: 640px) {
+    .data-form {
+        padding: 25px 30px 7px;
+        gap: 32px;
+    }
+}
+
+.data-form label, .data-form select {
+    color: #898989;
+    font-size: 13px;
+}
+
+.data-form textarea, .data-form option {
+    color: #202020;
+}
+
+.data-form label + .data-form label {
+    display: block;
+    margin-top: 16px;
+}
+
+.data-form__input {
+    box-sizing: border-box;
+    width: 100%;
+    height: 37px;
+
+    resize: none;
+    padding: 8px 0 8px 8px;
+
+    align-content: space-evenly;
+    word-wrap: break-word;
+
+    border: 1px solid #C1C1C1;
+}
+
+.data-form__input-wrapper {
+    position: relative;
+}
+
+.input-item--del {
+    padding-right: 40px;
+}
+
+.data-form__buttons-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin: 0 15px;
+}
+
+@media (min-width: 640px) {
+    .data-form__buttons-wrapper {
+        flex-direction: row;
+        justify-content: center;
+        gap: 56px;
+
+        padding: 30px;
+        margin: 0;
+        align-items: center;
+
+        background-color: #F4F4F4;
+    }
+
+    .data-form__button {
+        max-width: 316px;
+        height: 54px;
+        font-size: 20px;
+    }
+}
+
+@media (min-width: 1360px) {
+
+    .data-form__buttons-wrapper {
+
+        gap: 53px;
+        padding: 30px;
+        margin: 0;
+        align-items: center;
+
+        background-color: #F4F4F4;
+    }
+
+    .data-form__button {
+        max-width: 316px;
+    }
+}
+
+.data-form__button {
+    width: 100%;
+    height: 38px;
+    color: white;
+    font-size: 14px;
+
+    background-color: transparent;
+    border: none;
+}
+
+@media (min-width: 1360px) {
+    .data-form__item {
+        display: grid;
+        grid-template-columns: 1fr 1.7fr;
+        gap: 20px;
+        align-items: center;
+    }
+}
+
+.data-item__button--add {
+    background-color: #00B0D9;
+}
+
+.data-item__button--cancel {
+    background-color: #CACACA;
+}
+
+.clear-icon {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    font-size: 18px;
+    color: #999;
+    display: none; /* Скрываем иконку по умолчанию */
+}
+
+.clear-icon:hover {
+    color: #333;
 }

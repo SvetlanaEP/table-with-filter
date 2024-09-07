@@ -104,3 +104,50 @@ document.addEventListener('DOMContentLoaded', function () {
 
     }
 })
+
+// Открытие формы для добавления данных
+
+const addForm = document.querySelector('.add-data');
+const addButton = document.querySelector('.soft-bar__container--add');
+const addCloseButton = document.querySelector('.add-data__close');
+
+addButton.addEventListener('click', () => {
+
+    if (addForm.classList.contains('add-data--closed')) {
+        addForm.classList.remove('add-data--closed')
+        document.getElementById('overlay').style.display = 'block';
+        document.body.classList.add('modal-open');
+    }
+})
+
+addCloseButton.addEventListener('click', () => {
+    if (!addForm.classList.contains('add-data--closed')) {
+        addForm.classList.add('add-data--closed')
+        document.getElementById('overlay').style.display = 'none';
+        document.body.classList.remove('modal-open');
+    }
+})
+
+// Про иконку-крестик в инпутах
+
+const formInput = document.querySelectorAll('.input-item');
+const clearIcon = document.querySelectorAll('.clear-icon');
+
+for (let i=0; i<formInput.length; i++) {
+
+    formInput[i].addEventListener('input', function() {
+        if (formInput[i].value.length > 0) {
+            clearIcon[i].style.display = 'block';
+        } else {
+            clearIcon[i].style.display = 'none';
+        }
+    });
+
+    clearIcon[i].addEventListener('click', function() {
+        formInput[i].value = '';
+        clearIcon[i].style.display = 'none';
+        formInput[i].focus(); // Вернем фокус на инпут после очистки
+    });
+}
+
+
