@@ -292,9 +292,9 @@ function generateTable(data) {
     data.forEach((row) => {
         const rowElement = rowTemplate.cloneNode(true);
 
-        rowElement.querySelector('#date-id').textContent = row.id;
-        rowElement.querySelector('#date-full-name').textContent = row.name.charAt(0).toUpperCase() + row.name.slice(1).toLowerCase();
-        rowElement.querySelector('#date-abb-name').textContent = row.abbreviation;
+        rowElement.querySelector('#data-id').textContent = row.id;
+        rowElement.querySelector('#data-full-name').textContent = row.name.charAt(0).toUpperCase() + row.name.slice(1).toLowerCase();
+        rowElement.querySelector('#data-short-name').textContent = row.abbreviation;
 
         rowListFragment.appendChild(rowElement);
     });
