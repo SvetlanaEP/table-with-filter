@@ -234,6 +234,24 @@ buttonEdit.forEach(button => {
             closePopup(editPopup)
         }
     })
+
+    // ф-я для удаления строки табл
+
+    const tableData = document.querySelector('#date-table-container')
+
+    console.log(tableData)
+
+    tableData.addEventListener('click', function (evt) {
+        const deleteButton = evt.target.closest('.data-item__button--del')
+
+        if (deleteButton) {
+            const currentRow = evt.target.closest('tr');
+            if (currentRow) {
+                currentRow.remove()
+            }
+        }
+    })
+
 })
 
 
