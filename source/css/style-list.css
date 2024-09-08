@@ -763,9 +763,18 @@ body.modal-open {
      border: none;
  }
 
+
 .data-item__button svg {
     width: 25px;
     height: 25px;
+}
+
+.data-item__button svg path {
+    opacity: 0.5;
+}
+
+.data-item__button:hover svg path {
+    opacity: 1;
 }
 
 .data-item__item--number {
