@@ -146,7 +146,7 @@ body.modal-open {
 }
 
 .page-main__title {
-    font-size: 16px;
+    font-size: 20px;
     line-height: 1.3;
     text-align: center;
 }
@@ -156,10 +156,6 @@ body.modal-open {
 }
 
 @media (min-width: 640px) {
-
-    .page-main__title {
-        font-size: 20px;
-    }
 
     .page-main__content {
         margin-top: 37px;
@@ -180,7 +176,7 @@ body.modal-open {
 @media (min-width: 1920px) {
 
     .page-main__title {
-        font-size: 26px;
+        font-size: 20px;
     }
 }
 
@@ -207,11 +203,15 @@ body.modal-open {
         gap: 0;
 
         width: 100%;
-        height: 54px;
         font-size: 18px;
         text-align: center;
         color: #9C9C9C;
         text-transform: uppercase;
+    }
+}
+
+@media (min-width: 1360px) {
+    .soft-bar {
     }
 }
 
@@ -230,17 +230,24 @@ body.modal-open {
     background-color: transparent;
     border: 1px solid #CBCBCB;
     font-size: 18px;
-    line-height: 24px;
     text-align: center;
     color: #9C9C9C;
     text-transform: uppercase;
-    padding: 15px 18px;
-    height: 54px;
+
+    height: 38px;
     width: 100%;
 }
 
 @media (min-width: 640px) {
     .soft-bar__button {
+        font-size: 18px;
+        height: 45px;
+    }
+}
+
+@media (min-width: 1360px) {
+    .soft-bar__button {
+        font-size: 18px;
         height: 54px;
     }
 }
@@ -369,7 +376,7 @@ body.modal-open {
     display: flex;
     flex-direction: column;
 
-    font-size: 13px;
+    font-size: 18px;
     line-height: 1.3;
 }
 
@@ -389,6 +396,7 @@ body.modal-open {
     justify-content: space-between;
 
     text-align: left;
+    align-items: center;
     color: #7D7D7D;
     width: 100%;
     height: 38px;
@@ -442,7 +450,7 @@ body.modal-open {
 
 .filter-educations__button {
     min-height: 42px;
-    font-size: 20px;
+    font-size: 18px;
     color: #FFE200;
     background-color: #00B0D9;
     border: none;
@@ -514,7 +522,7 @@ body.modal-open {
 
 
     .filter-educations__description {
-        height: 45px;
+        height: 54px;
         padding: 10px 21px;
     }
 }
@@ -546,7 +554,7 @@ body.modal-open {
 
 .search-page__item {
     width: 60px;
-    height: 45px;
+    height: 38px;
 
     text-align: center;
 }
@@ -562,10 +570,17 @@ body.modal-open {
 
 .search-page__button {
     color: #00B0D9;
-    font-size: 20px;
+    font-size: 18px;
 
     border: 2px solid #00B0D9;
     background-color: transparent;
+}
+
+@media (min-width: 640px) {
+
+    .search-page__item {
+        height: 45px;
+    }
 }
 
 @media (min-width: 1360px) {
@@ -573,6 +588,10 @@ body.modal-open {
         display: flex;
         justify-content: left;
         gap: 15px;
+    }
+
+    .search-page__item {
+        height: 54px;
     }
 }
 
@@ -583,8 +602,8 @@ body.modal-open {
 }
 
 .pagination__item {
-    width: 45px;
-    height: 45px;
+    width: 38px;
+    height: 38px;
 
     text-align: center;
 
@@ -610,6 +629,19 @@ body.modal-open {
     .pagination {
         display: flex;
         justify-content: space-between;
+    }
+
+    .pagination__item {
+        width: 45px;
+        height: 45px;
+    }
+}
+
+@media (min-width: 1360px) {
+
+    .pagination__item {
+        width: 54px;
+        height: 54px;
     }
 }
 
@@ -657,29 +689,23 @@ body.modal-open {
     border: none;
     background-color: #00b0d9;
     color: white;
-    height: 45px;
+    height: 38px;
     width: 100%;
-    font-size: 14px;
+    font-size: 18px;
 }
 
 @media (min-width: 640px) {
     .button-item {
         font-size: 18px;
+        height:45px;
     }
 }
 
 @media (min-width: 1360px) {
     .button-item {
         min-width: 400px;
-        font-size: 20px;
-    }
-}
-
-
-@media (min-width: 1920px) {
-    .button-item {
-        min-width: 400px;
-        font-size: 20px;
+        height: 54px;
+        font-size: 18px;
     }
 }
 
@@ -705,7 +731,7 @@ body.modal-open {
     display: grid;
     grid-template-columns: 1fr 1fr;
 
-    font-size: 14px;
+    font-size: 18px;
 }
 
 .data-list__title {
@@ -737,6 +763,11 @@ body.modal-open {
      border: none;
  }
 
+.data-item__button svg {
+    width: 25px;
+    height: 25px;
+}
+
 .data-item__item--number {
     margin-top: 16px;
 }
@@ -759,22 +790,54 @@ body.modal-open {
     padding-left: 18px;
 }
 
-.data-list__button-edit, .data-list__button-del {
+.data-item__button-wrapper {
     position: absolute;
-    top: 10px;
+}
+
+@media (min-width: 640px) {
+    .data-item__button-wrapper {
+        position: relative;
+    }
 }
 
 
-.data-list__button-edit {
+.data-item__button-edit {
+    right: 58px;
+}
+
+.data-item__button-del {
     right: 16px;
 }
 
-.data-list__button-del {
-    right: 58px;
+@media (min-width: 640px) {
+    .data-item__button-edit, .data-item__button-del {
+        right: auto;
+    }
+}
+
+.data-item__button {
+    display: none;
+}
+
+@media (min-width: 480px) {
+    .data-item__button {
+        display: block;
+        margin: 0 auto;
+    }
 }
 
 .data-list th, td {
     padding: 8px;
+    min-height: 54px;
+    vertical-align: middle;
+}
+
+.data-item__button-wrapper{
+    padding: 0;
+}
+
+.data-item__button {
+    padding: 13px;
 }
 
 .data-list tbody {
@@ -817,9 +880,13 @@ body.modal-open {
     }
 
    .data-list th, td {
-        border: 1px solid #CBCBCB;
-        padding: 10px;
-        text-align: left;
+       border: 1px solid #CBCBCB;
+       text-align: left;
+       min-height: 45px;
+       box-sizing: border-box;
+    }
+    .data-list th {
+        padding: 11px;
     }
 
    .data-list tr {
@@ -837,7 +904,6 @@ body.modal-open {
     }
 
     .data-item {
-        min-height: 52px;
         margin: 0;
     }
 
@@ -845,12 +911,22 @@ body.modal-open {
         padding-left: 0;
     }
 
-    .data-list__button-edit, .data-list__button-del {
+    .data-item__button-wrapper-edit, .data-item__button-wrapper-del {
         position: relative;
         top: auto;
         right: auto;
     }
 
+}
+
+@media (min-width: 1360px) {
+    .data-list th, td {
+        min-height: 54px;
+        padding: 12px;
+    }
+    .data-list th {
+        padding: 16px;
+    }
 }
 
 /* инпуты для поиска по таблице */
@@ -859,6 +935,7 @@ body.modal-open {
     border: 0;
     width: 100%;
     height: auto;
+    padding: 0;
 }
 
 .data-item--inputs {
@@ -873,53 +950,58 @@ body.modal-open {
 
 /* Форма для добавления данных*/
 
-.add-data {
+.popup-form {
     position: fixed;
     z-index: 20;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    overflow: auto;
 
     background-color: white;
-    height: 90%;
+    min-height: 640px;
+    max-height: 85%;
     width: 80%;
 }
 
-.add-data__form {
-    height: 75%;
+.popup-form__form {
+    min-height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
 }
 
 @media (min-width: 640px) {
-    .add-data__form {
-        height: 85%;
+    .popup-form {
+        display: grid;
+        grid-template-rows: max-content 1fr;
+        min-height: 80%;
     }
 }
 
-.add-data--closed {
+
+.popup-form--closed {
     display: none;
 }
 
-.add-data__close {
+.popup-form__close {
     background-color: transparent;
     border: none;
 }
 
-.add-data__close-wrapper {
+.popup-form__close-wrapper {
     text-align: right;
     align-content: center;
     background-color: #414F51;
     padding: 13px 15px;
 }
 
-.add-data__close-wrapper svg {
+.popup__close-wrapper svg {
     width: 21px;
     height: 21px;
 }
 
-.add-data__title-wrapper {
+.popup-form__title-wrapper {
     text-align: center;
     justify-content: center;
 
@@ -927,13 +1009,13 @@ body.modal-open {
     padding: 20px;
 }
 
-.add-data__title {
-    font-size: 14px;
+.popup-form__title {
+    font-size: 18px;
     color: #414141;
 }
 
 
-.data-form {
+.popup-form__field-wrapper {
     display: flex;
     flex-direction: column;
     gap: 14px;
@@ -941,27 +1023,27 @@ body.modal-open {
 }
 
 @media (min-width: 640px) {
-    .data-form {
+    .popup-form__field-wrapper {
         padding: 25px 30px 7px;
         gap: 32px;
     }
 }
 
-.data-form label, .data-form select {
+.popup-form__field-wrapper label, .popup-form__field-wrapperselect {
     color: #898989;
-    font-size: 13px;
+    font-size: 18px;
 }
 
-.data-form textarea, .data-form option {
+.popup-form__field-wrapper textarea, .popup-form__field-wrapper option {
     color: #202020;
 }
 
-.data-form label + .data-form label {
+.popup-form__field-wrapper label + .popup-form__field-wrapper label {
     display: block;
     margin-top: 16px;
 }
 
-.data-form__input {
+.popup-form__input {
     box-sizing: border-box;
     width: 100%;
     height: 37px;
@@ -975,7 +1057,7 @@ body.modal-open {
     border: 1px solid #C1C1C1;
 }
 
-.data-form__input-wrapper {
+.popup-form__input-wrapper {
     position: relative;
 }
 
@@ -983,7 +1065,7 @@ body.modal-open {
     padding-right: 40px;
 }
 
-.data-form__buttons-wrapper {
+.popup-form__buttons-wrapper {
     display: flex;
     flex-direction: column;
     gap: 15px;
@@ -991,7 +1073,7 @@ body.modal-open {
 }
 
 @media (min-width: 640px) {
-    .data-form__buttons-wrapper {
+    .popup-form__buttons-wrapper {
         flex-direction: row;
         justify-content: center;
         gap: 56px;
@@ -1003,16 +1085,16 @@ body.modal-open {
         background-color: #F4F4F4;
     }
 
-    .data-form__button {
+    .popup-form__button {
         max-width: 316px;
         height: 54px;
-        font-size: 20px;
+        font-size: 18px;
     }
 }
 
 @media (min-width: 1360px) {
 
-    .data-form__buttons-wrapper {
+    .popup-form__buttons-wrapper {
 
         gap: 53px;
         padding: 30px;
@@ -1022,23 +1104,23 @@ body.modal-open {
         background-color: #F4F4F4;
     }
 
-    .data-form__button {
+    .popup-form__button {
         max-width: 316px;
     }
 }
 
-.data-form__button {
+.popup-form__button {
     width: 100%;
     height: 38px;
     color: white;
-    font-size: 14px;
+    font-size: 18px;
 
     background-color: transparent;
     border: none;
 }
 
 @media (min-width: 1360px) {
-    .data-form__item {
+    .popup-form__item {
         display: grid;
         grid-template-columns: 1fr 1.7fr;
         gap: 20px;
@@ -1046,11 +1128,11 @@ body.modal-open {
     }
 }
 
-.data-item__button--add {
+.popup-form__button--add {
     background-color: #00B0D9;
 }
 
-.data-item__button--cancel {
+.popup-form__button--cancel {
     background-color: #CACACA;
 }
 

@@ -109,20 +109,20 @@ document.addEventListener('DOMContentLoaded', function () {
 
 const addForm = document.querySelector('.add-data');
 const addButton = document.querySelector('.soft-bar__container--add');
-const addCloseButton = document.querySelector('.add-data__close');
+const addCloseButton = addForm.querySelector('.popup-form__close');
 
 addButton.addEventListener('click', () => {
 
-    if (addForm.classList.contains('add-data--closed')) {
-        addForm.classList.remove('add-data--closed')
+    if (addForm.classList.contains('popup-form--closed')) {
+        addForm.classList.remove('popup-form--closed')
         document.getElementById('overlay').style.display = 'block';
         document.body.classList.add('modal-open');
     }
 })
 
 addCloseButton.addEventListener('click', () => {
-    if (!addForm.classList.contains('add-data--closed')) {
-        addForm.classList.add('add-data--closed')
+    if (!addForm.classList.contains('popup-form--closed')) {
+        addForm.classList.add('popup-form--closed')
         document.getElementById('overlay').style.display = 'none';
         document.body.classList.remove('modal-open');
     }
@@ -149,5 +149,3 @@ for (let i=0; i<formInput.length; i++) {
         formInput[i].focus(); // Вернем фокус на инпут после очистки
     });
 }
-
-

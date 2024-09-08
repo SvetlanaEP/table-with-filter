@@ -96,7 +96,9 @@
                         <path d="M0.996094 30.5038L4.4041 27.0958L9.7321 32.4238L29.652 8.08791L33.348 11.1119L10.0681 39.5758L0.996094 30.5038ZM29.1 23.9998H41.1V28.7998H29.1V23.9998ZM21.9 33.5998H33.9V38.3998H21.9V33.5998ZM36.3 14.3999H48.3V19.1999H36.3V14.3999Z" fill="white"/>
                     </g>
                 </svg>
-                <span class="soft-bar__text">In total <span class="in-total-count"></span> </span>
+                <span class="soft-bar__text">In total
+                    <span class="in-total-count"></span>
+                </span>
             </button>
             <div class="tooltip__arrow"></div>
             <div class="soft-bar__tooltip tooltip__text">
@@ -342,10 +344,12 @@
         </div>
     </section>
 
-    <section class="page-main__add-data add-data add-data--closed">
-        <div class="add-data__header">
-            <div class="add-data__close-wrapper">
-                <button class="add-data__close">
+    <!-- Попап для добавления -->
+
+    <section class="page-main__add-data popup-form add-data popup-form--closed">
+        <div class="popup-form__header add-data__header">
+            <div class="popup-form__close-wrapper">
+                <button class="popup-form__close">
                 <span class="visually-hidden">
                     Закрыть форму для добавления данных
                 </span>
@@ -363,18 +367,18 @@
                 </button>
             </div>
 
-            <div class="add-data__title-wrapper">
-                <h2 class="add-data__title">Добавить юридическое название для учебного заведения</h2>
+            <div class="popup-form__title-wrapper">
+                <h2 class="popup-form__title">Добавить юридическое название для учебного заведения</h2>
             </div>
         </div>
 
-        <form class="add-data__form">
-            <div class="data-form">
-                <label class="data-form__item">
+        <form class="add-data__form popup-form__form">
+            <div class="popup-form__field-wrapper">
+                <label class="popup-form__item">
                     <div>Полное название юридического названия учебного заведения</div>
 
-                    <div class="data-form__input-wrapper">
-                        <textarea class='data-form__input input-item input-item--del'></textarea>
+                    <div class="popup-form__input-wrapper">
+                        <textarea class='popup-form__input input-item input-item--del'></textarea>
                         <svg class="clear-icon clear-icon__del" width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd" clip-rule="evenodd" d="M25.5 13C25.5 19.9038 19.9038 25.5 13 25.5C6.09625 25.5 0.5 19.9038 0.5 13C0.5 6.09625 6.09625 0.5 13 0.5C19.9038 0.5 25.5 6.09625 25.5 13ZM8.13875 17.8613C8.02158 17.744 7.95576 17.5851 7.95576 17.4194C7.95576 17.2536 8.02158 17.0947 8.13875 16.9775L12.1163 13L8.13875 9.0225C8.0249 8.90462 7.96191 8.74675 7.96333 8.58287C7.96475 8.419 8.03048 8.26224 8.14636 8.14636C8.26224 8.03048 8.419 7.96475 8.58287 7.96333C8.74675 7.96191 8.90462 8.0249 9.0225 8.13875L13 12.1163L16.9775 8.13875C17.0954 8.0249 17.2533 7.96191 17.4171 7.96333C17.581 7.96475 17.7378 8.03048 17.8536 8.14636C17.9695 8.26224 18.0352 8.419 18.0367 8.58287C18.0381 8.74675 17.9751 8.90462 17.8613 9.0225L13.8838 13L17.8613 16.9775C17.9751 17.0954 18.0381 17.2533 18.0367 17.4171C18.0352 17.581 17.9695 17.7378 17.8536 17.8536C17.7378 17.9695 17.581 18.0352 17.4171 18.0367C17.2533 18.0381 17.0954 17.9751 16.9775 17.8613L13 13.8838L9.0225 17.8613C8.9053 17.9784 8.74635 18.0442 8.58063 18.0442C8.4149 18.0442 8.25596 17.9784 8.13875 17.8613Z" fill="#C3C3C3"/>
                         </svg>
@@ -383,10 +387,10 @@
 
                 </label>
 
-                <label class="data-form__item">
+                <label class="popup-form__item">
                     <div>Сокращенное название юридического названия учебного заведения</div>
-                    <div class="data-form__input-wrapper">
-                        <textarea class='data-form__input input-item input-item--del'></textarea>
+                    <div class="popup-form__input-wrapper">
+                        <textarea class='popup-form__input input-item input-item--del'></textarea>
                         <svg class="clear-icon clear-icon__del" width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd" clip-rule="evenodd" d="M25.5 13C25.5 19.9038 19.9038 25.5 13 25.5C6.09625 25.5 0.5 19.9038 0.5 13C0.5 6.09625 6.09625 0.5 13 0.5C19.9038 0.5 25.5 6.09625 25.5 13ZM8.13875 17.8613C8.02158 17.744 7.95576 17.5851 7.95576 17.4194C7.95576 17.2536 8.02158 17.0947 8.13875 16.9775L12.1163 13L8.13875 9.0225C8.0249 8.90462 7.96191 8.74675 7.96333 8.58287C7.96475 8.419 8.03048 8.26224 8.14636 8.14636C8.26224 8.03048 8.419 7.96475 8.58287 7.96333C8.74675 7.96191 8.90462 8.0249 9.0225 8.13875L13 12.1163L16.9775 8.13875C17.0954 8.0249 17.2533 7.96191 17.4171 7.96333C17.581 7.96475 17.7378 8.03048 17.8536 8.14636C17.9695 8.26224 18.0352 8.419 18.0367 8.58287C18.0381 8.74675 17.9751 8.90462 17.8613 9.0225L13.8838 13L17.8613 16.9775C17.9751 17.0954 18.0381 17.2533 18.0367 17.4171C18.0352 17.581 17.9695 17.7378 17.8536 17.8536C17.7378 17.9695 17.581 18.0352 17.4171 18.0367C17.2533 18.0381 17.0954 17.9751 16.9775 17.8613L13 13.8838L9.0225 17.8613C8.9053 17.9784 8.74635 18.0442 8.58063 18.0442C8.4149 18.0442 8.25596 17.9784 8.13875 17.8613Z" fill="#C3C3C3"/>
                         </svg>
@@ -394,10 +398,10 @@
                     </div>
                 </label>
 
-                <label class="data-form__item">
+                <label class="popup-form__item">
                     <div>Аббревиатура учебного заведения</div>
-                    <div class="data-form__input-wrapper">
-                        <textarea class='data-form__input input-item input-item--del'></textarea>
+                    <div class="popup-form__input-wrapper">
+                        <textarea class='popup-form__input input-item input-item--del'></textarea>
                         <svg class="clear-icon clear-icon__del" width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd" clip-rule="evenodd" d="M25.5 13C25.5 19.9038 19.9038 25.5 13 25.5C6.09625 25.5 0.5 19.9038 0.5 13C0.5 6.09625 6.09625 0.5 13 0.5C19.9038 0.5 25.5 6.09625 25.5 13ZM8.13875 17.8613C8.02158 17.744 7.95576 17.5851 7.95576 17.4194C7.95576 17.2536 8.02158 17.0947 8.13875 16.9775L12.1163 13L8.13875 9.0225C8.0249 8.90462 7.96191 8.74675 7.96333 8.58287C7.96475 8.419 8.03048 8.26224 8.14636 8.14636C8.26224 8.03048 8.419 7.96475 8.58287 7.96333C8.74675 7.96191 8.90462 8.0249 9.0225 8.13875L13 12.1163L16.9775 8.13875C17.0954 8.0249 17.2533 7.96191 17.4171 7.96333C17.581 7.96475 17.7378 8.03048 17.8536 8.14636C17.9695 8.26224 18.0352 8.419 18.0367 8.58287C18.0381 8.74675 17.9751 8.90462 17.8613 9.0225L13.8838 13L17.8613 16.9775C17.9751 17.0954 18.0381 17.2533 18.0367 17.4171C18.0352 17.581 17.9695 17.7378 17.8536 17.8536C17.7378 17.9695 17.581 18.0352 17.4171 18.0367C17.2533 18.0381 17.0954 17.9751 16.9775 17.8613L13 13.8838L9.0225 17.8613C8.9053 17.9784 8.74635 18.0442 8.58063 18.0442C8.4149 18.0442 8.25596 17.9784 8.13875 17.8613Z" fill="#C3C3C3"/>
                         </svg>
@@ -405,10 +409,10 @@
                     </div>
                 </label>
 
-                <label class="data-form__item">
+                <label class="popup-form__item">
                     <div>Тип организации</div>
-                    <div class="data-form__input-wrapper">
-                        <select class="data-form__input input-item input-item--del"  name="">
+                    <div class="popup-form__input-wrapper">
+                        <select class="popup-form__input input-item input-item--del"  name="">
                             <option value="">Выберите тип организации</option>
                             <option value="Учебное">Учебное заведение</option>
                             <option value="Другое">Другое</option>
@@ -421,11 +425,103 @@
 
             </div>
 
-            <div class="data-form__buttons-wrapper">
-                <button class="data-form__button data-item__button--add">
+            <div class="popup-form__buttons-wrapper">
+                <button class="popup-form__button popup-form__button--add">
                     Добавить
                 </button>
-                <button class="data-form__button data-item__button--cancel">
+                <button class="popup-form__button popup-form__button--cancel">
+                    Отменить
+                </button>
+            </div>
+        </form>
+    </section>
+
+    <!-- Попап для редактирования-->
+
+    <section class="page-main__add-data popup-form edit-data popup-form--closed">
+        <div class="popup-form__header add-data__header">
+            <div class="popup-form__close-wrapper">
+                <button class="popup-form__close">
+                <span class="visually-hidden">
+                    Закрыть форму для добавления данных
+                </span>
+                    <svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <g clip-path="url(#clip0_0_110)">
+                            <path d="M48.7537 46.4039L3.45471 1.10485C2.84451 0.49466 1.85519 0.49466 1.245 1.10485C0.634805 1.71505 0.634805 2.70437 1.245 3.31456L46.544 48.6136C47.1542 49.2238 48.1435 49.2238 48.7537 48.6136C49.3639 48.0034 49.3639 47.0141 48.7537 46.4039Z" fill="white"/>
+                            <path d="M1.24552 46.4039L46.5446 1.10485C47.1548 0.49466 48.1441 0.49466 48.7543 1.10485C49.3645 1.71505 49.3645 2.70437 48.7543 3.31456L3.45523 48.6136C2.84503 49.2238 1.85571 49.2238 1.24552 48.6136C0.635322 48.0034 0.635322 47.0141 1.24552 46.4039Z" fill="white"/>
+                        </g>
+                        <defs>
+                            <clipPath id="clip0_0_110">
+                                <rect width="50" height="50" fill="white"/>
+                            </clipPath>
+                        </defs>
+                    </svg>
+                </button>
+            </div>
+
+            <div class="popup-form__title-wrapper">
+                <h2 class="popup-form__title">Добавить юридическое название для учебного заведения</h2>
+            </div>
+        </div>
+
+        <form class="add-data__form popup-form__form">
+            <div class="popup-form__field-wrapper">
+                <label class="popup-form__item">
+                    <div>Полное название юридического названия учебного заведения</div>
+
+                    <div class="popup-form__input-wrapper">
+                        <textarea class='popup-form__input input-item input-item--del'></textarea>
+                        <svg class="clear-icon clear-icon__del" width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M25.5 13C25.5 19.9038 19.9038 25.5 13 25.5C6.09625 25.5 0.5 19.9038 0.5 13C0.5 6.09625 6.09625 0.5 13 0.5C19.9038 0.5 25.5 6.09625 25.5 13ZM8.13875 17.8613C8.02158 17.744 7.95576 17.5851 7.95576 17.4194C7.95576 17.2536 8.02158 17.0947 8.13875 16.9775L12.1163 13L8.13875 9.0225C8.0249 8.90462 7.96191 8.74675 7.96333 8.58287C7.96475 8.419 8.03048 8.26224 8.14636 8.14636C8.26224 8.03048 8.419 7.96475 8.58287 7.96333C8.74675 7.96191 8.90462 8.0249 9.0225 8.13875L13 12.1163L16.9775 8.13875C17.0954 8.0249 17.2533 7.96191 17.4171 7.96333C17.581 7.96475 17.7378 8.03048 17.8536 8.14636C17.9695 8.26224 18.0352 8.419 18.0367 8.58287C18.0381 8.74675 17.9751 8.90462 17.8613 9.0225L13.8838 13L17.8613 16.9775C17.9751 17.0954 18.0381 17.2533 18.0367 17.4171C18.0352 17.581 17.9695 17.7378 17.8536 17.8536C17.7378 17.9695 17.581 18.0352 17.4171 18.0367C17.2533 18.0381 17.0954 17.9751 16.9775 17.8613L13 13.8838L9.0225 17.8613C8.9053 17.9784 8.74635 18.0442 8.58063 18.0442C8.4149 18.0442 8.25596 17.9784 8.13875 17.8613Z" fill="#C3C3C3"/>
+                        </svg>
+
+                    </div>
+
+                </label>
+
+                <label class="popup-form__item">
+                    <div>Сокращенное название юридического названия учебного заведения</div>
+                    <div class="popup-form__input-wrapper">
+                        <textarea class='popup-form__input input-item input-item--del'></textarea>
+                        <svg class="clear-icon clear-icon__del" width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M25.5 13C25.5 19.9038 19.9038 25.5 13 25.5C6.09625 25.5 0.5 19.9038 0.5 13C0.5 6.09625 6.09625 0.5 13 0.5C19.9038 0.5 25.5 6.09625 25.5 13ZM8.13875 17.8613C8.02158 17.744 7.95576 17.5851 7.95576 17.4194C7.95576 17.2536 8.02158 17.0947 8.13875 16.9775L12.1163 13L8.13875 9.0225C8.0249 8.90462 7.96191 8.74675 7.96333 8.58287C7.96475 8.419 8.03048 8.26224 8.14636 8.14636C8.26224 8.03048 8.419 7.96475 8.58287 7.96333C8.74675 7.96191 8.90462 8.0249 9.0225 8.13875L13 12.1163L16.9775 8.13875C17.0954 8.0249 17.2533 7.96191 17.4171 7.96333C17.581 7.96475 17.7378 8.03048 17.8536 8.14636C17.9695 8.26224 18.0352 8.419 18.0367 8.58287C18.0381 8.74675 17.9751 8.90462 17.8613 9.0225L13.8838 13L17.8613 16.9775C17.9751 17.0954 18.0381 17.2533 18.0367 17.4171C18.0352 17.581 17.9695 17.7378 17.8536 17.8536C17.7378 17.9695 17.581 18.0352 17.4171 18.0367C17.2533 18.0381 17.0954 17.9751 16.9775 17.8613L13 13.8838L9.0225 17.8613C8.9053 17.9784 8.74635 18.0442 8.58063 18.0442C8.4149 18.0442 8.25596 17.9784 8.13875 17.8613Z" fill="#C3C3C3"/>
+                        </svg>
+
+                    </div>
+                </label>
+
+                <label class="popup-form__item">
+                    <div>Аббревиатура учебного заведения</div>
+                    <div class="popup-form__input-wrapper">
+                        <textarea class='popup-form__input input-item input-item--del'></textarea>
+                        <svg class="clear-icon clear-icon__del" width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M25.5 13C25.5 19.9038 19.9038 25.5 13 25.5C6.09625 25.5 0.5 19.9038 0.5 13C0.5 6.09625 6.09625 0.5 13 0.5C19.9038 0.5 25.5 6.09625 25.5 13ZM8.13875 17.8613C8.02158 17.744 7.95576 17.5851 7.95576 17.4194C7.95576 17.2536 8.02158 17.0947 8.13875 16.9775L12.1163 13L8.13875 9.0225C8.0249 8.90462 7.96191 8.74675 7.96333 8.58287C7.96475 8.419 8.03048 8.26224 8.14636 8.14636C8.26224 8.03048 8.419 7.96475 8.58287 7.96333C8.74675 7.96191 8.90462 8.0249 9.0225 8.13875L13 12.1163L16.9775 8.13875C17.0954 8.0249 17.2533 7.96191 17.4171 7.96333C17.581 7.96475 17.7378 8.03048 17.8536 8.14636C17.9695 8.26224 18.0352 8.419 18.0367 8.58287C18.0381 8.74675 17.9751 8.90462 17.8613 9.0225L13.8838 13L17.8613 16.9775C17.9751 17.0954 18.0381 17.2533 18.0367 17.4171C18.0352 17.581 17.9695 17.7378 17.8536 17.8536C17.7378 17.9695 17.581 18.0352 17.4171 18.0367C17.2533 18.0381 17.0954 17.9751 16.9775 17.8613L13 13.8838L9.0225 17.8613C8.9053 17.9784 8.74635 18.0442 8.58063 18.0442C8.4149 18.0442 8.25596 17.9784 8.13875 17.8613Z" fill="#C3C3C3"/>
+                        </svg>
+
+                    </div>
+                </label>
+
+                <label class="popup-form__item">
+                    <div>Тип организации</div>
+                    <div class="popup-form__input-wrapper">
+                        <select class="popup-form__input input-item input-item--del"  name="">
+                            <option value="">Выберите тип организации</option>
+                            <option value="Учебное">Учебное заведение</option>
+                            <option value="Другое">Другое</option>
+                        </select>
+                        <svg class="clear-icon clear-icon__del" width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M25.5 13C25.5 19.9038 19.9038 25.5 13 25.5C6.09625 25.5 0.5 19.9038 0.5 13C0.5 6.09625 6.09625 0.5 13 0.5C19.9038 0.5 25.5 6.09625 25.5 13ZM8.13875 17.8613C8.02158 17.744 7.95576 17.5851 7.95576 17.4194C7.95576 17.2536 8.02158 17.0947 8.13875 16.9775L12.1163 13L8.13875 9.0225C8.0249 8.90462 7.96191 8.74675 7.96333 8.58287C7.96475 8.419 8.03048 8.26224 8.14636 8.14636C8.26224 8.03048 8.419 7.96475 8.58287 7.96333C8.74675 7.96191 8.90462 8.0249 9.0225 8.13875L13 12.1163L16.9775 8.13875C17.0954 8.0249 17.2533 7.96191 17.4171 7.96333C17.581 7.96475 17.7378 8.03048 17.8536 8.14636C17.9695 8.26224 18.0352 8.419 18.0367 8.58287C18.0381 8.74675 17.9751 8.90462 17.8613 9.0225L13.8838 13L17.8613 16.9775C17.9751 17.0954 18.0381 17.2533 18.0367 17.4171C18.0352 17.581 17.9695 17.7378 17.8536 17.8536C17.7378 17.9695 17.581 18.0352 17.4171 18.0367C17.2533 18.0381 17.0954 17.9751 16.9775 17.8613L13 13.8838L9.0225 17.8613C8.9053 17.9784 8.74635 18.0442 8.58063 18.0442C8.4149 18.0442 8.25596 17.9784 8.13875 17.8613Z" fill="#C3C3C3"/>
+                        </svg>
+                    </div>
+                </label>
+
+            </div>
+
+            <div class="popup-form__buttons-wrapper">
+                <button class="popup-form__button popup-form__button--add">
+                    Добавить
+                </button>
+                <button class="popup-form__button popup-form__button--cancel">
                     Отменить
                 </button>
             </div>
@@ -467,14 +563,14 @@
 
             </span>
         </td>
-        <td class="data-list__button-edit">
+        <td class="data-item__button-wrapper data-item__button-edit">
             <button class=" data-item__button">
                 <svg width="32" height="32" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M6.25 36.3747V42.7081C6.25 43.2914 6.70833 43.7497 7.29167 43.7497H13.625C13.8958 43.7497 14.1667 43.6456 14.3542 43.4372L37.1042 20.7081L29.2917 12.8956L6.5625 35.6247C6.35417 35.8331 6.25 36.0831 6.25 36.3747ZM43.1458 14.6664C43.3389 14.4737 43.4922 14.2448 43.5967 13.9927C43.7013 13.7407 43.7552 13.4705 43.7552 13.1977C43.7552 12.9248 43.7013 12.6546 43.5967 12.4026C43.4922 12.1506 43.3389 11.9217 43.1458 11.7289L38.2708 6.85392C38.0781 6.66078 37.8492 6.50756 37.5972 6.40302C37.3452 6.29847 37.075 6.24466 36.802 6.24466C36.5292 6.24466 36.2591 6.29847 36.007 6.40302C35.755 6.50756 35.5261 6.66078 35.3333 6.85392L31.5208 10.6664L39.3333 18.4789L43.1458 14.6664Z" fill="#00B0D9"/>
                 </svg>
             </button>
         </td>
-        <td class="data-list__button-del">
+        <td class="data-item__button-wrapper data-item__button-del">
             <button  class=" data-item__button">
                 <svg width="32" height="32" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M14.5843 43.75C13.4385 43.75 12.4573 43.3417 11.6406 42.525C10.8239 41.7083 10.4163 40.7278 10.4177 39.5833V12.5H8.33435V8.33333H18.7511V6.25H31.2511V8.33333H41.6677V12.5H39.5844V39.5833C39.5844 40.7292 39.1761 41.7105 38.3594 42.527C37.5427 43.3438 36.5622 43.7514 35.4177 43.75H14.5843ZM18.7511 35.4167H22.9177V16.6667H18.7511V35.4167ZM27.0844 35.4167H31.2511V16.6667H27.0844V35.4167Z" fill="#00B0D9"/>
