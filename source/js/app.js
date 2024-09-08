@@ -111,6 +111,17 @@ const addForm = document.querySelector('.add-data');
 const addButton = document.querySelector('.soft-bar__container--add');
 const addCloseButton = addForm.querySelector('.popup-form__close');
 
+function openPopup(form) {
+    form.classList.remove('popup-form--closed')
+    document.getElementById('overlay').style.display = 'block';
+    document.body.classList.add('modal-open');
+}
+function closePopup(form) {
+    form.classList.add('popup-form--closed')
+    document.getElementById('overlay').style.display = 'none';
+    document.body.classList.remove('modal-open');
+}
+
 addButton.addEventListener('click', () => {
 
     if (addForm.classList.contains('popup-form--closed')) {
@@ -127,6 +138,7 @@ addCloseButton.addEventListener('click', () => {
         document.body.classList.remove('modal-open');
     }
 })
+
 
 // Про иконку-крестик в инпутах
 
@@ -149,3 +161,79 @@ for (let i=0; i<formInput.length; i++) {
         formInput[i].focus(); // Вернем фокус на инпут после очистки
     });
 }
+
+// Открыть форму для редактирования
+
+document.addEventListener('DOMContentLoaded', function() {
+    let currentRow;
+
+    const buttonEdit = document.querySelectorAll('.data-item__button--edit');
+    const editPopup = document.querySelector('.edit-data');
+    const closeEditForm = editPopup.querySelector('.popup-form__close');
+    const cancelButtonEditForm = editPopup.querySelector('.popup-form__button--cancel');
+
+    const textareaList = editPopup.querySelectorAll('textarea')
+
+    const fullNameTextarea = document.querySelector('#edit-full-name');
+    const shortNameTextarea = document.querySelector('#edit-abb-name');
+
+buttonEdit.forEach(button => {
+    button.addEventListener('click', function () {
+        currentRow = this.closest('tr')
+        const fullNameText = currentRow.querySelector('#data-full-name').textContent.trim();
+        const shortNameText = currentRow.querySelector('#data-short-name').textContent.trim();
+
+        fullNameTextarea.value = fullNameText;
+        shortNameTextarea.value = shortNameText
+
+        textareaList.forEach(textarea => {
+            if (textarea.value.length > 0) {
+                textarea.closest('div').querySelector('.clear-icon')
+                    .style.display = 'block';
+            }
+        })
+
+        openPopup(editPopup)
+    })
+})
+
+    closeEditForm.addEventListener('click', () => {
+        closePopup(editPopup)
+
+        textareaList.forEach(textarea => {
+            textarea.value = ''
+        })
+    })
+
+    cancelButtonEditForm.addEventListener('click', () => {
+        closePopup(editPopup)
+
+        textareaList.forEach(textarea => {
+            textarea.value = ''
+        })
+    })
+
+    /* Ф-я для обновления данных в табл */
+    const editDataButton = document.querySelector('#popup-form-edit');
+
+    editDataButton.addEventListener('click', (evt) => {
+        evt.preventDefault()
+
+        if (fullNameTextarea.value && shortNameTextarea.value) {
+            const editedFullName = fullNameTextarea.value.trim()
+            const fullNameCell = currentRow.querySelector('#data-full-name')
+
+            fullNameCell.textContent = editedFullName.charAt(0).toUpperCase() + editedFullName.slice(1).toLowerCase();
+
+
+            const editedShortName = shortNameTextarea.value.trim()
+            const shortNameCell = currentRow.querySelector('#data-short-name')
+
+            shortNameCell.textContent = editedShortName.charAt(0).toUpperCase() + editedShortName.slice(1);
+
+            closePopup(editPopup)
+        }
+    })
+})
+
+
