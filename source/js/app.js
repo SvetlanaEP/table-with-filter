@@ -165,9 +165,8 @@ for (let i=0; i<formInput.length; i++) {
 // Открыть форму для редактирования
 
 document.addEventListener('DOMContentLoaded', function() {
-    let currentRow;
+    let currentRow = null;
 
-    const buttonEdit = document.querySelectorAll('.data-item__button--edit');
     const editPopup = document.querySelector('.edit-data');
     const closeEditForm = editPopup.querySelector('.popup-form__close');
     const cancelButtonEditForm = editPopup.querySelector('.popup-form__button--cancel');
@@ -177,25 +176,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const fullNameTextarea = document.querySelector('#edit-full-name');
     const shortNameTextarea = document.querySelector('#edit-abb-name');
 
-buttonEdit.forEach(button => {
-    button.addEventListener('click', function () {
-        currentRow = this.closest('tr')
-        const fullNameText = currentRow.querySelector('#data-full-name').textContent.trim();
-        const shortNameText = currentRow.querySelector('#data-short-name').textContent.trim();
 
-        fullNameTextarea.value = fullNameText;
-        shortNameTextarea.value = shortNameText
-
-        textareaList.forEach(textarea => {
-            if (textarea.value.length > 0) {
-                textarea.closest('div').querySelector('.clear-icon')
-                    .style.display = 'block';
-            }
-        })
-
-        openPopup(editPopup)
-    })
-})
 
     closeEditForm.addEventListener('click', () => {
         closePopup(editPopup)
@@ -213,45 +194,68 @@ buttonEdit.forEach(button => {
         })
     })
 
-    /* Ф-я для обновления данных в табл */
-    const editDataButton = document.querySelector('#popup-form-edit');
-
-    editDataButton.addEventListener('click', (evt) => {
-        evt.preventDefault()
-
-        if (fullNameTextarea.value && shortNameTextarea.value) {
-            const editedFullName = fullNameTextarea.value.trim()
-            const fullNameCell = currentRow.querySelector('#data-full-name')
-
-            fullNameCell.textContent = editedFullName.charAt(0).toUpperCase() + editedFullName.slice(1).toLowerCase();
-
-
-            const editedShortName = shortNameTextarea.value.trim()
-            const shortNameCell = currentRow.querySelector('#data-short-name')
-
-            shortNameCell.textContent = editedShortName.charAt(0).toUpperCase() + editedShortName.slice(1);
-
-            closePopup(editPopup)
-        }
-    })
 
     // ф-я для удаления строки табл
 
     const tableData = document.querySelector('#date-table-container')
 
-    console.log(tableData)
-
     tableData.addEventListener('click', function (evt) {
         const deleteButton = evt.target.closest('.data-item__button--del')
+        const editButton = evt.target.closest('.data-item__button--edit')
 
         if (deleteButton) {
-            const currentRow = evt.target.closest('tr');
+            currentRow = evt.target.closest('tr');
             if (currentRow) {
                 currentRow.remove()
             }
         }
+
+        if (editButton) {
+           currentRow = editButton.closest('tr')
+
+            const fullNameText = currentRow.querySelector('#data-full-name').textContent.trim();
+            const shortNameText = currentRow.querySelector('#data-short-name').textContent.trim();
+
+            fullNameTextarea.value = fullNameText;
+            shortNameTextarea.value = shortNameText
+
+            textareaList.forEach(textarea => {
+                if (textarea.value.length > 0) {
+                    textarea.closest('div').querySelector('.clear-icon')
+                        .style.display = 'block';
+                }
+            })
+
+            openPopup(editPopup)
+        }
+
     })
 
+    const editDataButton = document.querySelector('#popup-form-edit'); //кнопка сохранить
+
+    editDataButton.addEventListener('click', (evt) => {
+        evt.preventDefault()
+
+        if (currentRow) {
+            if (fullNameTextarea.value && shortNameTextarea.value) {
+                const editedFullName = fullNameTextarea.value.trim()
+                const fullNameCell = currentRow.querySelector('#data-full-name')
+
+                fullNameCell.textContent = editedFullName.charAt(0).toUpperCase() + editedFullName.slice(1).toLowerCase();
+
+
+                const editedShortName = shortNameTextarea.value.trim()
+                const shortNameCell = currentRow.querySelector('#data-short-name')
+
+                shortNameCell.textContent = editedShortName.charAt(0).toUpperCase() + editedShortName.slice(1);
+
+                closePopup(editPopup)
+            }
+        }
+
+
+
+    })
 })
 
 
