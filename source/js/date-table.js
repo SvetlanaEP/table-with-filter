@@ -325,14 +325,19 @@ function filterTable(columnIndex) {
 
     // Фильтрация данных в колонке
     const filteredData = dataList.filter(row => {
+        let textToCheck;
+
         if (columnIndex === 0) {
-            return row.name.toLowerCase().includes(filter);
+            textToCheck = row.name.toLowerCase();
         } else {
             if (columnIndex === 1) {
-                return row.abbreviation.toLowerCase().includes(filter);
+                textToCheck = row.abbreviation.toLowerCase();
+            } else {
+                return true;
             }
         }
-        return true;
+
+        return textToCheck.split(' ').some(word => word.startsWith(filter));
     })
 
     clearTable();
