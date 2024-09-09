@@ -941,10 +941,31 @@ body.modal-open {
 /* инпуты для поиска по таблице */
 
 .search-input {
+    font-size: 18px;
     border: 0;
     width: 100%;
-    height: auto;
-    padding: 0;
+    height: 100%;
+}
+
+.search-input--focus {
+    padding: 0 25px;
+}
+
+.data-item__item--search {
+    position: relative;
+}
+
+.search-input__icon {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+
+}
+
+.search-icons__del {
+    width: 21px;
+    height: 21px;
 }
 
 .data-item--inputs {
@@ -1156,6 +1177,6 @@ body.modal-open {
     display: none; /* Скрываем иконку по умолчанию */
 }
 
-.clear-icon:hover {
-    color: #333;
+.clear-icon:hover path {
+    fill: #333;
 }

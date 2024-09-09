@@ -352,3 +352,34 @@ function clearTable() {
         dateTableContainer.removeChild(dateTableContainer.firstChild)
     }
 }
+
+// крестик в инпуте для поиска
+
+const tableInput = document.querySelectorAll('.search-input');
+const tableClearIcon = document.querySelectorAll('.search-icons__del')
+const tableSearchIcon = document.querySelectorAll('.search-input__icon')
+
+for (let i=0; i<tableInput.length; i++) {
+
+    tableInput[i].addEventListener('input', function() {
+        if (tableInput[i].value.length > 0) {
+            tableClearIcon[i].style.display = 'block';
+            tableSearchIcon[i].style.display = 'none'
+            tableInput[i].classList.remove('search-input--focus')
+
+        } else {
+            tableClearIcon[i].style.display = 'none';
+            tableSearchIcon[i].style.display = 'block'
+            tableInput[i].classList.add('search-input--focus')
+        }
+    });
+
+    tableClearIcon[i].addEventListener('click', function() {
+        tableInput[i].value = '';
+        tableClearIcon[i].style.display = 'none';
+        tableInput[i].focus(); // Вернем фокус на инпут после очистки
+
+        clearTable()
+        generateTable(dataList)
+    });
+}

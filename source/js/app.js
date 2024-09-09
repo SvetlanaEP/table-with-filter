@@ -145,6 +145,7 @@ addCloseButton.addEventListener('click', () => {
 const formInput = document.querySelectorAll('.input-item');
 const clearIcon = document.querySelectorAll('.clear-icon');
 
+
 for (let i=0; i<formInput.length; i++) {
 
     formInput[i].addEventListener('input', function() {
