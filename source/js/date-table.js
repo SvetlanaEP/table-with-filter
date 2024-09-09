@@ -299,9 +299,11 @@ function generateTable(data) {
         rowListFragment.appendChild(rowElement);
     });
 
+    clearTable();
     dateTableContainer.appendChild(rowListFragment)
 
     updateTotalCount()
+
 }
 
 generateTable(dataList)
@@ -315,13 +317,18 @@ function updateTotalCount() {
     }
 }
 
-// Ф-я для фильтрации
+// Ф-я для очистки табл
+
+function clearTable() {
+    while (dateTableContainer.firstChild) {
+        dateTableContainer.removeChild(dateTableContainer.firstChild)
+    }
+}
 
 function filterTable(columnIndex) {
 
     const input = document.querySelectorAll('.search-input')[columnIndex];
-
-    const filter = input.value.toLowerCase();
+    const filter = input.value.toLowerCase().trim();
 
     // Фильтрация данных в колонке
     const filteredData = dataList.filter(row => {
@@ -329,28 +336,101 @@ function filterTable(columnIndex) {
 
         if (columnIndex === 0) {
             textToCheck = row.name.toLowerCase();
-        } else {
-            if (columnIndex === 1) {
+        } else if (columnIndex === 1) {
                 textToCheck = row.abbreviation.toLowerCase();
-            } else {
-                return true;
             }
-        }
 
-        return textToCheck.split(' ').some(word => word.startsWith(filter));
+        return textToCheck.startsWith(filter);
     })
+
+    // Проверка: если нет данных для отображения, покажем сообщение или очистим таблицу
+    if (filteredData.length === 0) {
+        clearTable();
+       /* const noDataMessage = document.createElement('tr');
+        const noDataCell = document.createElement('td');
+        noDataCell.colSpan = 3; // Подстраиваем под количество колонок
+        noDataCell.textContent = 'Данные не найдены';
+        noDataMessage.appendChild(noDataCell);
+        dateTableContainer.appendChild(noDataMessage);*/
+        return;
+    }
 
     clearTable();
     generateTable(filteredData);
 
 }
 
-// Ф-я для очистки табл
+function showSuggestions(columnIndex) {
+    const input = document.querySelectorAll('.search-input')[columnIndex];
+    const filter = input.value.toLowerCase();
 
-function clearTable() {
-    while (dateTableContainer.firstChild) {
-        dateTableContainer.removeChild(dateTableContainer.firstChild)
+    const suggestionsList = columnIndex === 0 ?
+        document.getElementById('name-suggestions-list') :
+        document.getElementById('abbreviation-suggestions-list');
+
+    suggestionsList.innerHTML = '';
+
+    if (filter.length === 0) {
+        suggestionsList.style.display = 'none';
+        document.getElementById('overlay').style.display = 'none';
+        document.body.classList.remove('modal-open');
+        return;
     }
+
+    /* Фильтр данных для подсказок */
+
+    const filteredData = dataList.filter(row => {
+        let textToCheck;
+
+        if (columnIndex === 0) {
+            textToCheck = row.name.toLowerCase();
+        } else if (columnIndex === 1) {
+            textToCheck = row.abbreviation.toLowerCase();
+        }
+
+        return textToCheck.split(' ').some(word => word.startsWith(filter));
+    });
+
+    /* убрать блок, если нет данных*/
+
+    if (filteredData.length === 0) {
+        suggestionsList.style.display = 'none';
+        document.getElementById('overlay').style.display = 'none';
+        document.body.classList.remove('modal-open');
+        return;
+    }
+
+    // Добавление подсказок в список
+    filteredData.forEach(row => {
+        const li = document.createElement('li');
+        li.textContent = columnIndex === 0 ? row.name : row.abbreviation;
+        li.onclick = () => {
+            selectSuggestion(row, columnIndex);
+
+            suggestionsList.style.display = 'none'
+            document.getElementById('overlay').style.display = 'none';
+            document.body.classList.remove('modal-open');
+        }
+        suggestionsList.appendChild(li);
+    });
+
+    suggestionsList.style.display = 'block';
+    document.getElementById('overlay').style.display = 'block';
+    document.body.classList.add('modal-open');
+
+}
+
+// Функция для выбора подсказки
+function selectSuggestion(item, columnIndex) {
+    const input = document.querySelectorAll('.search-input')[columnIndex];
+
+    if (columnIndex === 0) {
+        input.value = item.name;
+    } else if (columnIndex === 1) {
+        input.value = item.abbreviation;
+    }
+
+    filterTable(columnIndex); // Фильтровать таблицу по выбранной подсказке
 }
 
 // крестик в инпуте для поиска
@@ -377,7 +457,11 @@ for (let i=0; i<tableInput.length; i++) {
     tableClearIcon[i].addEventListener('click', function() {
         tableInput[i].value = '';
         tableClearIcon[i].style.display = 'none';
+        tableSearchIcon[i].style.display = 'block'
+        tableInput[i].classList.add('search-input--focus')
         tableInput[i].focus(); // Вернем фокус на инпут после очистки
+        document.querySelectorAll('.suggestions-list')[i].style.display = 'none'; /* Убрать окно с подсказками */
+
 
         clearTable()
         generateTable(dataList)

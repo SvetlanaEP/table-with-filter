@@ -840,6 +840,9 @@ body.modal-open {
     min-height: 54px;
     vertical-align: middle;
 }
+th.data-item__item--search{
+    padding: 0;
+}
 
 .data-item__button-wrapper{
     padding: 0;
@@ -897,6 +900,9 @@ body.modal-open {
     .data-list th {
         padding: 11px;
     }
+    th.data-item__item--search{
+        padding: 0;
+    }
 
    .data-list tr {
        display: table-row;
@@ -936,6 +942,10 @@ body.modal-open {
     .data-list th {
         padding: 16px;
     }
+
+    th.data-item__item--search{
+        padding: 0;
+    }
 }
 
 /* инпуты для поиска по таблице */
@@ -944,11 +954,12 @@ body.modal-open {
     font-size: 18px;
     border: 0;
     width: 100%;
-    height: 100%;
+    height: 38px;
+    padding-left: 16px;
 }
 
 .search-input--focus {
-    padding: 0 25px;
+    padding: 0 45px;
 }
 
 .data-item__item--search {
@@ -957,7 +968,7 @@ body.modal-open {
 
 .search-input__icon {
     position: absolute;
-    left: 12px;
+    left: 16px;
     top: 50%;
     transform: translateY(-50%);
 
@@ -975,6 +986,17 @@ body.modal-open {
 @media (min-width: 640px) {
     .data-item--inputs {
         display: table-row;
+    }
+
+    .search-input {
+        height: 45px;
+    }
+}
+
+@media (min-width: 1360px) {
+    .search-input {
+
+        height: 54px;
     }
 }
 
@@ -1179,4 +1201,52 @@ body.modal-open {
 
 .clear-icon:hover path {
     fill: #333;
+}
+
+/* Список с подсказками */
+
+.suggestions-list {
+    position: absolute;
+
+    left: 0;
+    top: 38px;
+
+    color: #484848;
+
+    display: none;
+    max-height: 200px;
+    overflow-y: auto;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    background-color: white;
+    width: 100%;
+    z-index: 20;
+
+    border: 2px solid #00B0D9;
+}
+
+@media (min-width: 640px) {
+    .suggestions-list {
+        top: 45px;
+    }
+}
+
+@media (min-width: 640px) {
+    .suggestions-list {
+        top: 54px;
+    }
+}
+
+.suggestions-list--open {
+    display: block;
+}
+
+.suggestions-list li {
+    padding: 10px;
+    cursor: pointer;
+}
+
+.suggestions-list li:hover {
+    background-color: #f0f0f0;
 }
