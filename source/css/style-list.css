@@ -34,6 +34,11 @@ input[type='checkbox']:checked ~ .custom-checkbox {
     background-color: #00b0d9;
 }
 
+mark {
+    color: #00b0d9;
+    background-color: transparent;
+}
+
 /* Добавляем "галочку" */
 .custom-checkbox::after {
     content: "";
@@ -1214,7 +1219,7 @@ th.data-item__item--search{
     color: #484848;
 
     display: none;
-    max-height: 200px;
+    height: max-content;
     overflow-y: auto;
     list-style: none;
     margin: 0;

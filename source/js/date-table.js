@@ -388,12 +388,20 @@ function showSuggestions(columnIndex) {
             textToCheck = row.abbreviation.toLowerCase();
         }
 
-        return textToCheck.split(' ').some(word => word.startsWith(filter));
+        return textToCheck.startsWith(filter);
     });
+
+    // Удаление повторов
+    const uniqueSuggestions = Array.from(new Set(filteredData.map(row => {
+        return columnIndex === 0 ? row.name : row.abbreviation;
+    })));
+
+    // Ограничение количества подсказок до 10
+    const limitedSuggestions = uniqueSuggestions.slice(0, 10);
 
     /* убрать блок, если нет данных*/
 
-    if (filteredData.length === 0) {
+    if (limitedSuggestions.length === 0) {
         suggestionsList.style.display = 'none';
         document.getElementById('overlay').style.display = 'none';
         document.body.classList.remove('modal-open');
@@ -401,11 +409,20 @@ function showSuggestions(columnIndex) {
     }
 
     // Добавление подсказок в список
-    filteredData.forEach(row => {
+    limitedSuggestions.forEach(suggestion => {
+        const textSuggestion = suggestion.toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')
         const li = document.createElement('li');
-        li.textContent = columnIndex === 0 ? row.name : row.abbreviation;
+
+        //  для выделения части текста из поиска через <mark>
+
+        const highlightedText = highlightMatchingText(textSuggestion, filter);
+
+        li.innerHTML = highlightedText;
+
         li.onclick = () => {
-            selectSuggestion(row, columnIndex);
+            input.value = textSuggestion;
+
+            filterTable(columnIndex)
 
             suggestionsList.style.display = 'none'
             document.getElementById('overlay').style.display = 'none';
@@ -420,18 +437,14 @@ function showSuggestions(columnIndex) {
 
 }
 
-// Функция для выбора подсказки
-function selectSuggestion(item, columnIndex) {
-    const input = document.querySelectorAll('.search-input')[columnIndex];
+// ф-я для подсветки части текста
 
-    if (columnIndex === 0) {
-        input.value = item.name;
-    } else if (columnIndex === 1) {
-        input.value = item.abbreviation;
-    }
-
-    filterTable(columnIndex); // Фильтровать таблицу по выбранной подсказке
+function highlightMatchingText(text, filter) {
+    if (!filter) return text;
+    const regex = new RegExp(`^(${filter})`,`gi`);  // ^ - начало строки
+    return text.replace(regex, '<mark>$1</mark>')
 }
+
 
 // крестик в инпуте для поиска
 
