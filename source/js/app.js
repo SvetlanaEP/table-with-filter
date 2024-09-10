@@ -168,6 +168,7 @@ for (let i=0; i<formInput.length; i++) {
 document.addEventListener('DOMContentLoaded', function() {
     let currentRow = null;
 
+    // для редактирования
     const editPopup = document.querySelector('.edit-data');
     const closeEditForm = editPopup.querySelector('.popup-form__close');
     const cancelButtonEditForm = editPopup.querySelector('.popup-form__button--cancel');
@@ -177,7 +178,11 @@ document.addEventListener('DOMContentLoaded', function() {
     const fullNameTextarea = document.querySelector('#edit-full-name');
     const shortNameTextarea = document.querySelector('#edit-abb-name');
 
+    const clearInputButton = editPopup.querySelectorAll('.clear-icon__del')
 
+
+console.log(clearInputButton)
+    console.log(textareaList)
 
     closeEditForm.addEventListener('click', () => {
         closePopup(editPopup)
@@ -195,21 +200,29 @@ document.addEventListener('DOMContentLoaded', function() {
         })
     })
 
+    for (let i=0; i < textareaList.length; i++) {
+
+        clearInputButton[i].addEventListener('click', () => {
+
+            textareaList[i].value = '';
+            textareaList[i].focus()
+        })
+    }
+
 
     // ф-я для удаления строки табл
 
     const tableData = document.querySelector('#date-table-container')
+    const delPopup = document.querySelector('.del-data')
+    const delButton = delPopup.querySelector('#popup-form-del')
+    const cancelButtonDelForm = delPopup.querySelector('.popup-form__button--cancel');
+
+    let rowToDelete = null;
+
 
     tableData.addEventListener('click', function (evt) {
         const deleteButton = evt.target.closest('.data-item__button--del')
         const editButton = evt.target.closest('.data-item__button--edit')
-
-        if (deleteButton) {
-            currentRow = evt.target.closest('tr');
-            if (currentRow) {
-                currentRow.remove()
-            }
-        }
 
         if (editButton) {
             currentRow = editButton.closest('tr')
@@ -230,6 +243,25 @@ document.addEventListener('DOMContentLoaded', function() {
             openPopup(editPopup)
         }
 
+        if ((deleteButton)) {
+            rowToDelete = deleteButton.closest('tr')
+            openPopup(delPopup)
+        }
+    });
+
+    delButton.addEventListener('click', () => {
+        if (rowToDelete) {
+            rowToDelete.remove()
+            rowToDelete = null;
+            updateTotalCount()
+            closePopup(delPopup)
+        }
+    })
+
+    console.log(cancelButtonDelForm)
+    cancelButtonDelForm.addEventListener('click', () => {
+
+        closePopup(delPopup)
     })
 
     const editDataButton = document.querySelector('#popup-form-edit'); //кнопка сохранить
@@ -253,8 +285,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 closePopup(editPopup)
             }
         }
-
-
-
     })
 })
+
+// Открыть форму для удаления
+
+

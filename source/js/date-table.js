@@ -337,8 +337,8 @@ function filterTable(columnIndex) {
         if (columnIndex === 0) {
             textToCheck = row.name.toLowerCase();
         } else if (columnIndex === 1) {
-                textToCheck = row.abbreviation.toLowerCase();
-            }
+            textToCheck = row.abbreviation.toLowerCase();
+        }
 
         return textToCheck.startsWith(filter);
     })
@@ -346,12 +346,12 @@ function filterTable(columnIndex) {
     // Проверка: если нет данных для отображения, покажем сообщение или очистим таблицу
     if (filteredData.length === 0) {
         clearTable();
-       /* const noDataMessage = document.createElement('tr');
-        const noDataCell = document.createElement('td');
-        noDataCell.colSpan = 3; // Подстраиваем под количество колонок
-        noDataCell.textContent = 'Данные не найдены';
-        noDataMessage.appendChild(noDataCell);
-        dateTableContainer.appendChild(noDataMessage);*/
+        /* const noDataMessage = document.createElement('tr');
+         const noDataCell = document.createElement('td');
+         noDataCell.colSpan = 3; // Подстраиваем под количество колонок
+         noDataCell.textContent = 'Данные не найдены';
+         noDataMessage.appendChild(noDataCell);
+         dateTableContainer.appendChild(noDataMessage);*/
         return;
     }
 
