@@ -1,4 +1,4 @@
-const dataList = [
+let dataList = [
     {
         id: 1,
         abbreviation: 'АНО',
@@ -296,6 +296,8 @@ function generateTable(data) {
         rowElement.querySelector('#data-full-name').textContent = row.name.charAt(0).toUpperCase() + row.name.slice(1).toLowerCase();
         rowElement.querySelector('#data-short-name').textContent = row.abbreviation;
 
+        rowElement.dataset.id = row.id
+
         rowListFragment.appendChild(rowElement);
     });
 
@@ -480,3 +482,141 @@ for (let i=0; i<tableInput.length; i++) {
         generateTable(dataList)
     });
 }
+
+// Открыть форму для редактирования
+
+document.addEventListener('DOMContentLoaded', function() {
+    let currentRow = null;
+    let idCurrentRow = null;
+
+    // для редактирования
+    const editPopup = document.querySelector('.edit-data');
+    const closeEditForm = editPopup.querySelector('.popup-form__close');
+    const cancelButtonEditForm = editPopup.querySelector('.popup-form__button--cancel');
+
+    const textareaList = editPopup.querySelectorAll('textarea')
+
+    const fullNameTextarea = document.querySelector('#edit-full-name');
+    const shortNameTextarea = document.querySelector('#edit-abb-name');
+
+    const clearInputButton = editPopup.querySelectorAll('.clear-icon__del')
+
+
+    console.log(clearInputButton)
+    console.log(textareaList)
+
+    closeEditForm.addEventListener('click', () => {
+        closePopup(editPopup)
+
+        textareaList.forEach(textarea => {
+            textarea.value = ''
+        })
+    })
+
+    cancelButtonEditForm.addEventListener('click', (evt) => {
+        evt.preventDefault()
+        closePopup(editPopup)
+    })
+
+    for (let i=0; i < textareaList.length; i++) {
+
+        clearInputButton[i].addEventListener('click', () => {
+
+            textareaList[i].value = '';
+            textareaList[i].focus()
+        })
+    }
+
+    const editDataButton = document.querySelector('#popup-form-edit'); //кнопка сохранить
+
+    editDataButton.addEventListener('click', (evt) => {
+        evt.preventDefault()
+
+        if (currentRow) {
+            if (fullNameTextarea.value && shortNameTextarea.value) {
+                const editedFullName = fullNameTextarea.value.trim()
+                const editedShortName = shortNameTextarea.value.trim()
+
+                const rowId = currentRow.dataset.id;
+                const rowData = dataList.find(row => row.id === Number(rowId))
+
+                if (rowData) {
+                    rowData.name = editedFullName.charAt(0).toUpperCase() + editedFullName.slice(1).toLowerCase();
+                    rowData.abbreviation = editedShortName.charAt(0).toUpperCase() + editedFullName.slice(1).toLowerCase();
+
+                    generateTable(dataList)
+                    closePopup(editPopup)
+                }
+            }
+        }
+    })
+
+
+
+    const tableData = document.querySelector('#date-table-container')
+    const delPopup = document.querySelector('.del-data')
+    const delButton = delPopup.querySelector('#popup-form-del')
+    const cancelButtonDelForm = delPopup.querySelector('.popup-form__button--cancel');
+    const idDataDel = delPopup.querySelector('#id-data-del')
+    const closeDelForm = delPopup.querySelector('.popup-form__close');
+
+    console.log(closeDelForm)
+
+    tableData.addEventListener('click', function (evt) {
+        const deleteButton = evt.target.closest('.data-item__button--del')
+        const editButton = evt.target.closest('.data-item__button--edit')
+
+        if (editButton) {
+            currentRow = editButton.closest('tr');
+            idCurrentRow = currentRow.dataset.id;
+
+            const fullNameText = currentRow.querySelector('#data-full-name').textContent.trim();
+            const shortNameText = currentRow.querySelector('#data-short-name').textContent.trim();
+
+            fullNameTextarea.value = fullNameText;
+            shortNameTextarea.value = shortNameText
+
+            textareaList.forEach(textarea => {
+                if (textarea.value.length > 0) {
+                    textarea.closest('div').querySelector('.clear-icon')
+                        .style.display = 'block';
+                }
+            })
+
+            openPopup(editPopup)
+        }
+
+        if (deleteButton) {
+            currentRow = deleteButton.closest('tr')
+            idCurrentRow = currentRow.dataset.id
+
+            idDataDel.textContent = idCurrentRow
+            openPopup(delPopup)
+        }
+    });
+
+    delButton.addEventListener('click', () => {
+        if (currentRow) {
+
+            dataList = dataList.filter(row => row.id !== Number(idCurrentRow));
+
+            generateTable(dataList)
+
+            currentRow = null;
+            idCurrentRow = null;
+
+            updateTotalCount()
+            closePopup(delPopup)
+        }
+    })
+
+    cancelButtonDelForm.addEventListener('click', () => {
+        closePopup(delPopup)
+    })
+
+    closeDelForm.addEventListener('click', () => {
+        closePopup(delPopup)
+    })
+
+
+})
