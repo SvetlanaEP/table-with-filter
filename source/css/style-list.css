@@ -1013,25 +1013,35 @@ th.data-item__item--search{
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    overflow: auto;
 
     background-color: white;
-    min-height: 640px;
-    width: 80%;
+    min-height: 80vh;
+    width: 80vw;
+    font-size: 18px;
 }
 
 .popup-form__form {
-    min-height: 100%;
+    position: relative;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
 }
 
+.popup-form__content {
+    position: relative;
+    overflow-y: auto;
+    height: 100%;
+}
+
 @media (min-width: 640px) {
+
     .popup-form {
+        height: 90vh;
+    }
+    .popup-form__content {
         display: grid;
         grid-template-rows: max-content 1fr;
-        min-height: 80%;
+
     }
 }
 
@@ -1041,8 +1051,8 @@ th.data-item__item--search{
 }
 
 .popup-form__close {
-    background-color: transparent;
     border: none;
+    background-color: transparent;
 }
 
 .popup-form__close-wrapper {
@@ -1050,7 +1060,26 @@ th.data-item__item--search{
     align-content: center;
     background-color: #414F51;
     padding: 13px 15px;
+
 }
+
+@media (min-width: 1920px) {
+
+    .popup-form__content {
+        overflow: visible;
+    }
+    .popup-form__close-wrapper {
+        background-color: transparent;
+
+        border: none;
+        position: absolute;
+
+        top: 20px;
+        right: -80px;;
+    }
+}
+
+
 
 .popup__close-wrapper svg {
     width: 21px;
@@ -1063,6 +1092,19 @@ th.data-item__item--search{
 
     background-color: #F4F4F4;
     padding: 20px;
+}
+
+.popup-form__title-wrapper {
+    text-align: center;
+    justify-content: center;
+
+    background-color: #F4F4F4;
+    padding: 20px;
+}
+
+.popup-form__title-wrapper--del {
+    display: flex;
+    justify-content: space-between;
 }
 
 .popup-form__title {
@@ -1254,4 +1296,45 @@ th.data-item__item--search{
 
 .suggestions-list li:hover {
     background-color: #f0f0f0;
+}
+
+/* Форма с удалением */
+
+.del-data__warning {
+    display: flex;
+    align-items: center;
+    gap: 27px;
+}
+
+.del-data__warning svg {
+    width: 18px;
+    height: 18px;
+}
+
+.popup-form__button--del {
+    background-color: red;
+}
+
+.del-data__title {
+    display: flex;
+}
+
+.admin-info {
+    display: flex;
+    justify-content: right;
+    gap: 30px;
+    color: #898989;
+}
+.admin-info__date {
+    display: flex;
+    gap: 8px;
+}
+
+
+.admin-info__full-name {
+    color: #00b0d9;
+}
+
+#admin-info__current-date {
+    color: #404040;
 }

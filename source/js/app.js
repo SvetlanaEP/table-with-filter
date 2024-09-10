@@ -163,8 +163,18 @@ for (let i=0; i<formInput.length; i++) {
     });
 }
 
+// Текущая дата
 
+const dateElement = document.querySelector('#admin-info__current-date')
 
-// Открыть форму для удаления
+const currentDate = new Date();
+
+const formattedDate = currentDate.toLocaleDateString('ru-RU', {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric'
+})
+
+dateElement.textContent = formattedDate;
 
 

@@ -558,6 +558,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const delButton = delPopup.querySelector('#popup-form-del')
     const cancelButtonDelForm = delPopup.querySelector('.popup-form__button--cancel');
     const idDataDel = delPopup.querySelector('#id-data-del')
+    const fullNameDataDel = delPopup.querySelector('#name-data-del')
     const closeDelForm = delPopup.querySelector('.popup-form__close');
 
     console.log(closeDelForm)
@@ -588,9 +589,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
         if (deleteButton) {
             currentRow = deleteButton.closest('tr')
+
             idCurrentRow = currentRow.dataset.id
 
-            idDataDel.textContent = idCurrentRow
+            idDataDel.textContent = idCurrentRow;
+            fullNameDataDel.textContent = currentRow.querySelector('#data-full-name').textContent
+
             openPopup(delPopup)
         }
     });
