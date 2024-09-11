@@ -448,7 +448,7 @@ function highlightMatchingText(text, filter) {
 }
 
 
-// крестик в инпуте для поиска
+// крестик в инпутах
 
 const tableInput = document.querySelectorAll('.search-input');
 const tableClearIcon = document.querySelectorAll('.search-icons__del')
@@ -500,10 +500,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const shortNameTextarea = document.querySelector('#edit-abb-name');
 
     const clearInputButton = editPopup.querySelectorAll('.clear-icon__del')
-
-
-    console.log(clearInputButton)
-    console.log(textareaList)
 
     closeEditForm.addEventListener('click', () => {
         closePopup(editPopup)

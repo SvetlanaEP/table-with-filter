@@ -232,6 +232,7 @@ body.modal-open {
 }
 
 .soft-bar__button {
+    position: relative;
     background-color: transparent;
     border: 1px solid #CBCBCB;
     font-size: 18px;
@@ -241,12 +242,18 @@ body.modal-open {
 
     height: 38px;
     width: 100%;
+
+    z-index: 2;
+}
+
+.soft-bar__button option {
+    width: 100%;
 }
 
 @media (min-width: 640px) {
     .soft-bar__button {
         font-size: 18px;
-        height: 45px;
+        height: 54px;
     }
 }
 
@@ -293,6 +300,7 @@ body.modal-open {
 }
 
 .soft-bar__container {
+    position: relative;
     cursor: pointer;
 }
 
@@ -498,7 +506,7 @@ body.modal-open {
 
 
     .filter-educations__description {
-        height: 45px;
+        height: 54px;
         padding: 10px 21px;
         font-size: 18px;
     }
@@ -637,8 +645,8 @@ body.modal-open {
     }
 
     .pagination__item {
-        width: 45px;
-        height: 45px;
+        width: 54px;
+        height: 54px;
     }
 }
 
@@ -702,7 +710,7 @@ body.modal-open {
 @media (min-width: 640px) {
     .button-item {
         font-size: 18px;
-        height:45px;
+        height:54px;
     }
 }
 
@@ -842,8 +850,16 @@ body.modal-open {
 
 .data-list th, td {
     padding: 8px;
-    min-height: 54px;
+    min-height: 38px;
     vertical-align: middle;
+}
+
+@media (min-width: 640px) {
+    .data-list th, td {
+        padding: 8px;
+        min-height: 54px;
+        vertical-align: middle;
+    }
 }
 th.data-item__item--search{
     padding: 0;
@@ -994,7 +1010,7 @@ th.data-item__item--search{
     }
 
     .search-input {
-        height: 45px;
+        height: 54px;
     }
 }
 
@@ -1337,4 +1353,70 @@ th.data-item__item--search{
 
 #admin-info__current-date {
     color: #404040;
+}
+
+
+/* Стили для контейнера кастомного селекта */
+.custom-select {
+    position: relative;
+    margin: 0;
+    padding: 8px;
+
+    width: 100%; /* Ширина контейнера */
+}
+
+/* Стили для кнопки кастомного селекта */
+.custom-select-button {
+    cursor: pointer;
+    position: relative;
+    box-sizing: border-box;
+}
+
+/* Стили для выпадающего списка */
+.custom-select-list {
+    display: none; /* Скрыть список по умолчанию */
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    border: 2px solid #00B0D9;
+    border-top: none;
+    border-radius: 0 0 4px 4px;
+    background-color: #fff;
+    z-index: 1;
+    max-height: 200px;
+    overflow-y: auto;
+    box-sizing: border-box;
+}
+
+/* Стили для элементов списка */
+.custom-select-list div {
+    padding: 10px;
+    cursor: pointer;
+}
+
+/* Стили для выделенного элемента списка */
+.custom-select-list div:hover {
+    background-color: #f0f0f0;
+}
+
+.custom-select-list__text {
+    color: #484848;
+}
+
+/* Показать список при клике на кнопку */
+.soft-bar__container.open .custom-select-list {
+    display: block;
+}
+
+/* Убрать подсказку при открытом списке */
+
+.soft-bar__container.open .tooltip__arrow,
+.soft-bar__container.open .soft-bar__tooltip {
+    visibility: hidden;
+}
+
+
+.soft-bar__container.open .custom-select {
+    border: 2px solid #00b0d9;
 }

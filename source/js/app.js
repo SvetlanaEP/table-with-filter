@@ -145,6 +145,9 @@ addCloseButton.addEventListener('click', () => {
 const formInput = document.querySelectorAll('.input-item');
 const clearIcon = document.querySelectorAll('.clear-icon');
 
+console.log(formInput)
+
+console.log(clearIcon)
 
 for (let i=0; i<formInput.length; i++) {
 
@@ -177,4 +180,76 @@ const formattedDate = currentDate.toLocaleDateString('ru-RU', {
 
 dateElement.textContent = formattedDate;
 
+/* Экспорт */
+/*
+document.getElementById('exportButton').addEventListener('click', function() {
+    function tableToCSV(table) {
+        const rows = Array.from(table.querySelectorAll('tr'));
+
+        // Функция для экранирования значений CSV
+        const escapeCSV = (text) => {
+            return `"${text.replace(/"/g, '""')}"`;
+        };
+
+        return rows
+            .filter(row => !row.querySelector('input')) // Исключаем строки, содержащие input
+            .map(row => {
+                const cells = Array.from(row.querySelectorAll('td, th'))
+                    .filter(cell => !cell.classList.contains('data-item__only-mobile')) // Исключаем ячейки с классом 'data-item__only-mobile'
+                    .map(cell => escapeCSV(cell.textContent.trim())); // Экранирование текста и удаление лишних пробелов
+                return cells.join(','); // Объединение ячеек в одну строку, разделенную запятыми
+            })
+            .join('\n'); // Объединение строк в один CSV
+    }
+
+    function downloadCSV(csv, filename) {
+        const BOM = '\uFEFF';
+        const csvFile = new Blob([BOM + csv], { type: 'text/csv; charset=utf-8;' });
+        const downloadLink = document.createElement('a');
+
+        downloadLink.download = filename;
+        downloadLink.href = window.URL.createObjectURL(csvFile);
+        downloadLink.style.display = 'none';
+
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+        document.body.removeChild(downloadLink);
+    }
+
+    const table = document.getElementById('table');
+    const csv = tableToCSV(table);
+    downloadCSV(csv, 'table-data.csv');
+});
+
+
+
+ */
+
+// Получение элементов
+const customSelectButton = document.querySelector('.soft-bar__button');
+const customSelectList = document.getElementById('custom-select-list');
+const customSelectItems = customSelectList.querySelectorAll('div');
+
+// Открытие/закрытие выпадающего списка
+customSelectButton.addEventListener('click', () => {
+    customSelectButton.parentElement.classList.toggle('open');
+});
+
+// Обработка выбора элемента списка
+customSelectItems.forEach(item => {
+    item.addEventListener('click', () => {
+        customSelectButton.textContent = item.textContent;
+        customSelectButton.setAttribute('data-value', item.getAttribute('data-value'));
+        customSelectButton.parentElement.classList.remove('open');
+    });
+});
+
+// Закрытие выпадающего списка при клике вне его
+document.addEventListener('click', (e) => {
+    if (!customSelectButton.contains(e.target)) {
+        customSelectButton.parentElement.classList.remove('open');
+    }
+});
+
+// Убрать подсказку с кнопки "тип организации" при открытии выпадающего списка
 
