@@ -268,5 +268,117 @@ document.addEventListener('click', (e) => {
     }
 });
 
-// Убрать подсказку с кнопки "тип организации" при открытии выпадающего списка
+// Сохранение позиции прокрутки и курсора в LocalStorage
+window.addEventListener('beforeunload', () => {
+    // Сохраняем текущие координаты прокрутки
+    localStorage.setItem('scrollPosition', JSON.stringify({
+        x: window.scrollX,
+        y: window.scrollY
+    }));
+
+    // Сохраняем последнюю позицию курсора
+    document.addEventListener('mousemove', (e) => {
+        localStorage.setItem('mousePosition', JSON.stringify({
+            x: e.clientX,
+            y: e.clientY
+        }));
+    });
+});
+
+// Восстановление позиции прокрутки и курсора при загрузке страницы
+window.addEventListener('load', () => {
+    // Восстанавливаем положение прокрутки
+    const scrollPosition = JSON.parse(localStorage.getItem('scrollPosition'));
+    if (scrollPosition) {
+        window.scrollTo(scrollPosition.x, scrollPosition.y);
+    }
+
+    // Восстанавливаем позицию курсора
+    const mousePosition = JSON.parse(localStorage.getItem('mousePosition'));
+    if (mousePosition) {
+        const cursorDiv = document.createElement('div');
+        cursorDiv.style.position = 'absolute';
+        cursorDiv.style.top = mousePosition.y + 'px';
+        cursorDiv.style.left = mousePosition.x + 'px';
+        cursorDiv.style.width = '5px';
+        cursorDiv.style.height = '5px';
+        cursorDiv.style.backgroundColor = 'red';
+        cursorDiv.style.borderRadius = '50%';
+        cursorDiv.style.pointerEvents = 'none';
+        document.body.appendChild(cursorDiv);
+
+        // Убираем отображение курсора через несколько секунд
+        setTimeout(() => {
+            cursorDiv.remove();
+        }, 3000);
+    }
+});
+
+
+// Сортировка по клику на название колонки
+
+document.addEventListener('DOMContentLoaded', function () {
+    const table = document.getElementById('table');
+    const headers = table.querySelectorAll('#table-title th');
+
+    headers.forEach((header, index) => {
+
+
+        header.addEventListener('click', () => {
+
+            sortTable(index+1, header);
+        });
+    });
+
+    function sortTable(columnIndex, header) {
+        console.log(`Sorting column index: ${columnIndex}`); // Debug output
+        const rowsArray = Array.from(table.querySelectorAll('tbody tr'));
+
+        // Determine if the column contains numbers
+        const isNumberColumn = rowsArray.every(row => {
+            const cellValue = row.cells[columnIndex]?.textContent.trim();
+            return !isNaN(parseFloat(cellValue)) && isFinite(cellValue) && cellValue !== '';
+        });
+
+        console.log(`Column ${columnIndex} is ${isNumberColumn ? 'numeric' : 'text'}`);
+
+        const isAscending = header.classList.contains('asc');
+
+        rowsArray.sort((a, b) => {
+            const cellA = a.cells[columnIndex]?.textContent.trim() || '';
+            const cellB = b.cells[columnIndex]?.textContent.trim() || '';
+            console.log(`Comparing: cellA (${cellA}) vs cellB (${cellB})`);
+
+            let comparison = 0;
+
+            if (isNumberColumn) {
+                const numA = parseFloat(cellA);
+                const numB = parseFloat(cellB);
+
+                if (isNaN(numA)) return 1;  // Place NaN values at the end
+                if (isNaN(numB)) return -1; // Place NaN values at the end
+
+                comparison = numA - numB;
+            } else {
+                comparison = cellA.toLowerCase().localeCompare(cellB.toLowerCase());
+            }
+
+            return isAscending ? comparison : -comparison;
+        });
+
+        // Toggle sorting direction
+        if (isAscending) {
+            header.classList.remove('asc');
+            header.classList.add('desc');
+        } else {
+            header.classList.remove('desc');
+            header.classList.add('asc');
+        }
+
+        // Update the table with sorted rows
+        const tbody = table.querySelector('tbody');
+        tbody.innerHTML = '';
+        rowsArray.forEach(row => tbody.appendChild(row));
+    }
+});
 

@@ -506,6 +506,8 @@ document.addEventListener('DOMContentLoaded', function() {
         textareaList.forEach(textarea => {
             textarea.value = ''
         })
+
+        closePopup(editPopup)
     })
 
     cancelButtonEditForm.addEventListener('click', (evt) => {
