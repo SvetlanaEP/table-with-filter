@@ -110,13 +110,26 @@ document.addEventListener('DOMContentLoaded', function () {
 const addForm = document.querySelector('.add-data');
 const addButton = document.querySelector('.soft-bar__container--add');
 const addCloseButton = addForm.querySelector('.popup-form__close');
+const addCancelButton = addForm.querySelector('.popup-form__button--cancel')
 
 function openPopup(form) {
+
     form.classList.remove('popup-form--closed')
     document.getElementById('overlay').style.display = 'block';
     document.body.classList.add('modal-open');
 }
 function closePopup(form) {
+    const textareaList = form.querySelectorAll('textarea')
+    const iconClose = form.querySelectorAll('.clear-icon__del')
+
+    textareaList.forEach(textarea => {
+        textarea.value = ''
+    })
+
+    iconClose.forEach(icon => {
+        icon.style.display = 'none'
+    })
+
     form.classList.add('popup-form--closed')
     document.getElementById('overlay').style.display = 'none';
     document.body.classList.remove('modal-open');
@@ -133,9 +146,13 @@ addButton.addEventListener('click', () => {
 
 addCloseButton.addEventListener('click', () => {
     if (!addForm.classList.contains('popup-form--closed')) {
-        addForm.classList.add('popup-form--closed')
-        document.getElementById('overlay').style.display = 'none';
-        document.body.classList.remove('modal-open');
+        closePopup(addForm)
+    }
+})
+
+addCancelButton.addEventListener('click', () => {
+    if (!addForm.classList.contains('popup-form--closed')) {
+        closePopup(addForm)
     }
 })
 

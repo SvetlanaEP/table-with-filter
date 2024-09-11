@@ -1420,3 +1420,22 @@ th.data-item__item--search{
 .soft-bar__container.open .custom-select {
     border: 2px solid #00b0d9;
 }
+
+.duplicate-message {
+    display: flex;
+}
+
+.duplicate-message svg {
+    width: 20px;
+    height: 20px;
+}
+
+.duplicate-message__text {
+    cursor: pointer;
+   color: red;
+    text-decoration: none;
+}
+
+.duplicate-textarea-style {
+    border: 2px solid red;
+}

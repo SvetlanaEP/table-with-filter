@@ -502,7 +502,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const clearInputButton = editPopup.querySelectorAll('.clear-icon__del')
 
     closeEditForm.addEventListener('click', () => {
-        closePopup(editPopup)
 
         textareaList.forEach(textarea => {
             textarea.value = ''
@@ -547,8 +546,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     })
 
-
-
     const tableData = document.querySelector('#date-table-container')
     const delPopup = document.querySelector('.del-data')
     const delButton = delPopup.querySelector('#popup-form-del')
@@ -556,8 +553,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const idDataDel = delPopup.querySelector('#id-data-del')
     const fullNameDataDel = delPopup.querySelector('#name-data-del')
     const closeDelForm = delPopup.querySelector('.popup-form__close');
-
-    console.log(closeDelForm)
 
     tableData.addEventListener('click', function (evt) {
         const deleteButton = evt.target.closest('.data-item__button--del')
@@ -619,4 +614,113 @@ document.addEventListener('DOMContentLoaded', function() {
     })
 
 
+    /* ф-я для добавления данных и проверка, есть ли уже такое имя в бд */
+// Функция для проверки на дубликат
+    function checkDuplicateAndShowPopup(newFullName) {
+        const duplicate = dataList.find(row => row.name.toLowerCase() === newFullName.toLowerCase());
+
+        if (duplicate) {
+            // Показываем сообщение и ссылку
+            const duplicateMessage = document.getElementById('duplicate-message');
+            const textareaDuplicate = document.querySelector('#add-full-name');
+
+            duplicateMessage.style.display = 'block';
+            textareaDuplicate.classList.add('duplicate-textarea-style')
+
+            // Событие при нажатии на ссылку для открытия попапа с данными дубликата
+            document.getElementById('open-edit-popup').onclick = (e) => {
+                e.preventDefault();
+                openEditPopupWithData(duplicate);
+            };
+        } else {
+            // Скрываем сообщение, если дубликат не найден
+            hideDuplicateMessage();
+        }
+    }
+// Обработчик формы для добавления данных
+    document.querySelector('.add-data__form').addEventListener('submit', function(evt) {
+        evt.preventDefault();
+
+        const fullName = document.querySelector('#add-full-name').value.trim();
+        const abbreviation = document.querySelector('#add-short-name').value.trim().toUpperCase();
+
+        const duplicate = dataList.find(row => row.name.toLowerCase() === fullName.toLowerCase());
+
+        if (duplicate) {
+            // Показываем сообщение и ссылку
+            const duplicateMessage = document.getElementById('duplicate-message');
+            const textareaDuplicate = document.querySelector('#add-full-name');
+            textareaDuplicate.classList.add('duplicate-textarea-style')
+            duplicateMessage.style.display = 'block';
+
+
+
+            // Событие при нажатии на ссылку для открытия попапа с данными дубликата
+            document.getElementById('open-edit-popup').onclick = (e) => {
+                e.preventDefault();
+                openEditPopupWithData(duplicate);
+            };
+        } else {
+            // Скрываем сообщение, если дубликат не найден
+            hideDuplicateMessage();
+
+            // Генерация нового ID
+            const newId = dataList.length > 0 ? dataList[dataList.length - 1].id + 1 : 1;
+
+            // Добавление новой записи в массив dataList
+            const newData = { id: newId, name: capitalizeFirstLetter(fullName), abbreviation: capitalizeFirstLetter(abbreviation) };
+            dataList.push(newData);
+
+            // Обновление таблицы
+            clearTable();
+            generateTable(dataList);
+
+            // Очистка полей формы
+            document.querySelector('.add-data__form').reset();
+            closePopup(addForm)
+        }
+    });
+    // ф-я для скрытия предупреждения о дубликате
+
+    function hideDuplicateMessage() {
+        const duplicateMessage = document.getElementById('duplicate-message');
+        const textareaDuplicate = document.querySelector('#add-full-name');
+
+        duplicateMessage.style.display = 'none';
+        textareaDuplicate.classList.remove('duplicate-textarea-style')
+    }
+
+    // Обработчик события на изменение ввода в поле "Полное название"
+    const fullNameInput = document.getElementById('add-full-name');
+    fullNameInput.addEventListener('input', () => {
+        // Каждый раз, когда пользователь что-то вводит или удаляет, проверяем на дубликаты
+        checkDuplicateAndShowPopup(fullNameInput.value);
+
+        // Убираем предупреждение при любом изменении текста
+        hideDuplicateMessage();
+    });
+
+    //ф-я для открытия попапа с повтором и заполнение данными
+
+    function openEditPopupWithData(record) {
+        // Открытие попапа
+        openPopup(editPopup)
+
+        // Заполнение полей попапа данными
+        document.getElementById('edit-full-name').value = record.name;
+        document.getElementById('edit-abb-name').value = record.abbreviation;
+     //   document.querySelector('.popup-form__input[name="abbreviation"]').value = record.abbreviation;
+      //  document.querySelector('.popup-form__input[name=""]').value = record.type;
+    }
+
+// Функция для преобразования первой буквы в заглавную
+    function capitalizeFirstLetter(text) {
+        return text
+            .toLowerCase()
+            .split(' ')
+            .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+            .join(' ');
+    }
 })
+
+
