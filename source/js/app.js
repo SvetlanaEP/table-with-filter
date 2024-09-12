@@ -322,51 +322,46 @@ document.addEventListener('DOMContentLoaded', function () {
     const headers = table.querySelectorAll('#table-title th');
 
     headers.forEach((header, index) => {
-
-
         header.addEventListener('click', () => {
-
-            sortTable(index+1, header);
+            // Передаем индекс с учетом скрытого столбца
+            const currentIndex = index + 1; // из-за скрытого столбца (для мобилки)
+            sortTable(currentIndex, header);
         });
     });
 
     function sortTable(columnIndex, header) {
-        console.log(`Sorting column index: ${columnIndex}`); // Debug output
         const rowsArray = Array.from(table.querySelectorAll('tbody tr'));
 
-        // Determine if the column contains numbers
-        const isNumberColumn = rowsArray.every(row => {
-            const cellValue = row.cells[columnIndex]?.textContent.trim();
-            return !isNaN(parseFloat(cellValue)) && isFinite(cellValue) && cellValue !== '';
-        });
-
-        console.log(`Column ${columnIndex} is ${isNumberColumn ? 'numeric' : 'text'}`);
+        const isNumberColumn = columnIndex === 2; // Числовая колонка с индексом 2
 
         const isAscending = header.classList.contains('asc');
 
         rowsArray.sort((a, b) => {
-            const cellA = a.cells[columnIndex]?.textContent.trim() || '';
-            const cellB = b.cells[columnIndex]?.textContent.trim() || '';
-            console.log(`Comparing: cellA (${cellA}) vs cellB (${cellB})`);
+            // Выбираем только текст из спана с классом data-item__content
+            const cellA = a.cells[columnIndex]?.querySelector('.data-item__content')?.textContent.trim() || '';
+            const cellB = b.cells[columnIndex]?.querySelector('.data-item__content')?.textContent.trim() || '';
 
             let comparison = 0;
 
             if (isNumberColumn) {
-                const numA = parseFloat(cellA);
-                const numB = parseFloat(cellB);
+                // Преобразуем строки в числа
+                const numA = parseFloat(cellA.replace(/[^\d.-]/g, '')); // Удаляем все буквы, оставляя только числа
+                const numB = parseFloat(cellB.replace(/[^\d.-]/g, ''));
 
-                if (isNaN(numA)) return 1;  // Place NaN values at the end
-                if (isNaN(numB)) return -1; // Place NaN values at the end
+                // Проверка на NaN и сортировка
+                if (isNaN(numA)) return 1;  // Помещаем NaN в конец
+                if (isNaN(numB)) return -1; // Помещаем NaN в конец
 
                 comparison = numA - numB;
             } else {
+                // Сравнение строк (регистронезависимое)
                 comparison = cellA.toLowerCase().localeCompare(cellB.toLowerCase());
             }
 
             return isAscending ? comparison : -comparison;
         });
 
-        // Toggle sorting direction
+        // Переключаем направление сортировки
         if (isAscending) {
             header.classList.remove('asc');
             header.classList.add('desc');
@@ -375,10 +370,9 @@ document.addEventListener('DOMContentLoaded', function () {
             header.classList.add('asc');
         }
 
-        // Update the table with sorted rows
+        // Обновляем таблицу отсортированными строками
         const tbody = table.querySelector('tbody');
         tbody.innerHTML = '';
         rowsArray.forEach(row => tbody.appendChild(row));
     }
 });
-

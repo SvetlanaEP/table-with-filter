@@ -747,6 +747,13 @@ body.modal-open {
     font-size: 18px;
 }
 
+.data-item__link:hover {
+    color: #00b0d9;
+    border-bottom: 2px dashed;
+    text-decoration: none;
+
+}
+
 .data-list__title {
     display: none;
 }
