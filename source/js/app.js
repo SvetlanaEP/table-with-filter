@@ -20,9 +20,13 @@ for (let i=0; i < filterButton.length; i++) {
     filterButton[i].addEventListener('click', () => {
         if (filterContent[i].classList.contains('filter-educations__content--none')) {
             openBlock(filterButton[i], filterContent[i])
+            document.getElementById('overlay').style.display = 'block';
+            document.body.classList.add('modal-open');
 
         } else {
             closeBlock(filterButton[i], filterContent[i])
+            document.getElementById('overlay').style.display = 'none';
+            document.body.classList.remove('modal-open');
         }
 
     })
@@ -50,7 +54,7 @@ function closeBlock(button, block)  {
     block.classList.add('filter-educations__content--none');
     button.style.color = '#7D7D7D';
 }
-
+/*
 // Для обновления счетчика выбранных инпутов !!!!!!!!пока только на одном блоке!!!!!
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -104,7 +108,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     }
 })
-
+*/
 // Открытие формы для добавления данных
 
 const addForm = document.querySelector('.add-data');
@@ -112,11 +116,22 @@ const addButton = document.querySelector('.soft-bar__container--add');
 const addCloseButton = addForm.querySelector('.popup-form__close');
 const addCancelButton = addForm.querySelector('.popup-form__button--cancel')
 
-function openPopup(form) {
 
+
+function openPopup(form) {
     form.classList.remove('popup-form--closed')
     document.getElementById('overlay').style.display = 'block';
     document.body.classList.add('modal-open');
+
+    if (form===addForm) {
+        const customSelect = document.querySelector('.custom-select-edit');
+        const trigger = customSelect.querySelector('.custom-select__trigger');
+        const hiddenInput = customSelect.querySelector('input[type="hidden"]');
+
+            trigger.querySelector('span').textContent = 'Выберите тип организации';
+            hiddenInput.value = '';
+
+    }
 }
 function closePopup(form) {
     const textareaList = form.querySelectorAll('textarea')
@@ -130,6 +145,13 @@ function closePopup(form) {
         icon.style.display = 'none'
     })
 
+    if (form === addForm) {
+        const duplicateMessage = document.getElementById('duplicate-message');
+        const textareaDuplicate = document.querySelector('#add-full-name');
+        textareaDuplicate.classList.remove('duplicate-textarea-style')
+        duplicateMessage.style.display = 'none';
+    }
+
     form.classList.add('popup-form--closed')
     document.getElementById('overlay').style.display = 'none';
     document.body.classList.remove('modal-open');
@@ -137,11 +159,7 @@ function closePopup(form) {
 
 addButton.addEventListener('click', () => {
 
-    if (addForm.classList.contains('popup-form--closed')) {
-        addForm.classList.remove('popup-form--closed')
-        document.getElementById('overlay').style.display = 'block';
-        document.body.classList.add('modal-open');
-    }
+    openPopup(addForm)
 })
 
 addCloseButton.addEventListener('click', () => {
@@ -156,17 +174,52 @@ addCancelButton.addEventListener('click', () => {
     }
 })
 
+// Открыть форму для импорта
+
+const importForm = document.querySelector('.import-data')
+const importOpenPopup = document.querySelector('.soft-bar__button--import')
+const importCloseButton = importForm.querySelector('.popup-form__close')
+const importCancelButton = importForm.querySelector('.popup-form__button--cancel')
+
+importOpenPopup.addEventListener('click', () => {
+    openPopup(importForm)
+})
+
+importCloseButton.addEventListener('click', () => {
+    closePopup(importForm)
+})
+
+importCancelButton.addEventListener('click', () => {
+    closePopup(importForm)
+})
+
+// Открыть форму для экспорта
+/*
+const exportForm = document.querySelector('.export-data')
+const exportOpenPopup = document.querySelector('#exportButton')
+const exportCloseButton = exportForm.querySelector('.popup-form__close')
+const exportCancelButton = importForm.querySelector('.popup-form__button--cancel')
+
+exportOpenPopup.addEventListener('click', () => {
+    openPopup(exportForm)
+})
+
+exportCloseButton.addEventListener('click', () => {
+    closePopup(exportForm)
+})
+
+exportCancelButton.addEventListener('click', () => {
+    closePopup(exportForm)
+})
+*/
+
 
 // Про иконку-крестик в инпутах
 
 const formInput = document.querySelectorAll('.input-item');
 const clearIcon = document.querySelectorAll('.clear-icon');
 
-console.log(formInput)
-
-console.log(clearIcon)
-
-for (let i=0; i<formInput.length; i++) {
+for (let i=0; i<clearIcon.length; i++) {
 
     formInput[i].addEventListener('input', function() {
         if (formInput[i].value.length > 0) {
@@ -243,30 +296,63 @@ document.getElementById('exportButton').addEventListener('click', function() {
  */
 
 // Получение элементов
-const customSelectButton = document.querySelector('.soft-bar__button');
+const customSelectButton = document.querySelector('.custom-select');
 const customSelectList = document.getElementById('custom-select-list');
 const customSelectItems = customSelectList.querySelectorAll('div');
+const titleOne = document.querySelector('.custom-select__selected-0')
+const titleTwo = document.querySelector('.custom-select__selected')
+const arrowIconSelect = document.querySelector('.custom-select .select-icons__arrow')
 
 // Открытие/закрытие выпадающего списка
 customSelectButton.addEventListener('click', () => {
     customSelectButton.parentElement.classList.toggle('open');
+    customSelectButton.parentElement.style.zIndex = '10';
+    titleOne.classList.toggle('visually-hidden')
+    titleTwo.classList.toggle('visually-hidden')
+
+    arrowIconSelect.classList.toggle('select-icons__arrow--open')
+
+    if (    customSelectButton.parentElement.classList.contains('open')) {
+        document.getElementById('overlay').style.display = 'block';
+        document.body.classList.add('modal-open');
+    } else {
+        document.getElementById('overlay').style.display = 'none';
+        document.body.classList.remove('modal-open');
+    }
 });
 
 // Обработка выбора элемента списка
 customSelectItems.forEach(item => {
     item.addEventListener('click', () => {
-        customSelectButton.textContent = item.textContent;
-        customSelectButton.setAttribute('data-value', item.getAttribute('data-value'));
+        customSelectButton.querySelector('.custom-select__selected-0').textContent = item.textContent;
         customSelectButton.parentElement.classList.remove('open');
+        customSelectButton.parentElement.style.zIndex = '1';
+        arrowIconSelect.classList.toggle('select-icons__arrow--open')
+        titleOne.classList.toggle('visually-hidden')
+        titleTwo.classList.toggle('visually-hidden')
+        document.getElementById('overlay').style.display = 'none';
+        document.body.classList.remove('modal-open');
     });
 });
 
 // Закрытие выпадающего списка при клике вне его
 document.addEventListener('click', (e) => {
-    if (!customSelectButton.contains(e.target)) {
-        customSelectButton.parentElement.classList.remove('open');
+
+    if (customSelectButton.parentElement.classList.contains('open')) {
+        if (!customSelectButton.contains(e.target)) {
+            customSelectButton.parentElement.classList.remove('open');
+            titleOne.classList.toggle('visually-hidden')
+            titleTwo.classList.toggle('visually-hidden')
+            customSelectButton.parentElement.style.zIndex = '1';
+            arrowIconSelect.classList.toggle('select-icons__arrow--open')
+
+
+            document.getElementById('overlay').style.display = 'none';
+            document.body.classList.remove('modal-open');
+        }
     }
-});
+    })
+
 
 // Сохранение позиции прокрутки и курсора в LocalStorage
 window.addEventListener('beforeunload', () => {
@@ -302,7 +388,7 @@ window.addEventListener('load', () => {
         cursorDiv.style.left = mousePosition.x + 'px';
         cursorDiv.style.width = '5px';
         cursorDiv.style.height = '5px';
-        cursorDiv.style.backgroundColor = 'red';
+        cursorDiv.style.backgroundColor = 'transparent';
         cursorDiv.style.borderRadius = '50%';
         cursorDiv.style.pointerEvents = 'none';
         document.body.appendChild(cursorDiv);
@@ -322,51 +408,46 @@ document.addEventListener('DOMContentLoaded', function () {
     const headers = table.querySelectorAll('#table-title th');
 
     headers.forEach((header, index) => {
-
-
         header.addEventListener('click', () => {
-
-            sortTable(index+1, header);
+            // Передаем индекс с учетом скрытого столбца
+            const currentIndex = index + 1; // из-за скрытого столбца (для мобилки)
+            sortTable(currentIndex, header);
         });
     });
 
     function sortTable(columnIndex, header) {
-        console.log(`Sorting column index: ${columnIndex}`); // Debug output
         const rowsArray = Array.from(table.querySelectorAll('tbody tr'));
 
-        // Determine if the column contains numbers
-        const isNumberColumn = rowsArray.every(row => {
-            const cellValue = row.cells[columnIndex]?.textContent.trim();
-            return !isNaN(parseFloat(cellValue)) && isFinite(cellValue) && cellValue !== '';
-        });
-
-        console.log(`Column ${columnIndex} is ${isNumberColumn ? 'numeric' : 'text'}`);
+        const isNumberColumn = columnIndex === 2; // Числовая колонка с индексом 2
 
         const isAscending = header.classList.contains('asc');
 
         rowsArray.sort((a, b) => {
-            const cellA = a.cells[columnIndex]?.textContent.trim() || '';
-            const cellB = b.cells[columnIndex]?.textContent.trim() || '';
-            console.log(`Comparing: cellA (${cellA}) vs cellB (${cellB})`);
+            // Выбираем только текст из спана с классом data-item__content
+            const cellA = a.cells[columnIndex]?.querySelector('.data-item__content')?.textContent.trim() || '';
+            const cellB = b.cells[columnIndex]?.querySelector('.data-item__content')?.textContent.trim() || '';
 
             let comparison = 0;
 
             if (isNumberColumn) {
-                const numA = parseFloat(cellA);
-                const numB = parseFloat(cellB);
+                // Преобразуем строки в числа
+                const numA = parseFloat(cellA.replace(/[^\d.-]/g, '')); // Удаляем все буквы, оставляя только числа
+                const numB = parseFloat(cellB.replace(/[^\d.-]/g, ''));
 
-                if (isNaN(numA)) return 1;  // Place NaN values at the end
-                if (isNaN(numB)) return -1; // Place NaN values at the end
+                // Проверка на NaN и сортировка
+                if (isNaN(numA)) return 1;  // Помещаем NaN в конец
+                if (isNaN(numB)) return -1; // Помещаем NaN в конец
 
                 comparison = numA - numB;
             } else {
+                // Сравнение строк (регистронезависимое)
                 comparison = cellA.toLowerCase().localeCompare(cellB.toLowerCase());
             }
 
             return isAscending ? comparison : -comparison;
         });
 
-        // Toggle sorting direction
+        // Переключаем направление сортировки
         if (isAscending) {
             header.classList.remove('asc');
             header.classList.add('desc');
@@ -375,10 +456,21 @@ document.addEventListener('DOMContentLoaded', function () {
             header.classList.add('asc');
         }
 
-        // Update the table with sorted rows
+        // Обновляем таблицу отсортированными строками
         const tbody = table.querySelector('tbody');
         tbody.innerHTML = '';
         rowsArray.forEach(row => tbody.appendChild(row));
     }
 });
+
+
+// Импорт
+
+document.getElementById('import-popup').addEventListener('change', function(event) {
+    const file = event.target.files[0];
+    if (file) {
+        // Тут будет логика для обработки файла .xlsx
+    }
+});
+
 

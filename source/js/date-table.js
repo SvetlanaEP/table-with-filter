@@ -2,97 +2,116 @@ let dataList = [
     {
         id: 1,
         abbreviation: 'АНО',
-        name: 'автономная некоммерческая организация'
+        name: 'автономная некоммерческая организация',
+        isEducational: false
     },
     {
         id: 2,
         abbreviation: 'АНОО',
-        name: 'Автономное некоммерческое образовательная организация'
+        name: 'Автономное некоммерческое образовательная организация',
+        isEducational: true
     },
     {
         id: 3,
         abbreviation: 'АНОО',
-        name: 'АВТОНОМНАЯ НЕКОММЕРЧЕСКАЯ ОБЩЕОБРАЗОВАТЕЛЬНАЯ ОРГАНИЗАЦИЯ'
+        name: 'АВТОНОМНАЯ НЕКОММЕРЧЕСКАЯ ОБЩЕОБРАЗОВАТЕЛЬНАЯ ОРГАНИЗАЦИЯ',
+        isEducational: false
     },
     {
         id: 4,
         abbreviation: 'АО',
-        name: 'Акционерное общество'
+        name: 'Акционерное общество',
+        isEducational: false
     },
     {
         id: 5,
         abbreviation: 'АО НПО',
-        name: 'Акционерное общество'
+        name: 'Акционерное общество',
+        isEducational: false
     },
     {
         id: 6,
         abbreviation: 'АО НПФ',
-        name: 'Акционерное общество'
+        name: 'Акционерное общество',
+        isEducational: false
     },
     {
         id: 7,
         abbreviation: 'АО ПКО',
-        name: 'АКЦИОНЕРНОЕ ОБЩЕСТВО ПРОИЗВОДСТВЕННО-КОНСТРУКТОРСКОЕ ОБЪЕДИНЕНИЕ'
+        name: 'АКЦИОНЕРНОЕ ОБЩЕСТВО ПРОИЗВОДСТВЕННО-КОНСТРУКТОРСКОЕ ОБЪЕДИНЕНИЕ',
+        isEducational: false
     },
     {
         id: 8,
         abbreviation: 'БФ',
-        name: 'Благотворительный фонд'
+        name: 'Благотворительный фонд',
+        isEducational: false
     },
     {
         id: 9,
         abbreviation: 'Верхневолжский региональный филиал НПФ',
-        name: 'Верхневолжский региональный филиал негосударственного пенсионного фонда'
+        name: 'Верхневолжский региональный филиал негосударственного пенсионного фонда',
+        isEducational: false
     },
     {
         id: 10,
         abbreviation: 'Волжское МТУ по надзору за ЯРБ',
-        name: 'Волжское межрегиональное территориальное управление по надзору за ядерной и радиационной безопасности'
+        name: 'Волжское межрегиональное территориальное управление по надзору за ядерной и радиационной безопасности',
+        isEducational: false
     },
     {
         id: 11,
         abbreviation: 'ГАУ ДПО НО',
-        name: 'Государственное образовательное учреждение дополнительного профессионального образования'
+        name: 'Государственное образовательное учреждение дополнительного профессионального образования',
+        isEducational: true
     },
     {
         id: 12,
         abbreviation: 'ГБОУ НПО',
-        name: 'Государственное образовательное учреждение дополнительного профессионального образования'
+        name: 'Государственное образовательное учреждение дополнительного профессионального образования',
+        isEducational: true
     },
     {
         id: 13,
         abbreviation: 'ГБПОУ',
-        name: 'Государственное бюджетное профессиональное образовательное учреждение'
+        name: 'Государственное бюджетное профессиональное образовательное учреждение',
+        isEducational: true
     },
     {
         id: 14,
         abbreviation: 'ГБУ НО',
-        name: 'Государственное бюджетное учреждение Нижегородской области'
+        name: 'Государственное бюджетное учреждение Нижегородской области',
+        isEducational: false
     },
     {
         id: 15,
         abbreviation: 'ГБУЗ',
-        name: 'Государственное бюджетное учреждение здравоохранения'
+        name: 'Государственное бюджетное учреждение здравоохранения',
+        isEducational: false
     },
     {
         id: 16,
         abbreviation: 'ГБУЗ НО',
-        name: 'Государственное бюджетное учреждение здравоохранения Нижегородской области'
+        name: 'Государственное бюджетное учреждение здравоохранения Нижегородской области',
+        isEducational: false
     },
     {
         id: 17,
         abbreviation: 'ГК',
-        name: 'Гостиничный комплекс'
+        name: 'Гостиничный комплекс',
+        isEducational: false
     },
     {
         id: 18,
         abbreviation: 'ГКОУ',
-        name: 'Государственное казенное общеобразовательное учреждение'
+        name: 'Государственное казенное общеобразовательное учреждение',
+        isEducational: true
     },
     {
         id: 19,
         abbreviation: 'ГНООУ Учебный центр',
-        name: 'Государственное Нижегородское областное образовательное учреждение  Учебный центр'
+        name: 'Государственное Нижегородское областное образовательное учреждение  Учебный центр',
+        isEducational: true
     },
     {
         id: 20,
@@ -327,6 +346,28 @@ function clearTable() {
     }
 }
 
+// фильтр по типу организации
+
+document.querySelectorAll('.top-custom-select').forEach(item => {
+    item.addEventListener('click', function() {
+        const selectedValue = this.getAttribute('data-value');
+        const button = document.getElementById('select-button');
+
+
+        let filteredData = dataList; // По умолчанию все данные
+
+        // Фильтруем, если выбран не "все"
+        if (selectedValue !== 'all') {
+            const isEducational = selectedValue === 'true';
+            filteredData = dataList.filter(item => item.isEducational === isEducational);
+        }
+
+        generateTable(filteredData); // Отображаем отфильтрованные данные
+    });
+});
+
+// По поиску в инпуте
+
 function filterTable(columnIndex) {
 
     const input = document.querySelectorAll('.search-input')[columnIndex];
@@ -366,16 +407,31 @@ function showSuggestions(columnIndex) {
     const input = document.querySelectorAll('.search-input')[columnIndex];
     const filter = input.value.toLowerCase();
 
+
+    const parentCell = input.closest('td') || input.closest('.data-item__item--search'); // Используйте подходящий селектор
+
+    const inputClear = parentCell.querySelector('.search-icons__del')
+
     const suggestionsList = columnIndex === 0 ?
         document.getElementById('name-suggestions-list') :
         document.getElementById('abbreviation-suggestions-list');
 
     suggestionsList.innerHTML = '';
 
+    inputClear.addEventListener('click', () => {
+        suggestionsList.style.display = 'none';
+        document.getElementById('overlay').style.display = 'none';
+        document.body.classList.remove('modal-open');
+        parentCell.style.zIndex = '1'
+        parentCell.style.border = '1px solid #CBCBCB'
+    })
+
     if (filter.length === 0) {
         suggestionsList.style.display = 'none';
         document.getElementById('overlay').style.display = 'none';
         document.body.classList.remove('modal-open');
+        parentCell.style.zIndex = '1'
+        parentCell.style.border = '1px solid #CBCBCB'
         return;
     }
 
@@ -407,8 +463,16 @@ function showSuggestions(columnIndex) {
         suggestionsList.style.display = 'none';
         document.getElementById('overlay').style.display = 'none';
         document.body.classList.remove('modal-open');
+        parentCell.style.zIndex = '1'
+        parentCell.style.border = '1px solid #CBCBCB'
         return;
     }
+
+    // Вставляем элемент с текстом "Выберите вариант"
+    const selectOptionLi = document.createElement('li');
+    selectOptionLi.textContent = 'Выберите вариант или продолжите ввод';
+    selectOptionLi.style.fontSize = '12px'; // Добавим стиль, чтобы выделить текст
+    suggestionsList.appendChild(selectOptionLi);
 
     // Добавление подсказок в список
     limitedSuggestions.forEach(suggestion => {
@@ -429,6 +493,8 @@ function showSuggestions(columnIndex) {
             suggestionsList.style.display = 'none'
             document.getElementById('overlay').style.display = 'none';
             document.body.classList.remove('modal-open');
+            parentCell.style.zIndex = '1'
+            parentCell.style.border = '1px solid #CBCBCB'
         }
         suggestionsList.appendChild(li);
     });
@@ -436,6 +502,8 @@ function showSuggestions(columnIndex) {
     suggestionsList.style.display = 'block';
     document.getElementById('overlay').style.display = 'block';
     document.body.classList.add('modal-open');
+    parentCell.style.zIndex = '20'
+    parentCell.style.border = '2px solid #00B0D9'
 
 }
 
@@ -501,6 +569,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const clearInputButton = editPopup.querySelectorAll('.clear-icon__del')
 
+
+
     closeEditForm.addEventListener('click', () => {
 
         textareaList.forEach(textarea => {
@@ -512,6 +582,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     cancelButtonEditForm.addEventListener('click', (evt) => {
         evt.preventDefault()
+
         closePopup(editPopup)
     })
 
@@ -523,6 +594,55 @@ document.addEventListener('DOMContentLoaded', function() {
             textareaList[i].focus()
         })
     }
+
+    // кастомный селект
+
+    document.querySelectorAll('.top-custom-select').forEach(item => {
+        item.addEventListener('click', function() {
+            const selectedValue = this.getAttribute('data-value');
+            const button = document.getElementById('select-button');
+
+
+            let filteredData = dataList; // По умолчанию все данные
+
+            // Фильтруем, если выбран не "все"
+            if (selectedValue !== 'all') {
+                const isEducational = selectedValue === 'true';
+                filteredData = dataList.filter(item => item.isEducational === isEducational);
+            }
+
+            generateTable(filteredData); // Отображаем отфильтрованные данные
+        });
+    });
+
+    // кастом селект в попапе
+
+        const customSelect = document.querySelector('.custom-select-edit');
+        const trigger = customSelect.querySelector('.custom-select__trigger');
+        const options = customSelect.querySelector('.custom-select__options');
+        const hiddenInput = customSelect.querySelector('input[type="hidden"]');
+        const addFormArrow = customSelect.querySelector('.select-icons__arrow')
+
+
+        trigger.addEventListener('click', function() {
+            customSelect.classList.toggle('open');
+            addFormArrow.classList.toggle('select-icons__arrow--open')
+        });
+
+        options.addEventListener('click', function(event) {
+            if (event.target && event.target.nodeName === "DIV") {
+                trigger.querySelector('span').textContent = event.target.textContent;
+                hiddenInput.value = event.target.getAttribute('data-value');
+                customSelect.classList.remove('open');
+            }
+        });
+
+        document.addEventListener('click', function(event) {
+            if (!customSelect.contains(event.target)) {
+                customSelect.classList.remove('open');
+            }
+        });
+
 
     const editDataButton = document.querySelector('#popup-form-edit'); //кнопка сохранить
 
@@ -644,7 +764,10 @@ document.addEventListener('DOMContentLoaded', function() {
         evt.preventDefault();
 
         const fullName = document.querySelector('#add-full-name').value.trim();
-        const abbreviation = document.querySelector('#add-short-name').value.trim().toUpperCase();
+        const shortName = document.querySelector('#add-short-name').value.trim();
+        const abbreviation = document.querySelector('#add-abb-name').value.trim().toUpperCase();
+        const orgTypeSelect = document.querySelector('#type-org').value
+
 
         const duplicate = dataList.find(row => row.name.toLowerCase() === fullName.toLowerCase());
 
@@ -669,8 +792,17 @@ document.addEventListener('DOMContentLoaded', function() {
             // Генерация нового ID
             const newId = dataList.length > 0 ? dataList[dataList.length - 1].id + 1 : 1;
 
+            // Определение значения для поля isEducational
+            const isEducational = orgTypeSelect === "Учебное";
+
             // Добавление новой записи в массив dataList
-            const newData = { id: newId, name: capitalizeFirstLetter(fullName), abbreviation: capitalizeFirstLetter(abbreviation) };
+            const newData = {
+                id: newId,
+                name: capitalizeFirstLetter(fullName),
+                shortName: capitalizeFirstLetter(shortName),
+                abbreviation: capitalizeFirstLetter(abbreviation),
+                isEducational: isEducational,
+            };
             dataList.push(newData);
 
             // Обновление таблицы
@@ -679,6 +811,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             // Очистка полей формы
             document.querySelector('.add-data__form').reset();
+
             closePopup(addForm)
         }
     });
@@ -706,6 +839,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function openEditPopupWithData(record) {
         // Открытие попапа
+
         openPopup(editPopup)
 
         // Заполнение полей попапа данными
@@ -723,6 +857,87 @@ document.addEventListener('DOMContentLoaded', function() {
             .map(word => word.charAt(0).toUpperCase() + word.slice(1))
             .join(' ');
     }
+
+    // Экспорт
+
+    const exportPopup = document.getElementById('export-popup');
+    const exportOpenPopup = document.querySelector('#exportButton')
+    const filenameInput = document.getElementById('generated-filename');
+    const downloadButton = exportPopup.querySelector('#download-file');
+    const closePopupButton = exportPopup.querySelector('.popup-form__close');
+    const closePopupCancelButton = exportPopup.querySelector('.popup-form__button--cancel');
+
+    let intervalId; // Для обновления секунд
+
+    // Функция для генерации имени файла
+    function generateFilename() {
+        const now = new Date();
+        const day = String(now.getDate()).padStart(2, '0');
+        const month = String(now.getMonth() + 1).padStart(2, '0');
+        const year = now.getFullYear();
+        const hours = String(now.getHours()).padStart(2, '0');
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+        const seconds = String(now.getSeconds()).padStart(2, '0');
+
+        // Формируем название файла
+        return `Сокращенные юридические формы ${day}.${month}.${year} ${hours}_${minutes}_${seconds}.xlsx`;
+    }
+
+    // Открытие попапа и генерация имени файла
+    function openExport() {
+        exportPopup.classList.remove('popup-form--closed');
+        document.getElementById('overlay').style.display = 'block';
+        document.body.classList.add('modal-open');
+        updateFilename();
+
+
+        // Обновляем секунды каждые 5 секунд
+        intervalId = setInterval(updateFilename, 5000);
+    }
+
+    // Закрытие попапа и остановка таймера
+    function closeExport() {
+        exportPopup.classList.add('popup-form--closed');
+        document.getElementById('overlay').style.display = 'none';
+        document.body.classList.remove('modal-open');
+        clearInterval(intervalId); // Останавливаем таймер
+    }
+
+    // Обновление поля с именем файла
+    function updateFilename() {
+        const filename = generateFilename();
+        filenameInput.value = filename;
+    }
+
+    // Функция для создания и скачивания файла
+    function downloadFile(filename, content) {
+        const blob = new Blob([content], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+        const link = document.createElement('a');
+
+        link.href = URL.createObjectURL(blob);
+        link.download = filename;
+
+        // Автоматически кликаем на ссылку для открытия диалога сохранения
+        link.click();
+
+        // Освобождаем память
+        URL.revokeObjectURL(link.href);
+    }
+
+    // Обработчик для кнопки выгрузки файла
+    downloadButton.addEventListener('click', function () {
+        const filename = filenameInput.value;
+        const fileContent = "Пример данных для файла"; // Здесь должен быть контент файла, сгенерированный на основе данных
+
+        downloadFile(filename, fileContent)
+        closeExport(); // Закрываем попап после выгрузки
+    });
+
+    // Обработчики для кнопок закрытия попапа
+    closePopupButton.addEventListener('click', closeExport);
+    closePopupCancelButton.addEventListener('click', closeExport);
+
+    exportOpenPopup.addEventListener('click', openExport)
 })
 
 
