@@ -621,7 +621,8 @@ document.addEventListener('DOMContentLoaded', function() {
         const trigger = customSelect.querySelector('.custom-select__trigger');
         const options = customSelect.querySelector('.custom-select__options');
         const hiddenInput = customSelect.querySelector('input[type="hidden"]');
-        const addFormArrow = customSelect.querySelector('.select-icons__arrow')
+        const addFormArrow = customSelect.querySelector('.select-icons__arrow');
+        const clearSelectionIcon = customSelect.querySelector('.clear-icon--custom-select');
 
 
         trigger.addEventListener('click', function() {
@@ -634,14 +635,26 @@ document.addEventListener('DOMContentLoaded', function() {
                 trigger.querySelector('span').textContent = event.target.textContent;
                 hiddenInput.value = event.target.getAttribute('data-value');
                 customSelect.classList.remove('open');
+                clearSelectionIcon.style.display = 'block';
+                addFormArrow.classList.remove('select-icons__arrow--open');
             }
         });
 
         document.addEventListener('click', function(event) {
             if (!customSelect.contains(event.target)) {
                 customSelect.classList.remove('open');
+                addFormArrow.classList.remove('select-icons__arrow--open');
             }
         });
+
+    // Сброс выбора при клике на крестик
+    clearSelectionIcon.addEventListener('click', function(event) {
+        event.stopPropagation(); // Предотвращаем всплытие клика на триггер
+
+        trigger.querySelector('span').textContent = 'Выберите тип организации'; // Возвращаем текст к исходному
+        hiddenInput.value = ''; // Сбрасываем значение в hidden input
+        clearSelectionIcon.style.display = 'none'; // Скрываем крестик
+    });
 
 
     const editDataButton = document.querySelector('#popup-form-edit'); //кнопка сохранить

@@ -217,8 +217,8 @@ exportCancelButton.addEventListener('click', () => {
 // Про иконку-крестик в инпутах
 
 const formInput = document.querySelectorAll('.input-item');
-const clearIcon = document.querySelectorAll('.clear-icon');
-
+const clearIcon = document.querySelectorAll('.clear-icon:not(.clear-icon--custom-select)');
+console.log(formInput, clearIcon)
 for (let i=0; i<clearIcon.length; i++) {
 
     formInput[i].addEventListener('input', function() {

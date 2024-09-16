@@ -1462,6 +1462,10 @@ flex-direction: column;
     display: none; /* Скрываем иконку по умолчанию */
 }
 
+.clear-icon--custom-select {
+    right: 40px;
+}
+
 .clear-icon:hover path {
     fill: #333;
 }
