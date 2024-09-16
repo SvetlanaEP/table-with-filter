@@ -52,6 +52,10 @@ mark {
     background-color: transparent;
 }
 
+.in-total-count {
+    color: #4FA95D;
+}
+
 /* Добавляем "галочку" */
 .custom-checkbox::after {
     content: "";
@@ -680,6 +684,7 @@ body.modal-open {
 .search-page__item:disabled {
     color: #C6C6C6;
     border: 2px solid #C6C6C6;
+    background-color: transparent;
 }
 
 .pagination__item--current {
@@ -690,6 +695,7 @@ body.modal-open {
 .pagination__item:disabled {
     color: #C6C6C6;
     border: 2px solid #C6C6C6;
+    background-color: transparent;
 }
 
 .pagination__item:disabled path {
@@ -1277,7 +1283,7 @@ th.data-item__item--search{
 }
 
 .popup-form__input {
-    display: flex;
+    display: block;
     box-sizing: border-box;
     width: 100%;
     height: 38px;
@@ -1298,6 +1304,11 @@ th.data-item__item--search{
     }
 }
 
+#generated-filename {
+    border: none;
+    height: auto;
+}
+
 @media (min-width: 1360px) {
     .popup-form__input {
         margin-top: 0;
@@ -1306,6 +1317,15 @@ th.data-item__item--search{
 
 .popup-form__input-wrapper {
     position: relative;
+    height: 38px;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+@media (min-width: 480px) {
+    .popup-form__input-wrapper {
+        height: 54px;
+    }
 }
 
 .input-item--del {
