@@ -653,6 +653,7 @@ body.modal-open {
     height: 38px;
 
     text-align: center;
+    font-size: 18px;
 }
 
 .search-page__text {
@@ -702,6 +703,7 @@ body.modal-open {
     height: 38px;
 
     text-align: center;
+    font-size: 18px;
 
     background-color: transparent;
     border: 2px solid #00B0D9;
@@ -1549,6 +1551,7 @@ flex-direction: column;
     padding: 0;
     background-color: white;
     width: 100%;
+    box-sizing: border-box;
     z-index: 20;
 
     border: 2px solid #00B0D9;
@@ -1741,13 +1744,14 @@ flex-direction: column;
     position: relative;
     background-color: #fff;
     border: 1px solid #ccc;
-    border-radius: 4px;
     padding: 10px;
     cursor: pointer;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-size: 16px;
+    font-size: 18px;
+    height: 54px;
+    box-sizing: border-box;
 }
 
 .custom-select__arrow {
@@ -1758,10 +1762,9 @@ flex-direction: column;
     display: none;
     position: absolute;
     top: 100%;
-    left: 0;
-    width: 100%;
+    left: -2px;
+    right: -2px;
     border: 1px solid #ccc;
-    border-radius: 4px;
     background-color: #fff;
     z-index: 1000;
     max-height: 200px;
@@ -1777,8 +1780,18 @@ flex-direction: column;
     background-color: #f0f0f0;
 }
 
+.custom-select-edit {
+    position: relative;
+    margin: 12px 0 0;
+}
+
 .custom-select-edit.open .custom-select__options {
     display: block;
+    border: 2px solid #00b0d9;
+}
+.custom-select-edit.open {
+    display: block;
+    border: 2px solid #00b0d9;
 }
 
 /* для инпута в селект топ */

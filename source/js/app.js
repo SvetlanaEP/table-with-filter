@@ -353,7 +353,32 @@ document.addEventListener('click', (e) => {
             document.body.classList.remove('modal-open');
         }
     }
-    })
+})
+
+// Функция для закрытия модальных окон
+function closeModals(event) {
+    const popups = document.querySelectorAll('.popup-form');
+
+    // Проверяем, был ли клик на кнопке открытия модального окна
+    if (event.target.closest('.popup-form-open')) {
+        return; // Если клик был на кнопке, выходим из функции
+    }
+
+    // Проверяем каждый модальный элемент
+    popups.forEach(popup => {
+        // Проверяем, был ли клик вне модального окна
+        if (!popup.classList.contains('popup-form--closed') && !popup.contains(event.target)) {
+            popup.classList.add('popup-form--closed') // Закрываем модальное окно
+            document.getElementById('overlay').style.display = 'none'; // Закрываем оверлей, если есть
+            document.body.classList.remove('modal-open'); // Убираем класс из body
+        }
+    });
+}
+
+// Добавляем обработчик события для клика на документ
+document.addEventListener('click', closeModals);
+
+
 
 
 // Сохранение позиции прокрутки и курсора в LocalStorage

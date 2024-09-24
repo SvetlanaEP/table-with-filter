@@ -1001,9 +1001,10 @@ function clearTable() {
 
 
 
-function filterTable(columnIndex) {
+function filterTable(columnIndex, inputIndex) {
 
-    const input = document.querySelectorAll('.search-input')[columnIndex];
+    const input = document.querySelectorAll('.search-input')[inputIndex];
+    console.log(input)
     const filter = input.value.toLowerCase().trim();
 
     // Фильтрация данных в колонке
@@ -1056,7 +1057,7 @@ function showSuggestions(columnIndex, inputIndex) {
         document.getElementById('overlay').style.display = 'none';
         document.body.classList.remove('modal-open');
         parentCell.style.zIndex = '1'
-        parentCell.style.border = '1px solid #CBCBCB'
+        parentCell.querySelector('input').style.border = 'none'
     })
 
     if (filter.length === 0) {
@@ -1064,7 +1065,7 @@ function showSuggestions(columnIndex, inputIndex) {
         document.getElementById('overlay').style.display = 'none';
         document.body.classList.remove('modal-open');
         parentCell.style.zIndex = '1'
-        parentCell.style.border = '1px solid #CBCBCB'
+        parentCell.querySelector('input').style.border = 'none'
         return;
     }
 
@@ -1122,16 +1123,15 @@ function showSuggestions(columnIndex, inputIndex) {
     suggestionsList.appendChild(selectOptionLi);
 
 
+    for (let i = 0; i < maxSuggestions; i++) {
 
-            for (let i = 0; i < maxSuggestions; i++) {
-
-                // Временный элемент для определения высоты строки
-                const tempLi = document.createElement('li');
-                tempLi.style.display = 'block'
-                tempLi.style.visibility = 'hidden';
-                tempLi.innerHTML = highlightMatchingText(uniqueSuggestions[i], filter)
-                suggestionsList.appendChild(tempLi);
-            }
+        // Временный элемент для определения высоты строки
+        const tempLi = document.createElement('li');
+        tempLi.style.display = 'block'
+        tempLi.style.visibility = 'hidden';
+        tempLi.innerHTML = highlightMatchingText(uniqueSuggestions[i], filter)
+        suggestionsList.appendChild(tempLi);
+    }
 
     // Теперь измеряем их высоту внутри requestAnimationFrame
     requestAnimationFrame(() => {
@@ -1155,6 +1155,17 @@ function showSuggestions(columnIndex, inputIndex) {
         suggestionItems.forEach((li, index) => {
             if (index < finalSuggestionsCount) {
                 li.style.visibility = 'visible';
+                li.onclick = () => {
+                    input.value = li.textContent;
+                    console.log(li.textContent)
+                    filterTable(columnIndex, inputIndex)
+
+                    suggestionsList.style.display = 'none'
+                    document.getElementById('overlay').style.display = 'none';
+                    document.body.classList.remove('modal-open');
+                    parentCell.style.zIndex = '1'
+                    parentCell.style.border = '1px solid #CBCBCB'
+                }
             }
 
 
@@ -1167,10 +1178,12 @@ function showSuggestions(columnIndex, inputIndex) {
             suggestionsList.style.position = 'absolute';
             suggestionsList.style.bottom = `${input.offsetHeight}px`;
             suggestionsList.style.top = 'auto';
+            suggestionsList.style.borderBottom = 'none'
         } else {
             suggestionsList.style.position = 'absolute';
             suggestionsList.style.top = `${input.offsetHeight}px`;
             suggestionsList.style.bottom = 'auto';
+            suggestionsList.style.borderTop = 'none'
         }
 
         // Отображение списка подсказок
@@ -1178,7 +1191,9 @@ function showSuggestions(columnIndex, inputIndex) {
         document.getElementById('overlay').style.display = 'block';
         document.body.classList.add('modal-open');
         parentCell.style.zIndex = '20';
-        parentCell.style.border = '2px solid #00B0D9';
+        parentCell.querySelector('input').style.border = '2px solid #00B0D9';
+
+
 }
 
 // ф-я для подсветки части текста
