@@ -1105,8 +1105,23 @@ function showSuggestions(columnIndex, inputIndex) {
     }
     let totalHeight = 0;
     let finalSuggestionsCount = 0;
-
     const maxSuggestions = Math.min(10, uniqueSuggestions.length);
+
+    // Вставляем элемент с текстом "Выберите вариант"
+    const selectOptionLi = document.createElement('li');
+
+    // Проверяем, есть ли подходящие подсказки
+    if (uniqueSuggestions.length === 0) {
+        selectOptionLi.textContent = 'Совпадений нет';  // Если нет данных, выводим "Данных нет"
+    } else {
+        selectOptionLi.textContent = 'Выберите вариант или продолжите ввод';
+    }
+    selectOptionLi.style.fontSize = '12px'; // Добавляем стиль для текста
+    selectOptionLi.style.display = 'block';
+    selectOptionLi.style.visibility = 'hidden';  // Скрываем его для измерения высоты
+    suggestionsList.appendChild(selectOptionLi);
+
+
 
             for (let i = 0; i < maxSuggestions; i++) {
 
@@ -1114,7 +1129,7 @@ function showSuggestions(columnIndex, inputIndex) {
                 const tempLi = document.createElement('li');
                 tempLi.style.display = 'block'
                 tempLi.style.visibility = 'hidden';
-                tempLi.textContent = uniqueSuggestions[i];
+                tempLi.innerHTML = highlightMatchingText(uniqueSuggestions[i], filter)
                 suggestionsList.appendChild(tempLi);
             }
 
@@ -1141,7 +1156,10 @@ function showSuggestions(columnIndex, inputIndex) {
             if (index < finalSuggestionsCount) {
                 li.style.visibility = 'visible';
             }
+
+
         });
+
     });
 
         // Настройка позиции списка подсказок
