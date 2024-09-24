@@ -84,7 +84,7 @@ input[type="checkbox"]:checked ~ .custom-checkbox::after {
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5); /* Полупрозрачное затемнение */
     display: none; /* Скрыто по умолчанию */
-    z-index: 5; /* Поверх страницы */
+    z-index: 10; /* Поверх страницы */
 }
 
 body.modal-open {
@@ -221,7 +221,7 @@ body.modal-open {
 @media (min-width: 640px) {
     .soft-bar {
         display: grid;
-        grid-template-columns: repeat(6, 1fr);
+        grid-template-columns: max-content repeat(5, 1fr);
         gap: 0;
 
         width: 100%;
@@ -249,18 +249,21 @@ body.modal-open {
 }
 
 .soft-bar__button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
     position: relative;
-    background-color: transparent;
+    background-color: white;
     border: 1px solid #CBCBCB;
     font-size: 18px;
     text-align: center;
     color: #9C9C9C;
-    text-transform: uppercase;
 
     height: 38px;
     width: 100%;
 
-    z-index: 2;
+    z-index: 5;
 }
 
 .soft-bar__button option {
@@ -285,9 +288,9 @@ body.modal-open {
     fill: #9C9C9C;
 }
 
-.soft-bar__button svg {
-    width: 24px;
-    height: 24px;
+.soft-bar__button svg:not(.select-icons__del) {
+    width: 22px;
+    height: 22px;
 }
 
 .soft-bar__button--add {
@@ -299,9 +302,6 @@ body.modal-open {
 
 }
 
-.soft-bar__button--deselect .soft-bar__text {
-    align-items: center;
-}
 .soft-bar__button--deselect:hover {
     color: white;
     background-color: #D11521;
@@ -325,17 +325,17 @@ body.modal-open {
 
 .tooltip {
     position: relative;
-    background-color: white;
 }
 
 .tooltip--select {
     background-color: white;
+    min-width: 200px;
 }
 
 .tooltip__text {
     visibility: hidden;
     position: absolute;
-    z-index: 1;
+    z-index: 3;
 
     width: max-content;
     white-space: nowrap;
@@ -353,7 +353,7 @@ body.modal-open {
 
     margin-top: 5px;
 
-    background-color: #CBCBCB;
+    background-color: #D7D7D7;
 
 }
 
@@ -361,7 +361,7 @@ body.modal-open {
     position: absolute;
     visibility: hidden;
     width: 100%;
-    z-index: 1;
+    z-index: 3;
     bottom: -16px;
 }
 
@@ -377,7 +377,7 @@ body.modal-open {
 
      border-width: 15px;
      border-style: solid;
-     border-color:  transparent transparent #CBCBCB transparent;
+     border-color:  transparent transparent #D7D7D7 transparent;
  }
 
 .tooltip__text--table {
@@ -415,18 +415,24 @@ body.modal-open {
 
 .tooltip:hover .tooltip__text {
     visibility: visible;
+    z-index: 3;
 }
 
 .tooltip:hover .tooltip__arrow {
     visibility: visible;
+    z-index: 3;
 }
 
-.tooltip:hover .tooltip__text--left {
-    left: auto;
-    right: auto;
-    transform: translateX(0);
-    max-width: none;
-    white-space: normal;
+
+
+@media (min-width: 640px) {
+    .tooltip:hover .tooltip__text--left {
+        left: auto;
+        right: auto;
+        transform: translateX(0);
+        max-width: none;
+        white-space: normal;
+    }
 }
 
 .tooltip:hover .tooltip__text--right {
@@ -537,12 +543,32 @@ body.modal-open {
 }
 
 
-.clear-icon__del:hover path {
+.clear-icon__del:hover path, .select-icons__del:hover path {
     position: relative;
     fill: #414141;
     cursor: pointer;
 
     z-index: 2;
+}
+
+.select-icons__arrow {
+    position: relative;
+    display: block;
+    width: 20px;
+    height: 20px;
+}
+
+.select-icons__arrow::before {
+    position: absolute;
+    content: '';
+    width: 11px;
+    height: 11px;
+    left: 0;
+    top: calc(50% - 0);
+    border-bottom: 1px solid black;
+    border-right: 1px solid black;
+    transform: rotate(45deg);
+    opacity: 0.5;
 }
 
 .select-icons__arrow--open {
@@ -845,7 +871,7 @@ body.modal-open {
      position: relative;
      background-color: transparent;
      border: none;
-    z-index: 2;
+    z-index: 5;
  }
 
 
@@ -1052,7 +1078,13 @@ th.data-item__item--search{
 }
 
 .search-input--focus {
-    padding: 0 45px;
+    padding: 0 16px;
+}
+
+@media (min-width: 640px) {
+    .search-input--focus {
+        padding: 0 45px;
+    }
 }
 
 .data-item__item--search {
@@ -1067,10 +1099,13 @@ th.data-item__item--search{
 
 }
 
-.search-icons__del {
-    width: 21px;
-    height: 21px;
+.search-input__icon-mobile {
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
 }
+
 
 .data-item--inputs {
     display: none;
@@ -1473,7 +1508,7 @@ flex-direction: column;
 
 .clear-icon {
     position: absolute;
-    right: 10px;
+    right: 48px;
     top: 50%;
     transform: translateY(-50%);
     cursor: pointer;
@@ -1482,9 +1517,17 @@ flex-direction: column;
     display: none; /* Скрываем иконку по умолчанию */
 }
 
+@media (min-width: 640px) {
+    .clear-icon {
+        right: 10px;
+    }
+}
+
 .clear-icon--custom-select {
     right: 40px;
 }
+
+
 
 .clear-icon:hover path {
     fill: #333;
@@ -1494,8 +1537,6 @@ flex-direction: column;
 
 .suggestions-list {
     position: absolute;
-
-    left: 0;
     top: 38px;
 
     color: #484848;
@@ -1587,6 +1628,7 @@ flex-direction: column;
     position: relative;
     display: flex;
     justify-content: space-between;
+    gap: 30px;
     align-items: center;
 
     margin: 0;
@@ -1594,6 +1636,13 @@ flex-direction: column;
 
 
     width: 100%; /* Ширина контейнера */
+}
+
+.custom-select input {
+    width: 90%;
+    border: none;
+    background-color: transparent;
+    z-index: 3;
 }
 
 /* Стили для кнопки кастомного селекта */
@@ -1656,7 +1705,6 @@ flex-direction: column;
 
 .custom-select__selected {
  display: block;
-    height: 90%;
     margin: 0 auto 0 0;
     font-size: 10px;
 }
@@ -1731,4 +1779,65 @@ flex-direction: column;
 
 .custom-select-edit.open .custom-select__options {
     display: block;
+}
+
+/* для инпута в селект топ */
+
+.custom-select__input-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.custom-select-placeholder {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    font-size: 12px;
+    color: #aaa; /* Цвет placeholder */
+    transition: all 0.2s ease;
+}
+
+.custom-select-input {
+    padding: 15px 5px 5px;
+    font-size: 16px;
+    color: #202020;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    outline: none;
+    width: 100%;
+    height: 38px;
+    z-index: 10;
+}
+
+@media (min-width: 640px) {
+    .custom-select-input {
+        height: 54px;
+    }
+}
+
+/* Скрываем плейсхолдер при вводе текста */
+.custom-select-input:focus + .custom-select-placeholder,
+.custom-select-input:not(:placeholder-shown) + .custom-select-placeholder {
+    top: -15px;
+    font-size: 10px;
+    color: #666;
+}
+
+.select-icons__del {
+    cursor: pointer;
+}
+
+/* Поиск в таблице на мобильном */
+.data-item__item--search-mobile {
+    display: block;
+}
+@media (min-width: 640px) {
+    .data-item__item--search-mobile {
+        display: none;
+    }
+}
+
+.data-item__item--search-mobile input{
+    width: 100%;
 }

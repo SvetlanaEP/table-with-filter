@@ -1,6 +1,6 @@
 // Открытие/закрытие блока с выбором типа заведения и региона
 
-//document.querySelector('.other-tabs').classList.add('other-tabs_active');
+document.querySelector('.other-tabs').classList.add('other-tabs_active');
 document.querySelector('#id19').classList.add('third-panel__tab_active');
 
 //document.querySelector('.mobile-menu-mini').style.display = 'none';
@@ -218,7 +218,7 @@ exportCancelButton.addEventListener('click', () => {
 
 const formInput = document.querySelectorAll('.input-item');
 const clearIcon = document.querySelectorAll('.clear-icon:not(.clear-icon--custom-select)');
-console.log(formInput, clearIcon)
+
 for (let i=0; i<clearIcon.length; i++) {
 
     formInput[i].addEventListener('input', function() {
@@ -306,7 +306,7 @@ const arrowIconSelect = document.querySelector('.custom-select .select-icons__ar
 // Открытие/закрытие выпадающего списка
 customSelectButton.addEventListener('click', () => {
     customSelectButton.parentElement.classList.toggle('open');
-    customSelectButton.parentElement.style.zIndex = '10';
+
     titleOne.classList.toggle('visually-hidden')
     titleTwo.classList.toggle('visually-hidden')
 
@@ -315,9 +315,11 @@ customSelectButton.addEventListener('click', () => {
     if (    customSelectButton.parentElement.classList.contains('open')) {
         document.getElementById('overlay').style.display = 'block';
         document.body.classList.add('modal-open');
+        customSelectButton.parentElement.style.zIndex = '10';
     } else {
         document.getElementById('overlay').style.display = 'none';
         document.body.classList.remove('modal-open');
+        customSelectButton.parentElement.style.zIndex = '1';
     }
 });
 
@@ -472,5 +474,13 @@ document.getElementById('import-popup').addEventListener('change', function(even
         // Тут будет логика для обработки файла .xlsx
     }
 });
+
+function syncInputs(sourceId, targetId) {
+    const sourceInput = document.getElementById(sourceId);
+    const targetInput = document.getElementById(targetId);
+
+    // Обновляем значение в целевом инпуте
+    targetInput.value = sourceInput.value;
+}
 
 
