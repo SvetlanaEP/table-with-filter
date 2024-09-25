@@ -982,11 +982,12 @@ generateTable(dataList)
 
 function updateTotalCount() {
     const totalCount = dateTableContainer.querySelectorAll('tr').length
-    const totalCountSpan = document.querySelectorAll('.in-total-count')
+    const totalCountSpan = document.querySelector('.in-total-count')
+    const inTotalButton = document.querySelector('.soft-bar__button--in-total')
 
-    for (let i = 0; i < totalCountSpan.length; i++) {
-        totalCountSpan[i].textContent = totalCount;
-    }
+    totalCountSpan.textContent = totalCount;
+inTotalButton.setAttribute('data-value', `Нашлось: ` + totalCount)
+
 }
 
 // Ф-я для очистки табл
@@ -1004,7 +1005,6 @@ function clearTable() {
 function filterTable(columnIndex, inputIndex) {
 
     const input = document.querySelectorAll('.search-input')[inputIndex];
-    console.log(input)
     const filter = input.value.toLowerCase().trim();
 
     // Фильтрация данных в колонке
@@ -1057,7 +1057,7 @@ function showSuggestions(columnIndex, inputIndex) {
         document.getElementById('overlay').style.display = 'none';
         document.body.classList.remove('modal-open');
         parentCell.style.zIndex = '1'
-        parentCell.querySelector('input').style.border = 'none'
+        parentCell.querySelector('textarea').style.border = 'none'
     })
 
     if (filter.length === 0) {
@@ -1065,7 +1065,7 @@ function showSuggestions(columnIndex, inputIndex) {
         document.getElementById('overlay').style.display = 'none';
         document.body.classList.remove('modal-open');
         parentCell.style.zIndex = '1'
-        parentCell.querySelector('input').style.border = 'none'
+        parentCell.querySelector('textarea').style.border = 'none'
         return;
     }
 
@@ -1157,14 +1157,14 @@ function showSuggestions(columnIndex, inputIndex) {
                 li.style.visibility = 'visible';
                 li.onclick = () => {
                     input.value = li.textContent;
-                    console.log(li.textContent)
+
                     filterTable(columnIndex, inputIndex)
 
                     suggestionsList.style.display = 'none'
                     document.getElementById('overlay').style.display = 'none';
                     document.body.classList.remove('modal-open');
                     parentCell.style.zIndex = '1'
-                    parentCell.style.border = '1px solid #CBCBCB'
+                    parentCell.querySelector('textarea').style.border = 'none'
                 }
             }
 
@@ -1191,7 +1191,7 @@ function showSuggestions(columnIndex, inputIndex) {
         document.getElementById('overlay').style.display = 'block';
         document.body.classList.add('modal-open');
         parentCell.style.zIndex = '20';
-        parentCell.querySelector('input').style.border = '2px solid #00B0D9';
+        parentCell.querySelector('textarea').style.border = '2px solid #00B0D9';
 
 
 }
@@ -1213,25 +1213,37 @@ const tableSearchIcon = document.querySelectorAll('.search-input__icon')
 
 for (let i=0; i<tableInput.length; i++) {
 
-    tableInput[i].addEventListener('focus', () => {
-        tableClearIcon[i].style.display = 'block';
-        tableSearchIcon[i].style.display = 'none';
-        tableInput[i].classList.remove('search-input--focus');
-    });
+    tableInput[i].addEventListener('input', function() {
+        if (tableInput[i].value.length > 0) {
+            tableClearIcon[i].style.display = 'block';
+            tableSearchIcon[i].style.display = 'none'
 
-    tableInput[i].addEventListener('blur', () => {
-        if (tableInput[i].value.length === 0) {
+            tableInput[i].classList.remove('search-input--focus')
+
+        } else {
             tableClearIcon[i].style.display = 'none';
-            tableSearchIcon[i].style.display = 'block';
-            tableInput[i].classList.add('search-input--focus');
+            tableSearchIcon[i].style.display = 'block'
+            tableInput[i].classList.add('search-input--focus')
         }
     });
+
+
+// Удаляем класс при потере фокуса, если поле пустое
+    tableInput[i].addEventListener('blur', () => {
+        if (tableInput[i].value.trim() === '') {
+            tableInput[i].classList.remove('active-input');
+            tableInput[i].classList.add('search-input--focus')
+
+        }
+    });
+
 
     tableClearIcon[i].addEventListener('click', function() {
         tableInput[i].value = '';
         tableClearIcon[i].style.display = 'none';
         tableSearchIcon[i].style.display = 'block'
         tableInput[i].classList.add('search-input--focus')
+        tableInput[i].style.border = '2px solid #00B0D9';
         tableInput[i].focus(); // Вернем фокус на инпут после очистки
         document.querySelectorAll('.suggestions-list')[i].style.display = 'none'; /* Убрать окно с подсказками */
 
@@ -1258,10 +1270,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const fullNameTextarea = document.querySelector('#edit-full-name');
     const shortNameTextarea = document.querySelector('#edit-abb-name');
 
-    const clearInputButton = editPopup.querySelectorAll('.clear-icon__del')
-
-
-
+    console.log(textareaList)
     closeEditForm.addEventListener('click', () => {
 
         textareaList.forEach(textarea => {
@@ -1277,18 +1286,11 @@ document.addEventListener('DOMContentLoaded', function() {
         closePopup(editPopup)
     })
 
-    for (let i=0; i < textareaList.length; i++) {
 
-        clearInputButton[i].addEventListener('click', () => {
-
-            textareaList[i].value = '';
-            textareaList[i].focus()
-        })
-    }
 
     // кастомный селект топ
 
-    const topSelectIconDel = document.querySelector('#top-select-button .select-icons__del');
+    const topSelectIconDel = document.querySelector('#top-select-trigger .select-icons__del');
     const searchInput = document.getElementById('search-input');
 
     const suggestionItems = document.querySelectorAll('.top-custom-select');
@@ -1690,4 +1692,45 @@ document.addEventListener('DOMContentLoaded', function() {
     exportOpenPopup.addEventListener('click', openExport)
 })
 
+// увеличение высоты текстареа
 
+const textareaAll = document.querySelectorAll('.popup-form__input');
+textareaAll.forEach(textarea => {
+    // Сохранение начальной (минимальной) высоты при загрузке страницы
+    const initialHeight = textarea.scrollHeight;
+
+    const textareaDel = textarea.closest('label').querySelector('.clear-icon__del')
+    autoResizeTextarea(textarea)
+
+    textareaDel.addEventListener('click', () => {
+        textarea.ariaValueMax = ''
+        textarea.focus()
+        textarea.style.height = `${initialHeight}px`;
+    })
+
+// Привязываем событие ввода
+    textarea.addEventListener('input', () => {
+        autoResizeTextarea(textarea, initialHeight)
+    });
+
+// Можно также вызвать функцию при загрузке, чтобы подстроить высоту, если текст уже есть
+    window.addEventListener('load', () => {
+        autoResizeTextarea(textarea)
+    });
+})
+
+// Функция автоизменения высоты
+function autoResizeTextarea(item, height) {
+
+    // Сбросить высоту перед расчетом
+    item.style.height = 'auto';
+
+    // Если поле пустое, возвращаем минимальную высоту (начальную высоту)
+    if (item.value.trim() === '') {
+        item.style.height = `${height}px`;
+    } else {
+        // Устанавливаем высоту в зависимости от контента
+        item.style.height = `${item.scrollHeight}px`;
+    }
+
+}
