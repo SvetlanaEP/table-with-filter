@@ -1058,6 +1058,7 @@ function showSuggestions(columnIndex, inputIndex) {
         document.body.classList.remove('modal-open');
         parentCell.style.zIndex = '1'
         parentCell.querySelector('textarea').style.border = 'none'
+
     })
 
     if (filter.length === 0) {
@@ -1217,9 +1218,7 @@ for (let i=0; i<tableInput.length; i++) {
         if (tableInput[i].value.length > 0) {
             tableClearIcon[i].style.display = 'block';
             tableSearchIcon[i].style.display = 'none'
-
             tableInput[i].classList.remove('search-input--focus')
-
         } else {
             tableClearIcon[i].style.display = 'none';
             tableSearchIcon[i].style.display = 'block'
@@ -1227,13 +1226,18 @@ for (let i=0; i<tableInput.length; i++) {
         }
     });
 
+    tableInput[i].addEventListener('focus', function () {
+        tableSearchIcon[i].style.display = 'none';
+        tableInput[i].classList.remove('search-input--focus')
+    })
+
 
 // Удаляем класс при потере фокуса, если поле пустое
     tableInput[i].addEventListener('blur', () => {
         if (tableInput[i].value.trim() === '') {
             tableInput[i].classList.remove('active-input');
             tableInput[i].classList.add('search-input--focus')
-
+            tableSearchIcon[i].style.display = 'block'
         }
     });
 
@@ -1270,7 +1274,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const fullNameTextarea = document.querySelector('#edit-full-name');
     const shortNameTextarea = document.querySelector('#edit-abb-name');
 
-    console.log(textareaList)
     closeEditForm.addEventListener('click', () => {
 
         textareaList.forEach(textarea => {
@@ -1410,7 +1413,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 if (rowData) {
                     rowData.name = editedFullName.charAt(0).toUpperCase() + editedFullName.slice(1);
-                    rowData.abbreviation = editedShortName.charAt(0).toUpperCase() + editedFullName.slice(1);
+                    rowData.abbreviation = editedShortName.charAt(0).toUpperCase() + editedShortName.slice(1);
 
                     generateTable(currentFilterData)
                     closePopup(editPopup)
@@ -1618,6 +1621,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const downloadButton = exportPopup.querySelector('#download-file');
     const closePopupButton = exportPopup.querySelector('.popup-form__close');
     const closePopupCancelButton = exportPopup.querySelector('.popup-form__button--cancel');
+    const exportNameDel = exportPopup.querySelector('.clear-icon__del')
+    let isUserTyping = false;
 
     let intervalId; // Для обновления секунд
 
@@ -1644,7 +1649,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
         // Обновляем секунды каждые 5 секунд
-        intervalId = setInterval(updateFilename, 5000);
+        intervalId = setInterval(() => {
+            if (!isUserTyping) {
+                updateFilename();
+            }
+        }, 5000);
     }
 
     // Закрытие попапа и остановка таймера
@@ -1657,9 +1666,27 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Обновление поля с именем файла
     function updateFilename() {
-        const filename = generateFilename();
-        filenameInput.value = filename;
+        if (!isUserTyping) {
+            filenameInput.value = generateFilename();
+            checkClearIconVisibility();
+        }
     }
+
+    // Показ/скрытие иконки крестика в зависимости от наличия текста
+    function checkClearIconVisibility() {
+        if (filenameInput.value.length > 0) {
+            exportNameDel.style.display = 'block';
+        } else {
+            exportNameDel.style.display = 'none';
+        }
+    }
+
+    // Обработчик ввода текста
+    filenameInput.addEventListener('input', () => {
+        isUserTyping = true; // Останавливаем генерацию имени
+        checkClearIconVisibility();
+    });
+
 
     // Функция для создания и скачивания файла
     function downloadFile(filename, content) {
@@ -1694,13 +1721,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // увеличение высоты текстареа
 
-const textareaAll = document.querySelectorAll('.popup-form__input');
+const textareaAll = document.querySelectorAll('.popup-form__input:not(.custom-file-upload)');
 textareaAll.forEach(textarea => {
     // Сохранение начальной (минимальной) высоты при загрузке страницы
     const initialHeight = textarea.scrollHeight;
 
     const textareaDel = textarea.closest('label').querySelector('.clear-icon__del')
-    autoResizeTextarea(textarea)
+    autoResizeTextarea(textarea, initialHeight)
 
     textareaDel.addEventListener('click', () => {
         textarea.ariaValueMax = ''
@@ -1719,11 +1746,45 @@ textareaAll.forEach(textarea => {
     });
 })
 
+// увеличение высоты текстареа в табл
+    const textareaSearchAll = document.querySelectorAll('.search-input');
+
+    textareaSearchAll.forEach(textareaSearch => {
+        // Сохранение начальной (минимальной) высоты при загрузке страницы
+        const initialHeight = textareaSearch.scrollHeight;
+
+        const textareaSearchDel = textareaSearch.closest('label').querySelector('.search-icons__del')
+
+        autoResizeTextarea(textareaSearch, initialHeight)
+
+
+        textareaSearchDel.addEventListener('click', () => {
+            textareaSearch.ariaValueMax = ''
+            textareaSearch.focus()
+            textareaSearch.style.height = `${initialHeight}px`;
+
+            document.querySelectorAll('.search-icons__del').forEach(del => {
+                del.closest('label').querySelector('textarea').value = '';
+            })
+        })
+
+// Привязываем событие ввода
+        textareaSearch.addEventListener('input', () => {
+            autoResizeTextarea(textareaSearch, initialHeight)
+        });
+
+// Можно также вызвать функцию при загрузке, чтобы подстроить высоту, если текст уже есть
+        window.addEventListener('load', () => {
+            autoResizeTextarea(textareaSearch)
+        });
+    })
+
+
 // Функция автоизменения высоты
 function autoResizeTextarea(item, height) {
 
     // Сбросить высоту перед расчетом
-    item.style.height = 'auto';
+    item.style.height = `${height}px`;
 
     // Если поле пустое, возвращаем минимальную высоту (начальную высоту)
     if (item.value.trim() === '') {

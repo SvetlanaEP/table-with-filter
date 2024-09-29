@@ -283,10 +283,10 @@ body.modal-open {
 .soft-bar__button:hover::after {
     content: attr(data-value);
     text-transform: uppercase;
-    color: gray;
+    color: #5d5d5d;
 
     position: absolute;
-    background-color: #D7D7D7;
+    background-color: #f0f0f0;
     padding: 8px;
     box-sizing: border-box;
     font-weight: 500 !important;
@@ -302,6 +302,11 @@ body.modal-open {
 
 .soft-bar__container.open .soft-bar__button:hover::before,
 .soft-bar__container.open .soft-bar__button:hover::after {
+    display: none;
+}
+
+.soft-bar__container.data-item__item--search-mobile .soft-bar__button::after,
+.soft-bar__container.data-item__item--search-mobile .soft-bar__button::before {
     display: none;
 }
 
@@ -1461,12 +1466,10 @@ th.data-item__item--search{
 .custom-file-upload {
     display: inline-flex;
     align-items: center;
-    padding: 10px 20px;
     border: 1px solid #ccc;
-    border-radius: 4px;
     background-color: white;
     cursor: pointer;
-    font-size: 16px;
+    font-size: 18px;
 }
 
 .custom-file-upload i {
