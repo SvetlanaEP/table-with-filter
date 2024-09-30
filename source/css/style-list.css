@@ -259,6 +259,7 @@ body.modal-open {
     font-size: 18px;
     text-align: center;
     color: #9C9C9C;
+    text-transform: uppercase;
 
     height: 38px;
     width: 100%;
@@ -276,17 +277,14 @@ body.modal-open {
     height: 0;
     border-left: 10px solid transparent;
     border-right: 10px solid transparent;
-    border-bottom: 18px solid #D7D7D7;
+    border-bottom: 18px solid #f0f0f0;
     z-index: 1000;
 }
 
 .soft-bar__button:hover::after {
     content: attr(data-value);
     text-transform: uppercase;
-    color: #5d5d5d;
-
     position: absolute;
-    background-color: #f0f0f0;
     padding: 8px;
     box-sizing: border-box;
     font-weight: 500 !important;
@@ -298,6 +296,9 @@ body.modal-open {
     top: 120%;
     z-index: 1000;
     min-width: max-content;
+
+    background-color: #f0f0f0;
+    color: #5d5d5d;
 }
 
 .soft-bar__container.open .soft-bar__button:hover::before,
@@ -338,7 +339,7 @@ body.modal-open {
 }
 
 .soft-bar__button--add {
-    color: #4FA95D;
+    color: black;
 }
 
 .soft-bar__button--deselect {
@@ -602,7 +603,7 @@ body.modal-open {
     height: 20px;
 }
 
-.select-icons__arrow::before {
+.soft-bar .select-icons__arrow::before {
     position: absolute;
     content: '';
     width: 11px;
@@ -1803,16 +1804,16 @@ flex-direction: column;
 }
 
 
-.custom-select--edit {
+.custom-select-edit {
     position: relative;
     display: inline-block;
     width: 100%;
+    border: 1px solid #ccc;
 }
 
 .custom-select__trigger {
     position: relative;
     background-color: #fff;
-    border: 1px solid #ccc;
     padding: 10px;
     cursor: pointer;
     display: flex;
@@ -1831,8 +1832,8 @@ flex-direction: column;
     display: none;
     position: absolute;
     top: 100%;
-    left: -2px;
-    right: -2px;
+    left: -1px;
+    right: -1px;
     border: 1px solid #ccc;
     background-color: #fff;
     z-index: 1000;
@@ -1857,6 +1858,8 @@ flex-direction: column;
 .custom-select-edit.open .custom-select__options {
     display: block;
     border: 2px solid #00b0d9;
+    padding: 0;
+    margin: 0 auto;
 }
 .custom-select-edit.open {
     display: block;

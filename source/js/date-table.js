@@ -8,7 +8,7 @@ let dataList = [
     {
         id: 2,
         abbreviation: 'АНОО',
-        name: 'Автономное некоммерческое образовательная организация',
+        name: 'Автономная некоммерческая образовательная организация',
         isEducational: true
     },
     {
@@ -1000,8 +1000,6 @@ function clearTable() {
 
 // По поиску в инпуте
 
-
-
 function filterTable(columnIndex, inputIndex) {
 
     const input = document.querySelectorAll('.search-input')[inputIndex];
@@ -1358,7 +1356,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // кастом селект в попапе
 
-        const customSelect = document.querySelector('.custom-select-edit');
+    const customSelectList = document.querySelectorAll('.custom-select-edit');
+
+    customSelectList.forEach(customSelect => {
         const trigger = customSelect.querySelector('.custom-select__trigger');
         const options = customSelect.querySelector('.custom-select__options');
         const hiddenInput = customSelect.querySelector('input[type="hidden"]');
@@ -1388,15 +1388,15 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
 
-    // Сброс выбора при клике на крестик
-    clearSelectionIcon.addEventListener('click', function(event) {
-        event.stopPropagation(); // Предотвращаем всплытие клика на триггер
+        // Сброс выбора при клике на крестик
+        clearSelectionIcon.addEventListener('click', function(event) {
+            event.stopPropagation(); // Предотвращаем всплытие клика на триггер
 
-        trigger.querySelector('span').textContent = 'Выберите тип организации'; // Возвращаем текст к исходному
-        hiddenInput.value = ''; // Сбрасываем значение в hidden input
-        clearSelectionIcon.style.display = 'none'; // Скрываем крестик
-    });
-
+            trigger.querySelector('span').textContent = 'Выберите тип организации'; // Возвращаем текст к исходному
+            hiddenInput.value = ''; // Сбрасываем значение в hidden input
+            clearSelectionIcon.style.display = 'none'; // Скрываем крестик
+        });
+    })
 
     const editDataButton = document.querySelector('#popup-form-edit'); //кнопка сохранить
 
