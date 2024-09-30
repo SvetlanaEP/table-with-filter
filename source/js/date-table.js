@@ -1407,19 +1407,25 @@ document.addEventListener('DOMContentLoaded', function() {
             if (fullNameTextarea.value && shortNameTextarea.value) {
                 const editedFullName = fullNameTextarea.value.trim()
                 const editedShortName = shortNameTextarea.value.trim()
+                const editTypeOrg = document.querySelector('#type-org-edit').value
 
                 const rowId = currentRow.dataset.id;
                 const rowData = dataList.find(row => row.id === Number(rowId))
 
+                const isEducational = editTypeOrg === 'Учебное'
+
                 if (rowData) {
                     rowData.name = editedFullName.charAt(0).toUpperCase() + editedFullName.slice(1);
                     rowData.abbreviation = editedShortName.charAt(0).toUpperCase() + editedShortName.slice(1);
+                    rowData.isEducational = isEducational;
 
                     generateTable(currentFilterData)
                     closePopup(editPopup)
                 }
             }
         }
+
+
     })
 
     const tableData = document.querySelector('#date-table-container')
@@ -1436,13 +1442,34 @@ document.addEventListener('DOMContentLoaded', function() {
 
         if (editButton) {
             currentRow = editButton.closest('tr');
-            idCurrentRow = currentRow.dataset.id;
+            idCurrentRow = parseInt(currentRow.dataset.id, 10);
+
+            console.log(idCurrentRow)
 
             const fullNameText = currentRow.querySelector('#data-full-name').textContent.trim();
             const shortNameText = currentRow.querySelector('#data-short-name').textContent.trim();
 
             fullNameTextarea.value = fullNameText;
-            shortNameTextarea.value = shortNameText
+            shortNameTextarea.value = shortNameText;
+
+            // Найдем объект в dataList по id
+            const rowData = dataList.find(row => row.id === idCurrentRow);
+
+            console.log(rowData)
+
+            // Получаем данные из заглушки
+            const isEducational = dataList.find(row => row.id === idCurrentRow).isEducational;
+
+            // Находим селект и устанавливаем значение в зависимости от isEducational
+            const selectElement = document.querySelector('#type-org-edit');
+            const selectedOption = isEducational ?
+                selectElement.querySelector('[data-value="Учебное"]') :
+                selectElement.querySelector('[data-value="Другое"]');
+
+            // Устанавливаем выбранный элемент
+            if (selectedOption) {
+                selectedOption.selected = true;
+            }
 
             textareaList.forEach(textarea => {
                 if (textarea.value.length > 0) {
@@ -1520,7 +1547,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
         const fullName = document.querySelector('#add-full-name').value.trim();
         const shortName = document.querySelector('#add-short-name').value.trim();
-        const abbreviation = document.querySelector('#add-abb-name').value.trim().toUpperCase();
         const orgTypeSelect = document.querySelector('#type-org').value
 
 
@@ -1554,8 +1580,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const newData = {
                 id: newId,
                 name: capitalizeFirstLetter(fullName),
-                shortName: capitalizeFirstLetter(shortName),
-                abbreviation: capitalizeFirstLetter(abbreviation),
+                abbreviation: capitalizeFirstLetter(shortName),
                 isEducational: isEducational,
             };
             dataList.push(newData);
