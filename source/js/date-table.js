@@ -1291,13 +1291,23 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // кастомный селект топ
 
-    const topSelectIconDel = document.querySelector('#top-select-trigger .select-icons__del');
+    const topSelectButton = document.querySelector('#top-select-trigger');
+    const topSelectIconDel = topSelectButton.querySelector('.select-icons__del');
     const searchInput = document.getElementById('search-input');
+    const textMini = document.querySelector('.custom-select-placeholder');
 
     const suggestionItems = document.querySelectorAll('.top-custom-select');
     const selectedText = document.querySelector('.custom-select__selected-0');
-    const placeholderLabel = document.querySelector('.custom-select-placeholder');
-    const topSelectList = document.querySelector('.custom-select-list');
+
+    topSelectButton.addEventListener('click', () => {
+        if (document.querySelector('.soft-bar__container.open')) {
+            textMini.style.display = 'block';
+            topSelectButton.style.alignItems = 'center'
+        } else {
+            textMini.style.display = 'none';
+            topSelectButton.style.alignItems = 'center'
+        }
+    })
 
     // Фильтрация при вводе текста в инпут
     searchInput.addEventListener('input', function() {
@@ -1325,6 +1335,10 @@ document.addEventListener('DOMContentLoaded', function() {
             // Отображаем выбранный вариант в инпуте
             searchInput.value = this.querySelector('.select-top-text').textContent;
             selectedText.textContent = this.textContent;
+            textMini.style.display = 'block';
+            if (!document.querySelector('.soft-bar__container.open')) {
+                topSelectButton.style.alignItems = 'baseline'
+            }
 
             // Фильтруем, если выбран не "все"
             if (selectedValue !== 'all') {
@@ -1347,7 +1361,12 @@ document.addEventListener('DOMContentLoaded', function() {
         searchInput.value = ''
         selectedText.textContent = 'Тип организации';
         topSelectIconDel.classList.add('visually-hidden')
-        topSelectIconDel.style.zIndex = '1';
+        topSelectIconDel.style.zIndex = '1'
+
+        if (!document.querySelector('.soft-bar__container.open')) {
+            textMini.style.display = 'none';
+            topSelectButton.style.alignItems = 'center'
+        }
 
         // Сбрасываем фильтр на "все"
         currentFilterData = dataList;
