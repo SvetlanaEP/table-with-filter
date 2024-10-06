@@ -1370,6 +1370,7 @@ document.addEventListener('DOMContentLoaded', function() {
             topSelectButton.style.alignItems = 'center'
         }
 
+
         // Сбрасываем фильтр на "все"
         currentFilterData = dataList;
         generateTable(currentFilterData); // Перегенерируем таблицу
@@ -1416,23 +1417,15 @@ document.addEventListener('DOMContentLoaded', function() {
             trigger.querySelector('span').textContent = 'Выберите тип организации'; // Возвращаем текст к исходному
             hiddenInput.value = ''; // Сбрасываем значение в hidden input
             clearSelectionIcon.style.display = 'none'; // Скрываем крестик
+
+            const form = event.target.closest('section')
+            console.log(form)
+            if (event.target.closest('section').classList.contains('popup-form--data')) {
+               form.querySelector('.popup-form__save-button').disabled = true;
+            }
+
         });
     })
-    /*
-        const editDataButton = document.querySelector('#popup-form-edit'); //кнопка сохрань
-    /*
-        editDataButton.addEventListener('click', (evt) => {
-
-            let editDate = {
-                id: idCurrentRow,
-                name: capitalizeFirstLetter(fullNameTextarea.value.trim()),
-                abbreviation: capitalizeFirstLetter(shortNameTextarea.value.trim()),
-                isEducational: true
-            }
-           saveChanges(editDate)
-        })
-
-     */
 
     const tableData = document.querySelector('#date-table-container')
     const delPopup = document.querySelector('.del-data')
@@ -1482,7 +1475,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             })
 
+
+
             openPopup(editPopup)
+            checkFormValidity(editPopup)
             document.getElementById('popup-form-edit').onclick = () => {
                 if (!checkDuplicateAndShowPopup(editPopup)) {
                     saveChanges(rowData)
@@ -1532,8 +1528,9 @@ let duplicate;
         const fullName = form.querySelector('.input-item--full').value.trim();
         const shortName = form.querySelector('.input-item--short').value.trim();
         const selectValue = document.querySelector('.custom-select__trigger span').textContent;
+        const optionEducational = document.querySelector('.custom-select__options [data-value="Учебное"]');
 
-        const isEducational = (selectValue === 'Учебное заведение');
+        const isEducational = (selectValue === optionEducational.textContent);
 
         duplicate = dataList.find(row => {
             return row.name.toLowerCase() === fullName.toLowerCase() &&
@@ -1567,7 +1564,6 @@ let duplicate;
     }
 
     function openEditPopupWithData(rowData) {
-        console.log(rowData)
         const fullNameTextarea = document.querySelector('#edit-full-name');
         const shortNameTextarea = document.querySelector('#edit-abb-name');
         const delIcon = editPopup.querySelector('.clear-icon--custom-select');
@@ -1601,6 +1597,7 @@ let duplicate;
             saveChanges(rowData);
         };
         closePopup(addForm)
+        checkFormValidity(editPopup)
         document.querySelector('.edit-data').classList.add('popup-form--open')
         document.getElementById('overlay').style.display = 'block';
         document.body.classList.add('modal-open');
@@ -1608,10 +1605,10 @@ let duplicate;
 
     // Функция для сохранения изменений
     function saveChanges(rowData) {
-        console.log('save button')
         const fullNameTextarea = document.querySelector('#edit-full-name').value.trim();
         const shortNameTextarea = document.querySelector('#edit-abb-name').value.trim();
         const selectTrigger = editPopup.querySelector('.custom-select__trigger span').textContent;
+        const optionEducational = document.querySelector('.custom-select__options [data-value="Учебное"]');
 
         // Проверка на пустые значения
         if (fullNameTextarea === '' || shortNameTextarea === '') {
@@ -1622,16 +1619,14 @@ let duplicate;
         // Обновляем данные в JS-заглушке
         rowData.name = capitalizeFirstLetter(fullNameTextarea);
         rowData.abbreviation = capitalizeFirstLetter(shortNameTextarea);
-        rowData.isEducational = (selectTrigger === 'Учебное заведение');
+        rowData.isEducational = (selectTrigger === optionEducational.textContent);
 
-        // Обновляем таблицу
         // Обновляем таблицу
         const rowElement = document.querySelector(`tr[data-id="${rowData.id}"]`);
         if (rowElement) {
             rowElement.querySelector('#data-full-name').textContent = rowData.name;
             rowElement.querySelector('#data-short-name').textContent = rowData.abbreviation;
         }
-        console.log(rowData)
 
         // Закрываем попап
         closePopup(editPopup);
@@ -1646,12 +1641,13 @@ let duplicate;
             const orgTypeSelect = addForm.querySelector('.custom-select__trigger span');
             const fullName = document.querySelector('#add-full-name').value.trim();
             const shortName = document.querySelector('#add-short-name').value.trim();
+            const optionEducational = document.querySelector('.custom-select__options [data-value="Учебное"]');
 
             // Генерация нового ID
             const newId = dataList.length > 0 ? dataList.length + 1 : 1;
 
             // Определение значения для поля isEducational
-            const isEducational = orgTypeSelect.textContent === "Учебное заведение";
+            const isEducational = orgTypeSelect.textContent === optionEducational.textContent;
             // Добавление новой записи в массив dataList
             const newData = {
                 id: newId,
@@ -1845,6 +1841,10 @@ textareaAll.forEach(textarea => {
         textarea.ariaValueMax = ''
         textarea.focus()
         textarea.style.height = `${initialHeight}px`;
+
+        if (textareaDel.closest('section').classList.contains('popup-form--data')) {
+            textareaDel.closest('section').querySelector('.popup-form__save-button').disabled = true;
+        }
     })
 
 // Привязываем событие ввода
@@ -1906,4 +1906,49 @@ function autoResizeTextarea(item, height) {
         item.style.height = `${item.scrollHeight}px`;
     }
 
+}
+
+
+document.addEventListener('DOMContentLoaded', () => {
+    const formList = document.querySelectorAll('.popup-form--data')
+
+    formList.forEach(form => {
+        const fullNameTextarea = form.querySelector('.input-item--full');
+        const shortNameTextarea = form.querySelector('.input-item--short');
+        const typeOrgInput = form.querySelector('.popup-type-org');
+        const selectTrigger = form.querySelector('.custom-select__trigger span');
+        const saveButton = form.querySelector('.popup-form__save-button');
+        const optionEducational = document.querySelector('.custom-select__options [data-value="Учебное"]');
+        const optionEducational2 = document.querySelector('.custom-select__options [data-value="Другое"]');
+
+        // Функция для проверки, все ли поля заполнены
+
+        // Вешаем обработчики на изменения в текстовых полях
+        fullNameTextarea.addEventListener('input', ()=> {
+            checkFormValidity(form)
+        });
+        shortNameTextarea.addEventListener('input', () => {
+            checkFormValidity(form)
+        });
+
+        // Вешаем обработчик на выбор типа организации в кастомном селекте
+       form.querySelector('.custom-select__options').addEventListener('click', function (e) {
+            const selectedOption = e.target;
+                selectTrigger.textContent = selectedOption.textContent;
+                checkFormValidity(form);
+
+        });
+    })
+
+});
+function checkFormValidity(form) {
+    if (form.querySelector('.input-item--full').value.trim() && form.querySelector('.input-item--short').value.trim()
+        && ((form.querySelector('.custom-select__trigger span').textContent ===  form.querySelector('.custom-select__options [data-value="Учебное"]').textContent
+                || form.querySelector('.custom-select__trigger span').textContent ===  form.querySelector('.custom-select__options [data-value="Другое"]').textContent)
+        ))
+    {
+        form.querySelector('.popup-form__save-button').disabled = false;
+    } else {
+        form.querySelector('.popup-form__save-button').disabled = true;
+    }
 }
