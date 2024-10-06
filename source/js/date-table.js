@@ -1686,16 +1686,14 @@ let duplicate;
     }
 
     // Обработчик события на изменение ввода в поле "Полное название"
-    const fullNameInput = document.getElementById('add-full-name');
-    fullNameInput.addEventListener('input', () => {
+    addForm.querySelector('.input-item--full').addEventListener('input', () => {
         // Каждый раз, когда пользователь что-то вводит или удаляет, проверяем на дубликаты
         checkDuplicateAndShowPopup(addForm);
 
         // Убираем предупреждение при любом изменении текста
         hideDuplicateMessage(addForm);
     });
-    const shortName = document.querySelector('#add-short-name');
-    shortName.addEventListener('input', () => {
+    addForm.querySelector('.input-item--short').addEventListener('input', () => {
         // Каждый раз, когда пользователь что-то вводит или удаляет, проверяем на дубликаты
         checkDuplicateAndShowPopup(addForm);
 
@@ -1703,6 +1701,21 @@ let duplicate;
         hideDuplicateMessage(addForm);
     });
 
+    // Обработчик события на изменение ввода в поле "Полное название"
+    editPopup.querySelector('.input-item--full').addEventListener('input', () => {
+        // Каждый раз, когда пользователь что-то вводит или удаляет, проверяем на дубликаты
+        checkDuplicateAndShowPopup(editPopup);
+
+        // Убираем предупреждение при любом изменении текста
+        hideDuplicateMessage(editPopup);
+    });
+    editPopup.querySelector('.input-item--short').addEventListener('input', () => {
+        // Каждый раз, когда пользователь что-то вводит или удаляет, проверяем на дубликаты
+        checkDuplicateAndShowPopup(editPopup);
+
+        // Убираем предупреждение при любом изменении текста
+        hideDuplicateMessage(editPopup);
+    });
 
 
 // Функция для преобразования первой буквы в заглавную
