@@ -1,11 +1,5 @@
 let dataList = [
     {
-        id: 1000,
-        abbreviation: 'f',
-        name: 'f',
-        isEducational: false
-    },
-    {
         id: 1,
         abbreviation: 'АНО',
         name: 'автономная некоммерческая организация',
@@ -1601,6 +1595,7 @@ let duplicate;
 
         // Обработчик для сохранения изменений
         document.getElementById('popup-form-edit').onclick = () => {
+            checkDuplicateAndShowPopup(editPopup)
             saveChanges(rowData);
         };
         closePopup(addForm)
@@ -1623,8 +1618,8 @@ let duplicate;
         }
 
         // Обновляем данные в JS-заглушке
-        rowData.name = fullNameTextarea;
-        rowData.abbreviation = shortNameTextarea;
+        rowData.name = capitalizeFirstLetter(fullNameTextarea);
+        rowData.abbreviation = capitalizeFirstLetter(shortNameTextarea);
         rowData.isEducational = (selectTrigger === 'Учебное заведение');
 
         // Обновляем таблицу

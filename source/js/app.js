@@ -145,11 +145,12 @@ function closePopup(form) {
         icon.style.display = 'none'
     })
 
-
-       const duplicateMessage = document.querySelector('.duplicate-message');
+    if (form.querySelector('.duplicate-message')) {
+        const duplicateMessage = form.querySelector('.duplicate-message');
         const textareaDuplicate = form.querySelector('.input-item--full');
         textareaDuplicate.classList.remove('duplicate-textarea-style')
         duplicateMessage.style.display = 'none';
+    }
 
 
     if (form.classList.contains('popup-form--open')) {
