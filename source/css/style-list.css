@@ -1716,7 +1716,6 @@ flex-direction: column;
 }
 
 .custom-select input {
-    width: 90%;
     border: none;
     background-color: transparent;
     z-index: 3;

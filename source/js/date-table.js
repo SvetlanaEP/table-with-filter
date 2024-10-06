@@ -1422,36 +1422,21 @@ document.addEventListener('DOMContentLoaded', function() {
             clearSelectionIcon.style.display = 'none'; // Скрываем крестик
         });
     })
+    /*
+        const editDataButton = document.querySelector('#popup-form-edit'); //кнопка сохрань
+    /*
+        editDataButton.addEventListener('click', (evt) => {
 
-    const editDataButton = document.querySelector('#popup-form-edit'); //кнопка сохранить
-
-    editDataButton.addEventListener('click', (evt) => {
-        evt.preventDefault()
-
-        if (currentRow) {
-            if (fullNameTextarea.value && shortNameTextarea.value) {
-                const editedFullName = fullNameTextarea.value.trim()
-                const editedShortName = shortNameTextarea.value.trim()
-                const editTypeOrg = document.querySelector('#type-org-edit').value
-
-                const rowId = currentRow.dataset.id;
-                const rowData = dataList.find(row => row.id === Number(rowId))
-
-                const isEducational = editTypeOrg === 'Учебное'
-
-                if (rowData) {
-                    rowData.name = editedFullName.charAt(0).toUpperCase() + editedFullName.slice(1);
-                    rowData.abbreviation = editedShortName.charAt(0).toUpperCase() + editedShortName.slice(1);
-                    rowData.isEducational = isEducational;
-
-                    generateTable(currentFilterData)
-                    closePopup(editPopup)
-                }
+            let editDate = {
+                id: idCurrentRow,
+                name: capitalizeFirstLetter(fullNameTextarea.value.trim()),
+                abbreviation: capitalizeFirstLetter(shortNameTextarea.value.trim()),
+                isEducational: true
             }
-        }
+           saveChanges(editDate)
+        })
 
-
-    })
+     */
 
     const tableData = document.querySelector('#date-table-container')
     const delPopup = document.querySelector('.del-data')
@@ -1502,6 +1487,11 @@ document.addEventListener('DOMContentLoaded', function() {
             })
 
             openPopup(editPopup)
+            document.getElementById('popup-form-edit').onclick = () => {
+                if (!checkDuplicateAndShowPopup()) {
+                    saveChanges(rowData)
+                }
+            };
         }
 
         if (deleteButton) {
@@ -1545,13 +1535,16 @@ let duplicate;
     function checkDuplicateAndShowPopup() {
         const fullName = document.querySelector('#add-full-name').value.trim();
         const shortName = document.querySelector('#add-short-name').value.trim();
+        const selectValue = document.querySelector('.custom-select__trigger span').textContent;
+
+        const isEducational = (selectValue === 'Учебное заведение');
 
         duplicate = dataList.find(row => {
             return row.name.toLowerCase() === fullName.toLowerCase() &&
-                row.abbreviation.toLowerCase() === shortName.toLowerCase();
+                row.abbreviation.toLowerCase() === shortName.toLowerCase() &&
+                row.isEducational === isEducational;
         });
 
-        console.log(duplicate);
 
         if (duplicate) {
             // Показываем сообщение и ссылку
@@ -1600,24 +1593,20 @@ let duplicate;
             delIcon.style.display = 'block';
         }
 
+        fullNameTextarea.closest('div').querySelector('.clear-icon').style.display = 'block'
+        shortNameTextarea.closest('div').querySelector('.clear-icon').style.display = 'block'
 
-        // Показываем иконки очистки
-        textareaList.forEach(textarea => {
-            if (textarea.value.length > 0) {
-                textarea.closest('div').querySelector('.clear-icon')
-                    .style.display = 'block';
-            }
-        });
         fullNameTextarea.value = rowData.name;
         shortNameTextarea.value = rowData.abbreviation;
 
-        openPopup(editPopup);
         // Обработчик для сохранения изменений
         document.getElementById('popup-form-edit').onclick = () => {
             saveChanges(rowData);
         };
-
-
+        closePopup(addForm)
+        document.querySelector('.edit-data').classList.add('popup-form--open')
+        document.getElementById('overlay').style.display = 'block';
+        document.body.classList.add('modal-open');
     }
 
     // Функция для сохранения изменений
@@ -1627,15 +1616,25 @@ let duplicate;
         const shortNameTextarea = document.querySelector('#edit-abb-name').value.trim();
         const selectTrigger = editPopup.querySelector('.custom-select__trigger span').textContent;
 
+        // Проверка на пустые значения
+        if (fullNameTextarea === '' || shortNameTextarea === '') {
+            alert('Поля "Полное название" и "Краткое название" не могут быть пустыми');
+            return;
+        }
+
         // Обновляем данные в JS-заглушке
         rowData.name = fullNameTextarea;
         rowData.abbreviation = shortNameTextarea;
         rowData.isEducational = (selectTrigger === 'Учебное заведение');
 
         // Обновляем таблицу
+        // Обновляем таблицу
         const rowElement = document.querySelector(`tr[data-id="${rowData.id}"]`);
-        rowElement.querySelector('#data-full-name').textContent = rowData.name;
-        rowElement.querySelector('#data-short-name').textContent = rowData.abbreviation;
+        if (rowElement) {
+            rowElement.querySelector('#data-full-name').textContent = rowData.name;
+            rowElement.querySelector('#data-short-name').textContent = rowData.abbreviation;
+        }
+        console.log(rowData)
 
         // Закрываем попап
         closePopup(editPopup);
@@ -1647,7 +1646,7 @@ let duplicate;
 
         if (!checkDuplicateAndShowPopup()) {
 
-            const orgTypeSelect = addForm.querySelector('.custom-select__trigger').textContent;
+            const orgTypeSelect = addForm.querySelector('.custom-select__trigger span');
             const fullName = document.querySelector('#add-full-name').value.trim();
             const shortName = document.querySelector('#add-short-name').value.trim();
 
@@ -1655,8 +1654,7 @@ let duplicate;
             const newId = dataList.length > 0 ? dataList.length + 1 : 1;
 
             // Определение значения для поля isEducational
-            const isEducational = orgTypeSelect === "Учебное";
-
+            const isEducational = orgTypeSelect.textContent === "Учебное заведение";
             // Добавление новой записи в массив dataList
             const newData = {
                 id: newId,
@@ -1665,7 +1663,6 @@ let duplicate;
                 isEducational: isEducational,
             };
 
-            console.log(newData)
             dataList.push(newData);
 
             // Обновление таблицы
@@ -1706,39 +1703,7 @@ let duplicate;
         hideDuplicateMessage();
     });
 
-/*
-    // Событие при нажатии на ссылку для открытия попапа с данными дубликата
-    document.getElementById('duplicate-message').addEventListener('click', () => {
 
-        // Открытие попапа
-
-        // Заполнение полей попапа данными
-        document.getElementById('edit-full-name').value = duplicate.name;
-        document.getElementById('edit-abb-name').value = duplicate.abbreviation;
-        //  editPopup.querySelector('.custom-select__trigger').textContent = duplicate.isEducational;
-        //  editPopup.querySelector('.clear-icon--custom-select').style.display = 'block';
-
-        if (editPopup.classList.contains('popup-form--closed')) {
-
-            console.log(editPopup);
-            closePopup(addForm)
-            openPopup(editPopup)
-        }
-
-
-    });
- */
-
-    document.getElementById('duplicate-message').addEventListener('click', () => {
-        console.log('клик');
-        closePopup(addForm);
-        document.querySelector('.edit-data').classList.add('popup-form--open')
-        document.getElementById('overlay').style.display = 'block';
-        document.body.classList.add('modal-open');
-        document.getElementById('edit-full-name').value = duplicate.name;
-        document.getElementById('edit-abb-name').value = duplicate.abbreviation;
-
-    });
 
 // Функция для преобразования первой буквы в заглавную
     function capitalizeFirstLetter(text) {
