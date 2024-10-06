@@ -1488,7 +1488,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             openPopup(editPopup)
             document.getElementById('popup-form-edit').onclick = () => {
-                if (!checkDuplicateAndShowPopup()) {
+                if (!checkDuplicateAndShowPopup(editPopup)) {
                     saveChanges(rowData)
                 }
             };
@@ -1532,9 +1532,9 @@ document.addEventListener('DOMContentLoaded', function() {
 let duplicate;
     /* ф-я для добавления данных и проверка, есть ли уже такое имя в бд */
 // Функция для проверки на дубликат
-    function checkDuplicateAndShowPopup() {
-        const fullName = document.querySelector('#add-full-name').value.trim();
-        const shortName = document.querySelector('#add-short-name').value.trim();
+    function checkDuplicateAndShowPopup(form) {
+        const fullName = form.querySelector('.input-item--full').value.trim();
+        const shortName = form.querySelector('.input-item--short').value.trim();
         const selectValue = document.querySelector('.custom-select__trigger span').textContent;
 
         const isEducational = (selectValue === 'Учебное заведение');
@@ -1548,9 +1548,9 @@ let duplicate;
 
         if (duplicate) {
             // Показываем сообщение и ссылку
-            const duplicateMessage = document.getElementById('duplicate-message');
-            const textareaDuplicate = document.querySelector('#add-full-name');
-            const duplicateIdElement = document.querySelector('#duplicate-id');
+            const duplicateMessage = form.querySelector('.duplicate-message');
+            const textareaDuplicate = form.querySelector('.input-item--full');
+            const duplicateIdElement = form.querySelector('.duplicate-id');
 
             duplicateMessage.style.display = 'block';
             textareaDuplicate.classList.add('duplicate-textarea-style');
@@ -1559,13 +1559,13 @@ let duplicate;
             duplicateIdElement.textContent = duplicate.id;
 
             // Обработчик клика для открытия попапа редактирования по дубликату
-            document.getElementById('duplicate-message').onclick = () => {
+            duplicateMessage.onclick = () => {
                 openEditPopupWithData(duplicate);  // Открываем попап с данными дубликата
             };
             return duplicate
         } else {
             // Скрываем сообщение, если дубликат не найден
-            hideDuplicateMessage();
+            hideDuplicateMessage(form);
             return false
         }
     }
@@ -1644,7 +1644,7 @@ let duplicate;
     document.querySelector('.add-data__form').addEventListener('submit', function(evt) {
         evt.preventDefault();
 
-        if (!checkDuplicateAndShowPopup()) {
+        if (!checkDuplicateAndShowPopup(addForm)) {
 
             const orgTypeSelect = addForm.querySelector('.custom-select__trigger span');
             const fullName = document.querySelector('#add-full-name').value.trim();
@@ -1677,9 +1677,9 @@ let duplicate;
     });
     // ф-я для скрытия предупреждения о дубликате
 
-    function hideDuplicateMessage() {
-        const duplicateMessage = document.getElementById('duplicate-message');
-        const textareaDuplicate = document.querySelector('#add-full-name');
+    function hideDuplicateMessage(form) {
+        const duplicateMessage = form.querySelector('.duplicate-message');
+        const textareaDuplicate =form.querySelector('.input-item--full');
 
         duplicateMessage.style.display = 'none';
         textareaDuplicate.classList.remove('duplicate-textarea-style')
@@ -1689,18 +1689,18 @@ let duplicate;
     const fullNameInput = document.getElementById('add-full-name');
     fullNameInput.addEventListener('input', () => {
         // Каждый раз, когда пользователь что-то вводит или удаляет, проверяем на дубликаты
-        checkDuplicateAndShowPopup(fullNameInput.value);
+        checkDuplicateAndShowPopup(addForm);
 
         // Убираем предупреждение при любом изменении текста
-        hideDuplicateMessage();
+        hideDuplicateMessage(addForm);
     });
     const shortName = document.querySelector('#add-short-name');
     shortName.addEventListener('input', () => {
         // Каждый раз, когда пользователь что-то вводит или удаляет, проверяем на дубликаты
-        checkDuplicateAndShowPopup(shortName.value);
+        checkDuplicateAndShowPopup(addForm);
 
         // Убираем предупреждение при любом изменении текста
-        hideDuplicateMessage();
+        hideDuplicateMessage(addForm);
     });
 
 
