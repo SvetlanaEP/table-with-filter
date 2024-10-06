@@ -1338,6 +1338,7 @@ document.addEventListener('DOMContentLoaded', function() {
             textMini.style.display = 'block';
             if (!document.querySelector('.soft-bar__container.open')) {
                 topSelectButton.style.alignItems = 'baseline'
+                topSelectButton.querySelector('.custom-select__selected-0').classList.add('custom-select__selected-0--black')
             }
 
             // Фильтруем, если выбран не "все"
@@ -1362,6 +1363,7 @@ document.addEventListener('DOMContentLoaded', function() {
         selectedText.textContent = 'Тип организации';
         topSelectIconDel.classList.add('visually-hidden')
         topSelectIconDel.style.zIndex = '1'
+        topSelectButton.querySelector('.custom-select__selected-0').classList.remove('custom-select__selected-0--black')
 
         if (!document.querySelector('.soft-bar__container.open')) {
             textMini.style.display = 'none';
