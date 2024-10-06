@@ -152,13 +152,16 @@ function closePopup(form) {
         duplicateMessage.style.display = 'none';
     }
 
+    if (form.classList.contains('popup-form--open')) {
+        form.classList.remove('popup-form--open')
+    }
+
     form.classList.add('popup-form--closed')
     document.getElementById('overlay').style.display = 'none';
     document.body.classList.remove('modal-open');
 }
 
 addButton.addEventListener('click', () => {
-
     openPopup(addForm)
 })
 

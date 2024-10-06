@@ -1243,6 +1243,10 @@ th.data-item__item--search{
     display: none;
 }
 
+.popup-form--open {
+    display: block;
+}
+
 .popup-form__close {
     border: none;
     background-color: transparent;

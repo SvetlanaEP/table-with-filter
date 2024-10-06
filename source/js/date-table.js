@@ -1,5 +1,11 @@
 let dataList = [
     {
+        id: 1000,
+        abbreviation: 'f',
+        name: 'f',
+        isEducational: false
+    },
+    {
         id: 1,
         abbreviation: 'АНО',
         name: 'автономная некоммерческая организация',
@@ -15,7 +21,7 @@ let dataList = [
         id: 3,
         abbreviation: 'АНОО',
         name: 'АВТОНОМНАЯ НЕКОММЕРЧЕСКАЯ ОБЩЕОБРАЗОВАТЕЛЬНАЯ ОРГАНИЗАЦИЯ',
-        isEducational: false
+        isEducational: true
     },
     {
         id: 4,
@@ -1463,31 +1469,29 @@ document.addEventListener('DOMContentLoaded', function() {
             currentRow = editButton.closest('tr');
             idCurrentRow = parseInt(currentRow.dataset.id, 10);
 
-            console.log(idCurrentRow)
-
             const fullNameText = currentRow.querySelector('#data-full-name').textContent.trim();
             const shortNameText = currentRow.querySelector('#data-short-name').textContent.trim();
+            const delIcon = editPopup.querySelector('.clear-icon--custom-select');
 
             fullNameTextarea.value = fullNameText;
             shortNameTextarea.value = shortNameText;
 
-            // Найдем объект в dataList по id
             const rowData = dataList.find(row => row.id === idCurrentRow);
 
-            console.log(rowData)
+            const isEducational = rowData.isEducational;
 
-            // Получаем данные из заглушки
-            const isEducational = dataList.find(row => row.id === idCurrentRow).isEducational;
+            const selectTrigger = editPopup.querySelector('.custom-select__trigger span');
+            const optionEducational = document.querySelector('.custom-select__options [data-value="Учебное"]');
+            const optionOther = document.querySelector('.custom-select__options [data-value="Другое"]');
 
-            // Находим селект и устанавливаем значение в зависимости от isEducational
-            const selectElement = document.querySelector('#type-org-edit');
-            const selectedOption = isEducational ?
-                selectElement.querySelector('[data-value="Учебное"]') :
-                selectElement.querySelector('[data-value="Другое"]');
+            // Устанавливаем выбранное значение
+            if (isEducational) {
+                selectTrigger.textContent = optionEducational.textContent;
+                delIcon.style.display = 'block';
 
-            // Устанавливаем выбранный элемент
-            if (selectedOption) {
-                selectedOption.selected = true;
+            } else {
+                selectTrigger.textContent = optionOther.textContent;
+                delIcon.style.display = 'block';
             }
 
             textareaList.forEach(textarea => {
@@ -1515,7 +1519,6 @@ document.addEventListener('DOMContentLoaded', function() {
     delButton.addEventListener('click', () => {
         if (currentRow) {
 
-
             currentFilterData = currentFilterData.filter(row => row.id !== Number(idCurrentRow));
 
             generateTable(currentFilterData)
@@ -1536,61 +1539,120 @@ document.addEventListener('DOMContentLoaded', function() {
         closePopup(delPopup)
     })
 
-
+let duplicate;
     /* ф-я для добавления данных и проверка, есть ли уже такое имя в бд */
 // Функция для проверки на дубликат
-    function checkDuplicateAndShowPopup(newFullName) {
-        const duplicate = dataList.find(row => row.name.toLowerCase() === newFullName.toLowerCase());
+    function checkDuplicateAndShowPopup() {
+        const fullName = document.querySelector('#add-full-name').value.trim();
+        const shortName = document.querySelector('#add-short-name').value.trim();
+
+        duplicate = dataList.find(row => {
+            return row.name.toLowerCase() === fullName.toLowerCase() &&
+                row.abbreviation.toLowerCase() === shortName.toLowerCase();
+        });
+
+        console.log(duplicate);
 
         if (duplicate) {
             // Показываем сообщение и ссылку
             const duplicateMessage = document.getElementById('duplicate-message');
             const textareaDuplicate = document.querySelector('#add-full-name');
+            const duplicateIdElement = document.querySelector('#duplicate-id');
 
             duplicateMessage.style.display = 'block';
-            textareaDuplicate.classList.add('duplicate-textarea-style')
+            textareaDuplicate.classList.add('duplicate-textarea-style');
 
-            // Событие при нажатии на ссылку для открытия попапа с данными дубликата
-            document.getElementById('open-edit-popup').onclick = (e) => {
-                e.preventDefault();
-                openEditPopupWithData(duplicate);
+            // Записываем id найденного дубликата в элемент с классом .duplicate-id
+            duplicateIdElement.textContent = duplicate.id;
+
+            // Обработчик клика для открытия попапа редактирования по дубликату
+            document.getElementById('duplicate-message').onclick = () => {
+                openEditPopupWithData(duplicate);  // Открываем попап с данными дубликата
             };
+            return duplicate
         } else {
             // Скрываем сообщение, если дубликат не найден
             hideDuplicateMessage();
+            return false
         }
     }
+
+    function openEditPopupWithData(rowData) {
+        console.log(rowData)
+        const fullNameTextarea = document.querySelector('#edit-full-name');
+        const shortNameTextarea = document.querySelector('#edit-abb-name');
+        const delIcon = editPopup.querySelector('.clear-icon--custom-select');
+
+        // Заполняем попап данными
+
+        const isEducational = rowData.isEducational;
+
+        const selectTrigger = editPopup.querySelector('.custom-select__trigger span');
+        const optionEducational = document.querySelector('.custom-select__options [data-value="Учебное"]');
+        const optionOther = document.querySelector('.custom-select__options [data-value="Другое"]');
+
+        // Устанавливаем значение селекта
+        if (isEducational) {
+            selectTrigger.textContent = optionEducational.textContent;
+            delIcon.style.display = 'block';
+        } else {
+            selectTrigger.textContent = optionOther.textContent;
+            delIcon.style.display = 'block';
+        }
+
+
+        // Показываем иконки очистки
+        textareaList.forEach(textarea => {
+            if (textarea.value.length > 0) {
+                textarea.closest('div').querySelector('.clear-icon')
+                    .style.display = 'block';
+            }
+        });
+        fullNameTextarea.value = rowData.name;
+        shortNameTextarea.value = rowData.abbreviation;
+
+        openPopup(editPopup);
+        // Обработчик для сохранения изменений
+        document.getElementById('popup-form-edit').onclick = () => {
+            saveChanges(rowData);
+        };
+
+
+    }
+
+    // Функция для сохранения изменений
+    function saveChanges(rowData) {
+        console.log('save button')
+        const fullNameTextarea = document.querySelector('#edit-full-name').value.trim();
+        const shortNameTextarea = document.querySelector('#edit-abb-name').value.trim();
+        const selectTrigger = editPopup.querySelector('.custom-select__trigger span').textContent;
+
+        // Обновляем данные в JS-заглушке
+        rowData.name = fullNameTextarea;
+        rowData.abbreviation = shortNameTextarea;
+        rowData.isEducational = (selectTrigger === 'Учебное заведение');
+
+        // Обновляем таблицу
+        const rowElement = document.querySelector(`tr[data-id="${rowData.id}"]`);
+        rowElement.querySelector('#data-full-name').textContent = rowData.name;
+        rowElement.querySelector('#data-short-name').textContent = rowData.abbreviation;
+
+        // Закрываем попап
+        closePopup(editPopup);
+    }
+
 // Обработчик формы для добавления данных
     document.querySelector('.add-data__form').addEventListener('submit', function(evt) {
         evt.preventDefault();
 
-        const fullName = document.querySelector('#add-full-name').value.trim();
-        const shortName = document.querySelector('#add-short-name').value.trim();
-        const orgTypeSelect = document.querySelector('#type-org').value
+        if (!checkDuplicateAndShowPopup()) {
 
-
-        const duplicate = dataList.find(row => row.name.toLowerCase() === fullName.toLowerCase());
-
-        if (duplicate) {
-            // Показываем сообщение и ссылку
-            const duplicateMessage = document.getElementById('duplicate-message');
-            const textareaDuplicate = document.querySelector('#add-full-name');
-            textareaDuplicate.classList.add('duplicate-textarea-style')
-            duplicateMessage.style.display = 'block';
-
-
-
-            // Событие при нажатии на ссылку для открытия попапа с данными дубликата
-            document.getElementById('open-edit-popup').onclick = (e) => {
-                e.preventDefault();
-                openEditPopupWithData(duplicate);
-            };
-        } else {
-            // Скрываем сообщение, если дубликат не найден
-            hideDuplicateMessage();
+            const orgTypeSelect = addForm.querySelector('.custom-select__trigger').textContent;
+            const fullName = document.querySelector('#add-full-name').value.trim();
+            const shortName = document.querySelector('#add-short-name').value.trim();
 
             // Генерация нового ID
-            const newId = dataList.length > 0 ? dataList[dataList.length - 1].id + 1 : 1;
+            const newId = dataList.length > 0 ? dataList.length + 1 : 1;
 
             // Определение значения для поля isEducational
             const isEducational = orgTypeSelect === "Учебное";
@@ -1602,6 +1664,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 abbreviation: capitalizeFirstLetter(shortName),
                 isEducational: isEducational,
             };
+
+            console.log(newData)
             dataList.push(newData);
 
             // Обновление таблицы
@@ -1633,20 +1697,48 @@ document.addEventListener('DOMContentLoaded', function() {
         // Убираем предупреждение при любом изменении текста
         hideDuplicateMessage();
     });
+    const shortName = document.querySelector('#add-short-name');
+    shortName.addEventListener('input', () => {
+        // Каждый раз, когда пользователь что-то вводит или удаляет, проверяем на дубликаты
+        checkDuplicateAndShowPopup(shortName.value);
 
-    //ф-я для открытия попапа с повтором и заполнение данными
+        // Убираем предупреждение при любом изменении текста
+        hideDuplicateMessage();
+    });
 
-    function openEditPopupWithData(record) {
+/*
+    // Событие при нажатии на ссылку для открытия попапа с данными дубликата
+    document.getElementById('duplicate-message').addEventListener('click', () => {
+
         // Открытие попапа
 
-        openPopup(editPopup)
-
         // Заполнение полей попапа данными
-        document.getElementById('edit-full-name').value = record.name;
-        document.getElementById('edit-abb-name').value = record.abbreviation;
-     //   document.querySelector('.popup-form__input[name="abbreviation"]').value = record.abbreviation;
-      //  document.querySelector('.popup-form__input[name=""]').value = record.type;
-    }
+        document.getElementById('edit-full-name').value = duplicate.name;
+        document.getElementById('edit-abb-name').value = duplicate.abbreviation;
+        //  editPopup.querySelector('.custom-select__trigger').textContent = duplicate.isEducational;
+        //  editPopup.querySelector('.clear-icon--custom-select').style.display = 'block';
+
+        if (editPopup.classList.contains('popup-form--closed')) {
+
+            console.log(editPopup);
+            closePopup(addForm)
+            openPopup(editPopup)
+        }
+
+
+    });
+ */
+
+    document.getElementById('duplicate-message').addEventListener('click', () => {
+        console.log('клик');
+        closePopup(addForm);
+        document.querySelector('.edit-data').classList.add('popup-form--open')
+        document.getElementById('overlay').style.display = 'block';
+        document.body.classList.add('modal-open');
+        document.getElementById('edit-full-name').value = duplicate.name;
+        document.getElementById('edit-abb-name').value = duplicate.abbreviation;
+
+    });
 
 // Функция для преобразования первой буквы в заглавную
     function capitalizeFirstLetter(text) {
@@ -1761,6 +1853,7 @@ document.addEventListener('DOMContentLoaded', function() {
     closePopupCancelButton.addEventListener('click', closeExport);
 
     exportOpenPopup.addEventListener('click', openExport)
+
 })
 
 // увеличение высоты текстареа
