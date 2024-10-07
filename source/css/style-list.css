@@ -398,8 +398,8 @@ body.modal-open {
 
     margin-top: 5px;
 
-    background-color: #D7D7D7;
-
+    background-color: #f0f0f0;
+    color: #9C9C9C;
 }
 
 .tooltip__arrow {
@@ -416,13 +416,13 @@ body.modal-open {
 
      bottom: 95%;
      left: 50%;
-     transform: translateX(-50%);
+     transform: translateX(-50%);.
 
      height: 20px;
 
      border-width: 15px;
      border-style: solid;
-     border-color:  transparent transparent #D7D7D7 transparent;
+     border-color:  transparent transparent #f0f0f0 transparent;
  }
 
 .tooltip__text--table {
@@ -450,7 +450,7 @@ body.modal-open {
 
     border-width: 15px;
     border-style: solid;
-    border-color:  transparent transparent #CBCBCB transparent;
+    border-color:  transparent transparent #f0f0f0 transparent;
 }
 
 .tooltip__arrow--table::after {
@@ -842,6 +842,11 @@ body.modal-open {
     height: 38px;
     width: 100%;
     font-size: 18px;
+}
+
+.button-item:hover {
+    color: #FFE200;
+    background-color: #00A3C9;
 }
 
 @media (min-width: 640px) {
@@ -1581,6 +1586,11 @@ flex-direction: column;
 
 .popup-form__button--cancel {
     background-color: #CACACA;
+    color: white;
+}
+
+.popup-form__button--cancel:hover {
+    background-color: red;
 }
 
 .clear-icon {
@@ -1676,6 +1686,10 @@ flex-direction: column;
 
 .popup-form__button--del {
     background-color: red;
+}
+
+.popup-form__button--del:hover {
+    background-color: #D11521;
 }
 
 .del-data__title {
