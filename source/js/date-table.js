@@ -1154,20 +1154,23 @@ function showSuggestions(columnIndex, inputIndex) {
             // Теперь все оставшиеся элементы видимы
             suggestionItems.forEach((li, index) => {
                 if (index < finalSuggestionsCount + 1) {
-                    li.style.visibility = 'visible';
-                    li.onclick = () => {
-                        input.value = li.textContent;
+                    if (index === 0) {
+                        li.style.visibility = 'visible';
+                    } else {
+                        li.style.visibility = 'visible';
+                        li.onclick = () => {
+                            input.value = li.textContent;
 
-                        filterTable(columnIndex, inputIndex)
+                            filterTable(columnIndex, inputIndex)
 
-                        suggestionsList.style.display = 'none'
-                        document.getElementById('overlay').style.display = 'none';
-                        document.body.classList.remove('modal-open');
-                        parentCell.style.zIndex = '1'
-                        parentCell.querySelector('textarea').style.border = 'none'
+                            suggestionsList.style.display = 'none'
+                            document.getElementById('overlay').style.display = 'none';
+                            document.body.classList.remove('modal-open');
+                            parentCell.style.zIndex = '1'
+                            parentCell.querySelector('textarea').style.border = 'none'
+                        }
                     }
                 }
-
 
             });
 
