@@ -1039,14 +1039,14 @@ function showSuggestions(columnIndex, inputIndex) {
     if (isTablet) {
         parentCell = input.closest('th')
     } else {
-       parentCell = input.closest('.data-item__item--search-mobile')
+        parentCell = input.closest('.data-item__item--search-mobile')
     }
 
     const inputClear = parentCell.querySelector('.search-icons__del')
 
     const suggestionsList = columnIndex === 0 ?
         parentCell.querySelector('.name-suggestions-list') :
-       parentCell.querySelector('.abbreviation-suggestions-list');
+        parentCell.querySelector('.abbreviation-suggestions-list');
 
     suggestionsList.innerHTML = '';
 
@@ -1094,83 +1094,84 @@ function showSuggestions(columnIndex, inputIndex) {
 
     let availableHeight;
     let displayAbove = false;
+    availableHeight = spaceBelow
 
-    // Определим, где больше места
-    if (spaceAbove > spaceBelow) {
-        availableHeight = spaceAbove;
-        displayAbove = true;
-    } else {
-        availableHeight = spaceBelow;
-        displayAbove = false;
-    }
     let totalHeight = 0;
     let finalSuggestionsCount = 0;
     const maxSuggestions = Math.min(10, uniqueSuggestions.length);
 
-    // Вставляем элемент с текстом "Выберите вариант"
-    const selectOptionLi = document.createElement('li');
+    function createSuggestionsList() {
 
-    // Проверяем, есть ли подходящие подсказки
-    if (uniqueSuggestions.length === 0) {
-        selectOptionLi.textContent = 'Совпадений нет';  // Если нет данных, выводим "Данных нет"
-    } else {
-        selectOptionLi.textContent = 'Выберите вариант или продолжите ввод';
-    }
-    selectOptionLi.style.fontSize = '12px'; // Добавляем стиль для текста
-    selectOptionLi.style.display = 'block';
-    selectOptionLi.style.visibility = 'hidden';  // Скрываем его для измерения высоты
-    suggestionsList.appendChild(selectOptionLi);
+        const selectOptionLi = document.createElement('li');
+
+        // Проверяем, есть ли подходящие подсказки
+        if (uniqueSuggestions.length === 0) {
+            return;
+        } else {
+            selectOptionLi.textContent = 'Выберите вариант или продолжите ввод';
+        }
+        selectOptionLi.style.fontSize = '12px';
+        selectOptionLi.style.display = 'block';
+        selectOptionLi.style.visibility = 'hidden';
+        suggestionsList.appendChild(selectOptionLi);
 
 
-    for (let i = 0; i < maxSuggestions; i++) {
+        for (let i = 0; i < maxSuggestions; i++) {
 
-        // Временный элемент для определения высоты строки
-        const tempLi = document.createElement('li');
-        tempLi.style.display = 'block'
-        tempLi.style.visibility = 'hidden';
-        tempLi.innerHTML = highlightMatchingText(uniqueSuggestions[i], filter)
-        suggestionsList.appendChild(tempLi);
-    }
+            // Временный элемент для определения высоты строки
+            const tempLi = document.createElement('li');
+            tempLi.style.display = 'block'
+            tempLi.style.visibility = 'hidden';
+            tempLi.innerHTML = highlightMatchingText(uniqueSuggestions[i], filter)
+            suggestionsList.appendChild(tempLi);
+        }
 
-    // Теперь измеряем их высоту внутри requestAnimationFrame
-    requestAnimationFrame(() => {
-        const suggestionItems = suggestionsList.querySelectorAll('li');
-        suggestionItems.forEach((li, index) => {
-            const suggestionHeight = li.getBoundingClientRect().height;
+        // Теперь измеряем их высоту внутри requestAnimationFrame
+        requestAnimationFrame(() => {
+            const suggestionItems = suggestionsList.querySelectorAll('li');
+            suggestionItems.forEach((li, index) => {
+                const suggestionHeight = li.getBoundingClientRect().height;
 
-            // Проверяем, помещается ли элемент в доступное пространство
-            if (totalHeight + suggestionHeight <= availableHeight) {
-                totalHeight += suggestionHeight + 1;
-                finalSuggestionsCount++;
-            } else {
-                // Если больше не влезает, удаляем оставшиеся элементы
-                if (index >= finalSuggestionsCount) {
-                    li.remove();
+                console.log(suggestionItems + ' снизу')
+
+                // Проверяем, помещается ли элемент в доступное пространство
+                if (totalHeight + suggestionHeight <= availableHeight) {
+                    if (index === 0) {
+                        totalHeight += suggestionHeight;
+                    } else {
+                        totalHeight += suggestionHeight;
+                        finalSuggestionsCount++;
+                    }
+
+
+                } else {
+                    // Если больше не влезает, удаляем оставшиеся элементы
+                    if (index >= finalSuggestionsCount) {
+                        li.remove();
+                    }
                 }
-            }
-        });
+            });
+            // Теперь все оставшиеся элементы видимы
+            suggestionItems.forEach((li, index) => {
+                if (index < finalSuggestionsCount + 1) {
+                    li.style.visibility = 'visible';
+                    li.onclick = () => {
+                        input.value = li.textContent;
 
-        // Теперь все оставшиеся элементы видимы
-        suggestionItems.forEach((li, index) => {
-            if (index < finalSuggestionsCount) {
-                li.style.visibility = 'visible';
-                li.onclick = () => {
-                    input.value = li.textContent;
+                        filterTable(columnIndex, inputIndex)
 
-                    filterTable(columnIndex, inputIndex)
-
-                    suggestionsList.style.display = 'none'
-                    document.getElementById('overlay').style.display = 'none';
-                    document.body.classList.remove('modal-open');
-                    parentCell.style.zIndex = '1'
-                    parentCell.querySelector('textarea').style.border = 'none'
+                        suggestionsList.style.display = 'none'
+                        document.getElementById('overlay').style.display = 'none';
+                        document.body.classList.remove('modal-open');
+                        parentCell.style.zIndex = '1'
+                        parentCell.querySelector('textarea').style.border = 'none'
+                    }
                 }
-            }
 
+
+            });
 
         });
-
-    });
 
         // Настройка позиции списка подсказок
         if (displayAbove) {
@@ -1185,14 +1186,25 @@ function showSuggestions(columnIndex, inputIndex) {
             suggestionsList.style.borderTop = 'none'
         }
 
-        // Отображение списка подсказок
         suggestionsList.style.display = 'block';
         document.getElementById('overlay').style.display = 'block';
         document.body.classList.add('modal-open');
         parentCell.style.zIndex = '20';
         parentCell.querySelector('textarea').style.border = '2px solid #00B0D9';
+    }
 
+    createSuggestionsList()
 
+        if (finalSuggestionsCount + 1 < uniqueSuggestions.length && spaceAbove > spaceBelow) {
+            displayAbove = true;
+            availableHeight = spaceAbove
+            totalHeight = 0;
+            finalSuggestionsCount = 0;
+
+            suggestionsList.innerHTML = '';
+
+            createSuggestionsList()
+        }
 }
 
 // ф-я для подсветки части текста
