@@ -1033,7 +1033,6 @@ function showSuggestions(columnIndex, inputIndex) {
     const input = document.querySelectorAll('.search-input')[inputIndex];
     const filter = input.value.toLowerCase();
 
-
     const isTablet = window.matchMedia('(min-width: 640px)').matches
     let parentCell;
     if (isTablet) {
@@ -1051,20 +1050,32 @@ function showSuggestions(columnIndex, inputIndex) {
     suggestionsList.innerHTML = '';
 
     inputClear.addEventListener('click', () => {
+        closeSuggestions();
+    });
+
+    // Функция для закрытия списка подсказок
+    function closeSuggestions() {
         suggestionsList.style.display = 'none';
         document.getElementById('overlay').style.display = 'none';
         document.body.classList.remove('modal-open');
-        parentCell.style.zIndex = '1'
-        parentCell.querySelector('textarea').style.border = 'none'
+        parentCell.style.zIndex = '1';
+        parentCell.querySelector('textarea').style.border = 'none';
+    }
 
+    inputClear.addEventListener('click', () => {
+        suggestionsList.style.display = 'none';
+        closeSuggestions()
     })
 
+    // Закрытие списка подсказок при клике вне области
+    document.addEventListener('click', (event) => {
+        if (!parentCell.contains(event.target)) {
+            closeSuggestions();
+        }
+    });
+
     if (filter.length === 0) {
-        suggestionsList.style.display = 'none';
-        document.getElementById('overlay').style.display = 'none';
-        document.body.classList.remove('modal-open');
-        parentCell.style.zIndex = '1'
-        parentCell.querySelector('textarea').style.border = 'none'
+        closeSuggestions()
         return;
     }
 
@@ -1131,8 +1142,6 @@ function showSuggestions(columnIndex, inputIndex) {
             const suggestionItems = suggestionsList.querySelectorAll('li');
             suggestionItems.forEach((li, index) => {
                 const suggestionHeight = li.getBoundingClientRect().height;
-
-                console.log(suggestionItems + ' снизу')
 
                 // Проверяем, помещается ли элемент в доступное пространство
                 if (totalHeight + suggestionHeight <= availableHeight) {
@@ -1434,7 +1443,7 @@ document.addEventListener('DOMContentLoaded', function() {
             clearSelectionIcon.style.display = 'none'; // Скрываем крестик
 
             const form = event.target.closest('section')
-            console.log(form)
+
             if (event.target.closest('section').classList.contains('popup-form--data')) {
                form.querySelector('.popup-form__save-button').disabled = true;
             }
