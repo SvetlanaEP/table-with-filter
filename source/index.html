@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Учебные заведения</title>
+    <title>Сокращенные юридические формы</title>
     <script src="navbar.js"></script>
     <script src="mobile_control.js"></script>
 
@@ -94,7 +94,7 @@
 
         <div class="soft-bar__container soft-bar__container--add tooltip">
             <button class="soft-bar__button soft-bar__button--add popup-form-open" type="button" data-value="Добавить юридическую форму">
-                <span>+ Add</span> <span class="soft-bar__text"> a new one </span>
+                <span class="soft-bar__text">+ Add a new one </span>
             </button>
 
         </div>
@@ -145,7 +145,7 @@
         </div>
 
         <div class="soft-bar__container tooltip data-item__item data-item__item--search data-item__item--search-mobile">
-            <label class="soft-bar__button">
+            <label class="soft-bar__button soft-bar__button--search">
 
                 <textarea id="mobile-input-1" class="search-input search-input--mobile input-item search-input--focus" placeholder="Поиск по полному названию"
                           onkeyup="syncInputs('mobile-input-1', 'table-input-1'); filterTable(0, 0); showSuggestions(0, 0)"></textarea>
@@ -164,7 +164,7 @@
             </ul>
         </div>
         <div class="soft-bar__container tooltip data-item__item data-item__item--search data-item__item--search-mobile">
-            <label class="soft-bar__button">
+            <label class="soft-bar__button soft-bar__button--search">
                 <textarea id="mobile-input-2"  class="search-input search-input--mobile input-item search-input--focus" placeholder="Поиск по сокращ. юр. форме"
                           onkeyup="syncInputs('mobile-input-2', 'table-input-2'); filterTable(1, 1); showSuggestions(1, 1)"></textarea>
                 <svg class="search-input__icon search-input__icon-mobile" width="20" height="21" viewBox="0 0 20 21" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -438,7 +438,7 @@
                 </div>
 
                 <div class="popup-form__title-wrapper">
-                    <h2 class="popup-form__title">Редактировать юридическое название для учебного заведения</h2>
+                    <h2 class="popup-form__title">Редактировать  название юридической формы</h2>
                 </div>
             </div>
 
