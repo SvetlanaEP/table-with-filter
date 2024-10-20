@@ -1033,7 +1033,7 @@ function showSuggestions(columnIndex, inputIndex) {
     const input = document.querySelectorAll('.search-input')[inputIndex];
     const filter = input.value.toLowerCase();
 
-    const isTablet = window.matchMedia('(min-width: 640px)').matches;
+    const isTablet = window.matchMedia('(min-width: 720px)').matches;
     let parentCell = isTablet ? input.closest('th') : input.closest('.data-item__item--search-mobile');
 
     const inputClear = parentCell.querySelector('.search-icons__del');
@@ -1053,7 +1053,7 @@ function showSuggestions(columnIndex, inputIndex) {
         document.getElementById('overlay').style.display = 'none';
         document.body.classList.remove('modal-open');
         parentCell.style.zIndex = '1';
-        parentCell.querySelector('.input-item').style.border = 'none';
+        parentCell.querySelector('label').style.border = 'none';
 
         // Убираем обработчик клика на документ
         document.removeEventListener('click', handleOutsideClick);
@@ -1147,7 +1147,7 @@ console.log(inputRect)
         document.getElementById('overlay').style.display = 'block';
         document.body.classList.add('modal-open');
         parentCell.style.zIndex = '20';
-        parentCell.querySelector('.input-item').style.border = '2px solid #00B0D9';
+        parentCell.querySelector('label').style.border = '2px solid #00B0D9';
 
         // Добавляем обработчик клика на документ
         document.addEventListener('click', handleOutsideClick);
@@ -1234,7 +1234,7 @@ for (let i=0; i<tableInput.length; i++) {
         tableClearIcon[i].style.display = 'none';
         tableSearchIcon[i].style.display = 'block'
         tableInput[i].classList.add('search-input--focus')
-        tableInput[i].style.border = '2px solid #00B0D9';
+        tableInput[i].closest('label').style.border = '2px solid #00B0D9';
         tableInput[i].focus(); // Вернем фокус на инпут после очистки
         document.querySelectorAll('.suggestions-list')[i].style.display = 'none'; /* Убрать окно с подсказками */
 
