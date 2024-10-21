@@ -444,7 +444,7 @@ body.modal-open {
     margin-top: 5px;
 
     background-color: #f0f0f0;
-    color: #9C9C9C;
+    color: #5D5D5D;
 }
 
 .tooltip__arrow {
@@ -654,10 +654,10 @@ body.modal-open {
 .soft-bar .select-icons__arrow::before {
     position: absolute;
     content: '';
-    width: 11px;
-    height: 11px;
-    left: 0;
-    top: calc(50% - 0);
+    width: 12px;
+    height: 12px;
+    left: 6px;
+    top: 0;
     border-bottom: 1px solid black;
     border-right: 1px solid black;
     transform: rotate(45deg);
@@ -984,10 +984,21 @@ body.modal-open {
 }
 
 @media (max-width: 720px) {
+
+    .data-item {
+        padding: 0 0 24px;
+    }
+
+    .data-item__item {
+        min-height: auto;
+    }
     .data-item__title-card {
+        display: flex;
+        align-items: center;
         background-color: #EBF6F9;
         padding: 8px 8px 8px 18px;
-        border-bottom: 1px solid #CBCBCB;;
+        border-bottom: 1px solid #CBCBCB;
+
     }
 }
 
@@ -1053,6 +1064,13 @@ body.modal-open {
 
 .data-item__button-wrapper {
     position: absolute;
+}
+
+@media (max-width: 720px) {
+    .data-item__button-wrapper {
+        display: flex;
+        align-items: center;
+    }
 }
 
 @media (min-width: 720px) {
@@ -1144,6 +1162,7 @@ th.data-item__item--search{
 
 .data-list tbody {
     counter-reset: rowNumber;
+    word-break: break-all
 }
 
 .data-list tbody tr {
@@ -1153,6 +1172,9 @@ th.data-item__item--search{
 .data-list tbody tr .data-item__row-number::before {
     content: counter(rowNumber);
     margin-right: 8px;
+}
+td.data-item__only-mobile {
+    margin-bottom: 8px;
 }
 
 @media (min-width: 720px) {
@@ -1875,7 +1897,6 @@ flex-direction: column;
 .custom-select {
     position: relative;
     display: flex;
-    justify-content: space-between;
     gap: 30px;
     align-items: center;
 
@@ -1938,6 +1959,7 @@ flex-direction: column;
 .soft-bar__container.open .custom-select-list {
     display: block;
     text-align: left;
+    font-size: 18px;
 }
 
 /* Убрать подсказку при открытом списке */
@@ -2091,7 +2113,7 @@ flex-direction: column;
 
 .custom-select-input {
     padding: 15px 5px 5px;
-    font-size: 16px;
+    font-size: 18px;
     color: #202020;
     border: 1px solid #ccc;
     border-radius: 4px;
@@ -2107,7 +2129,6 @@ flex-direction: column;
 @media (min-width: 720px) {
     .custom-select-input {
         height: 54px;
-        font-size: 12px;
     }
 }
 

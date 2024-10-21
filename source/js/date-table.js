@@ -1293,6 +1293,10 @@ document.addEventListener('DOMContentLoaded', function() {
     searchInput.addEventListener('input', function() {
         const searchText = this.value.toLowerCase();
 
+        if (searchInput.value.length > 0) {
+            topSelectIconDel.classList.remove('visually-hidden');
+        }
+
         suggestionItems.forEach(item => {
             const itemText = item.textContent.toLowerCase();
             if (itemText.includes(searchText)) {
@@ -1339,6 +1343,9 @@ document.addEventListener('DOMContentLoaded', function() {
     topSelectIconDel.addEventListener('click', function (event) {
         event.stopPropagation(); // Предотвращаем всплытие клика на триггер
 
+        suggestionItems.forEach(item => {
+            item.style.display = 'block'
+        })
         searchInput.value = ''
         selectedText.textContent = 'Тип организации';
         topSelectIconDel.classList.add('visually-hidden')
