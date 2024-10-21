@@ -1288,15 +1288,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const suggestionItems = document.querySelectorAll('.top-custom-select');
     const selectedText = document.querySelector('.custom-select__selected-0');
 
-    topSelectButton.addEventListener('click', () => {
-        if (document.querySelector('.soft-bar__container.open')) {
-            textMini.style.display = 'block';
-            topSelectButton.style.alignItems = 'center'
-        } else {
-            textMini.style.display = 'none';
-            topSelectButton.style.alignItems = 'center'
-        }
-    })
 
     // Фильтрация при вводе текста в инпут
     searchInput.addEventListener('input', function() {
@@ -1392,12 +1383,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
 
-        document.addEventListener('click', function(event) {
-            if (!customSelect.contains(event.target)) {
-                customSelect.classList.remove('open');
-                addFormArrow.classList.remove('select-icons__arrow--open');
-            }
-        });
+
 
         // Сброс выбора при клике на крестик
         clearSelectionIcon.addEventListener('click', function(event) {

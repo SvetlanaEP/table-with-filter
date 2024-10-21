@@ -300,12 +300,13 @@ document.getElementById('exportButton').addEventListener('click', function() {
  */
 
 // Получение элементов
-const customSelectButton = document.querySelector('.custom-select');
+const customSelectButton = document.querySelector('#top-select-trigger');
 const customSelectList = document.getElementById('custom-select-list');
 const customSelectItems = customSelectList.querySelectorAll('div');
 const titleOne = document.querySelector('.custom-select__selected-0')
 const titleTwo = document.querySelector('.custom-select__selected')
 const arrowIconSelect = document.querySelector('.custom-select .select-icons__arrow')
+const textMini = customSelectButton.querySelector('.custom-select-placeholder');
 
 // Открытие/закрытие выпадающего списка
 customSelectButton.addEventListener('click', () => {
@@ -316,11 +317,21 @@ customSelectButton.addEventListener('click', () => {
 
     arrowIconSelect.classList.toggle('select-icons__arrow--open')
 
-    if (    customSelectButton.parentElement.classList.contains('open')) {
+    if ( customSelectButton.parentElement.classList.contains('open')) {
+        textMini.style.display = 'block'
+        customSelectButton.style.alignItems = 'center'
         document.getElementById('overlay').style.display = 'block';
         document.body.classList.add('modal-open');
         customSelectButton.parentElement.style.zIndex = '10';
     } else {
+
+        if (!document.querySelector('.custom-select__selected-0').classList.contains('custom-select__selected-0--black')) {
+            customSelectButton.querySelector('.custom-select-placeholder').style.display = 'none'
+            textMini.style.display = 'none'
+            customSelectButton.style.alignItems = 'center'
+        } else {
+            customSelectButton.style.alignItems = 'baseline'
+        }
         document.getElementById('overlay').style.display = 'none';
         document.body.classList.remove('modal-open');
         customSelectButton.parentElement.style.zIndex = '1';
@@ -340,7 +351,7 @@ customSelectItems.forEach(item => {
         document.body.classList.remove('modal-open');
     });
 });
-
+/*
 // Закрытие выпадающего списка при клике вне его
 document.addEventListener('click', (e) => {
 
@@ -352,31 +363,55 @@ document.addEventListener('click', (e) => {
             customSelectButton.parentElement.style.zIndex = '1';
             arrowIconSelect.classList.toggle('select-icons__arrow--open')
 
+            if (customSelectButton.querySelector('.custom-select__selected-0').textContent === 'Тип организации') {
+                console.log(customSelectButton.querySelector('.custom-select__selected-0').textContent === 'Тип организации')
+                customSelectButton.querySelector('.custom-select-placeholder').style.display = 'none'
+            }
 
             document.getElementById('overlay').style.display = 'none';
             document.body.classList.remove('modal-open');
         }
     }
-})
+})*/
 
 // Функция для закрытия модальных окон
-function closeModals(event) {
+function closeModals(evt) {
     const popups = document.querySelectorAll('.popup-form');
 
     // Проверяем, был ли клик на кнопке открытия модального окна
-    if (event.target.closest('.popup-form-open')) {
+    if (evt.target.closest('.popup-form-open')) {
         return; // Если клик был на кнопке, выходим из функции
     }
 
-    // Проверяем каждый модальный элемент
-    popups.forEach(popup => {
-        // Проверяем, был ли клик вне модального окна
-        if (!popup.classList.contains('popup-form--closed') && !popup.contains(event.target)) {
-            popup.classList.add('popup-form--closed') // Закрываем модальное окно
-            document.getElementById('overlay').style.display = 'none'; // Закрываем оверлей, если есть
-            document.body.classList.remove('modal-open'); // Убираем класс из body
+    if (customSelectButton.parentElement.classList.contains('open')) {
+
+        if (!customSelectButton.contains(evt.target)) {
+            if (!document.querySelector('.custom-select__selected-0').classList.contains('custom-select__selected-0--black')) {
+                customSelectButton.querySelector('.custom-select-placeholder').style.display = 'none'
+                customSelectButton.style.alignItems = 'center'
+            } else {
+                customSelectButton.style.alignItems = 'baseline'
+            }
+            customSelectButton.parentElement.classList.remove('open');
+            titleOne.classList.toggle('visually-hidden')
+            titleTwo.classList.toggle('visually-hidden')
+            customSelectButton.parentElement.style.zIndex = '1';
+            arrowIconSelect.classList.toggle('select-icons__arrow--open')
+
+            document.getElementById('overlay').style.display = 'none';
+            document.body.classList.remove('modal-open');
         }
-    });
+    } else {
+        // Проверяем каждый модальный элемент
+        popups.forEach(popup => {
+            // Проверяем, был ли клик вне модального окна
+            if (!popup.classList.contains('popup-form--closed') && !popup.contains(event.target)) {
+                popup.classList.add('popup-form--closed') // Закрываем модальное окно
+                document.getElementById('overlay').style.display = 'none'; // Закрываем оверлей, если есть
+                document.body.classList.remove('modal-open'); // Убираем класс из body
+            }
+        });
+    }
 }
 
 // Добавляем обработчик события для клика на документ
